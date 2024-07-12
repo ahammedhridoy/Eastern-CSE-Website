@@ -1,15 +1,24 @@
-import { Inter } from "next/font/google";
+import Footer from "./components/Footer/Footer";
+import Navigation from "./components/Navigation/Navigation";
 import "./globals.css";
 
 export const metadata = {
-  title: "Etheke E-Commerce",
+  title: "Eastern CSE Website",
   description: "Loading...",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="container">
+        <header>
+          <Navigation />
+        </header>
+        {children}
+        <footer>
+          <Footer />
+        </footer>
+      </body>
     </html>
   );
 }
