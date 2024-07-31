@@ -1,11 +1,11 @@
 import React from "react";
 
-function Event() {
+function Events() {
   return (
     <div>
-      <h1>event</h1>
+      <h1>Events</h1>
     </div>
   );
 }
 
-export default Event;
+export default Events;

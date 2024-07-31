@@ -1,7 +1,14 @@
+import Slider from "./components/Slider/Slider";
+import EventBlock from "./components/EventBlock/EventBlock";
+import FacultyBlock from "./components/FacultyBlock/FacultyBlock";
+import GalleryBlock from "./components/GalleryBlock/GalleryBlock";
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Hello World</h1>
+    <main className="main">
+      <Slider />
+      <EventBlock />
+      <FacultyBlock />
+      <GalleryBlock />
     </main>
   );
 }

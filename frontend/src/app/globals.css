@@ -67,23 +67,6 @@
   }
 }
 
-/* Global CSS */
-
-html,
-body {
-  padding: 0;
-  margin: 0;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-  font-family: "Poppins", sans-serif;
-}
-
-:root {
-  --primary-color: #3c87cf;
-  --yellow-color: #f6b80f;
-  --white-color: #ffffff;
-}
-
 @layer base {
   * {
     @apply border-border;
@@ -91,4 +74,121 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Global CSS */
+
+:root {
+  --primary-color: #1976d2;
+  --yellow-color: #f6b80f;
+  --white-color: #ffffff;
+  --black-color: #28282b;
+  --gray-color: rgb(107 114 128);
+  --website-bg-color: #e8ecff;
+  --input-bg-color: #eef6fd;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  font-family: "Poppins", sans-serif !important;
+  background-color: var(--website-bg-color);
+}
+
+.container {
+  max-width: 1400px;
+}
+
+.backdrop {
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.51);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4.5px);
+  -webkit-backdrop-filter: blur(4.5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Slider */
+
+@keyframes SlideFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.carousel {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 600px;
+  height: 400px;
+}
+
+.slide {
+  box-shadow: 0px 0px 7px #666;
+  width: 100%;
+  height: 700px;
+  opacity: 0;
+  animation: SlideFade 1s forwards;
+}
+
+.slide-active {
+  opacity: 1;
+}
+
+.slide-hidden {
+  display: none;
+}
+
+.arrow {
+  position: absolute;
+  filter: drop-shadow(0px 0px 5px #555);
+  width: 2rem;
+  height: 2rem;
+  color: white;
+}
+
+.arrow:hover {
+  cursor: pointer;
+}
+
+.arrow-left {
+  left: 1rem;
+}
+
+.arrow-right {
+  right: 1rem;
+}
+
+.indicators {
+  display: flex;
+  position: absolute;
+  bottom: 1rem;
+  top: 95%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.indicator {
+  background-color: var(--primary-color);
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 100%;
+  border: none;
+  outline: none;
+  box-shadow: 0px 0px 5px #555;
+  margin: 0 0.2rem;
+  cursor: pointer;
+}
+
+.indicator-inactive {
+  background-color: var(--white-color);
 }
