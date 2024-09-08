@@ -1,20 +1,20 @@
 import React from "react";
-import FacultyCard from "@/app/components/FacultyCard/FacultyCard";
+import TestimonialCard from "../TestimonialCard/TestimonialCard";
 import Separator from "../Separator/Separator";
-const FacultyBlock = () => {
+const TestimonialBlock = () => {
   return (
     <div className="my-10">
       {/* Headline */}
       <h1 className="text-5xl  text-[var(--black-color)] font-bold text-center">
-        Our Faculties
+        What Our Teacher Say
       </h1>
 
       <Separator width="w-20" position="justify-center" />
 
       {/* Cards */}
-      <FacultyCard />
+      <TestimonialCard />
     </div>
   );
 };
 
-export default FacultyBlock;
+export default TestimonialBlock;

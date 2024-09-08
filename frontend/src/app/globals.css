@@ -80,12 +80,38 @@
 
 :root {
   --primary-color: #1976d2;
-  --yellow-color: #f6b80f;
+  --yellow-color: #281d3d;
   --white-color: #ffffff;
   --black-color: #28282b;
   --gray-color: rgb(107 114 128);
   --website-bg-color: #e8ecff;
   --input-bg-color: #eef6fd;
+  --section-bg-color: #e9e8f4;
+  --dark-blue: #3d3288;
+  --gray-bg: #e6e6e6;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 html,

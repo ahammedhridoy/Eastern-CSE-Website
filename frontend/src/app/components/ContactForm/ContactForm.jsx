@@ -13,6 +13,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useForm } from "react-hook-form";
 import { TextareaAutosize } from "@mui/material";
+import Separator from "../Separator/Separator";
 
 const ContactForm = () => {
   const {
@@ -28,13 +29,13 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="container flex items-center justify-center contact-form">
+    <div className="container flex items-center justify-center contact-form bg-[var(--gray-bg)]">
       {/* Title */}
-      <Box className="w-[300px] md:w-[800px]">
+      <Box className="w-[300px] md:w-full">
         <Card variant="outlined">
           <CardContent>
-            <h1 className="my-10 text-5xl  text-center text-[var(--black-color)]">
-              Contact Us
+            <h1 className="my-10 text-5xl  text-center font-semibold text-[var(--black-color)]">
+              Send Us a Message
             </h1>
 
             <Box
@@ -44,7 +45,7 @@ const ContactForm = () => {
               }}
               noValidate
               autoComplete="off"
-              className="flex flex-col items-center justify-center max-h-fit"
+              className="flex flex-col items-center justify-center max-h-fit "
               onSubmit={handleSubmit(onSubmit)}
             >
               <FormControl variant="outlined" className="w-full mb-5">
@@ -134,7 +135,6 @@ const ContactForm = () => {
               </FormControl>
 
               <FormControl variant="outlined" className="w-full mb-5">
-                
                 <TextareaAutosize
                   variant="outlined"
                   minRows={10}

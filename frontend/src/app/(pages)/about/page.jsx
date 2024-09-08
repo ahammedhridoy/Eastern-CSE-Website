@@ -1,3 +1,6 @@
+import AboutInfoCard from "@/app/components/AboutInfoCard/AboutInfoCard";
+import Separator from "@/app/components/Separator/Separator";
+import TestimonialCard from "@/app/components/TestimonialCard/TestimonialCard";
 import Image from "next/image";
 import React from "react";
 
@@ -25,9 +28,10 @@ const About = () => {
         <div className="container flex flex-col-reverse items-center justify-center gap-5 p-5 about-wrapper lg:flex-row lg:p-0">
           {/* Left */}
           <div className="about-left basis-1/2">
-            <h1 className="text-5xl mb-5 text-[var(--black-color)] font-bold">
+            <h1 className="text-5xl  text-[var(--black-color)] font-bold">
               Who we are
             </h1>
+            <Separator width="w-20" position="justify-start" />
             <p className="text-[var(--gray-color)] text-justify">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               debitis. Maxime quidem soluta repudiandae obcaecati quibusdam
@@ -51,10 +55,20 @@ const About = () => {
           </div>
           {/* Right */}
           <div className="flex items-center justify-center about-right basis-1/2">
-            <img src="/images/about/about-us.webp" alt="about" />
+            {/* <img src="/images/about/about-us.webp" alt="about" /> */}
+            <Image
+              src="/images/about/about-us.webp"
+              className="object-cover border-4 border-[#fff] rounded-2xl"
+              width={500}
+              height={500}
+              alt="about"
+            />
           </div>
         </div>
       </div>
+
+      {/* Info Cards */}
+      <AboutInfoCard />
     </div>
   );
 };

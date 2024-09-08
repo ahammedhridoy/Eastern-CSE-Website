@@ -5,6 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Link from "next/link";
 
 function Gallery() {
   return (
@@ -31,93 +32,120 @@ function Gallery() {
         </h1>
 
         {/* Albums */}
-        <div className="flex flex-wrap justify-center gap-5 albums">
-          <Card
-            sx={{ maxWidth: 345 }}
-            className="transition-all duration-300 hover:scale-110"
-          >
-            <CardMedia
-              component="img"
-              height="194"
-              image="/images/about/about-us.webp"
-              alt="Paella dish"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Lizard
-              </Typography>
-            </CardContent>
-          </Card>
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 albums">
+          <Link href={"/gallery/sadsa"}>
+            <Card
+              sx={{ maxWidth: 345 }}
+              className="transition-all duration-300 hover:scale-110"
+            >
+              <CardMedia
+                component="img"
+                height="194"
+                image="/images/about/about-us.webp"
+                alt="Paella dish"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Lizard
+                </Typography>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              height="194"
-              image="/images/about/about-us.webp"
-              alt="Paella dish"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Lizard
-              </Typography>
-            </CardContent>
-          </Card>
+          <Link href={"/gallery/sadsa"}>
+            <Card
+              sx={{ maxWidth: 345 }}
+              className="transition-all duration-300 hover:scale-110"
+            >
+              <CardMedia
+                component="img"
+                height="194"
+                image="/images/about/about-us.webp"
+                alt="Paella dish"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Lizard
+                </Typography>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              height="194"
-              image="/images/about/about-us.webp"
-              alt="Paella dish"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Lizard
-              </Typography>
-            </CardContent>
-          </Card>
+          <Link href={"/gallery/sadsa"}>
+            <Card
+              sx={{ maxWidth: 345 }}
+              className="transition-all duration-300 hover:scale-110"
+            >
+              <CardMedia
+                component="img"
+                height="194"
+                image="/images/about/about-us.webp"
+                alt="Paella dish"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Lizard
+                </Typography>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              height="194"
-              image="/images/about/about-us.webp"
-              alt="Paella dish"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Lizard
-              </Typography>
-            </CardContent>
-          </Card>
+          <Link href={"/gallery/sadsa"}>
+            <Card
+              sx={{ maxWidth: 345 }}
+              className="transition-all duration-300 hover:scale-110"
+            >
+              <CardMedia
+                component="img"
+                height="194"
+                image="/images/about/about-us.webp"
+                alt="Paella dish"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Lizard
+                </Typography>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              height="194"
-              image="/images/about/about-us.webp"
-              alt="Paella dish"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Lizard
-              </Typography>
-            </CardContent>
-          </Card>
+          <Link href={"/gallery/sadsa"}>
+            <Card
+              sx={{ maxWidth: 345 }}
+              className="transition-all duration-300 hover:scale-110"
+            >
+              <CardMedia
+                component="img"
+                height="194"
+                image="/images/about/about-us.webp"
+                alt="Paella dish"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Lizard
+                </Typography>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              height="194"
-              image="/images/about/about-us.webp"
-              alt="Paella dish"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Lizard
-              </Typography>
-            </CardContent>
-          </Card>
+          <Link href={"/gallery/sadsa"}>
+            <Card
+              sx={{ maxWidth: 345 }}
+              className="transition-all duration-300 hover:scale-110"
+            >
+              <CardMedia
+                component="img"
+                height="194"
+                image="/images/about/about-us.webp"
+                alt="Paella dish"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Lizard
+                </Typography>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
 
         {/* Load More */}

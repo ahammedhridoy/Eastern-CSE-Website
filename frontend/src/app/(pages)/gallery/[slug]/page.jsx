@@ -1,12 +1,10 @@
-import ContactForm from "@/app/components/ContactForm/ContactForm";
-import ContactInfo from "@/app/components/ContactInfo/ContactInfo";
-import Separator from "@/app/components/Separator/Separator";
+import Album from "@/app/components/SingleAlbum/Album";
 import Image from "next/image";
 import React from "react";
 
-const Contact = () => {
+const SingleAlbum = () => {
   return (
-    <div className="contact">
+    <div className="single-album">
       {/* Banner */}
       <div className="relative banner">
         <Image
@@ -18,21 +16,15 @@ const Contact = () => {
           alt="Banner"
         />
         <h1 className="absolute z-10 text-3xl text-white -translate-x-1/2 -translate-y-1/2 md:text-5xl top-1/2 left-1/2">
-          Contact Us
+          Album
         </h1>
-
         <div className="absolute top-0 w-full h-full bg-black opacity-50"></div>
       </div>
-      {/* Contact Info*/}
-      <ContactInfo />
-      {/* Form */}
-      <div className="py-10 mt-10">
-        <div className="container my-10">
-          <ContactForm />
-        </div>
-      </div>
+
+      {/* content */}
+      <Album />
     </div>
   );
 };
 
-export default Contact;
+export default SingleAlbum;
