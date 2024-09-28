@@ -1,6 +1,7 @@
+"use client";
+import AboutCarousel from "@/app/components/AboutCarousel/AboutCarousel";
 import AboutInfoCard from "@/app/components/AboutInfoCard/AboutInfoCard";
 import Separator from "@/app/components/Separator/Separator";
-import TestimonialCard from "@/app/components/TestimonialCard/TestimonialCard";
 import Image from "next/image";
 import React from "react";
 
@@ -24,7 +25,7 @@ const About = () => {
       </div>
       {/* content */}
 
-      <div className="flex items-center justify-center py-10">
+      <div className="flex items-center justify-center px-4 py-10">
         <div className="container flex flex-col-reverse items-center justify-center gap-5 p-5 about-wrapper lg:flex-row lg:p-0">
           {/* Left */}
           <div className="about-left basis-1/2">
@@ -69,6 +70,9 @@ const About = () => {
 
       {/* Info Cards */}
       <AboutInfoCard />
+
+      {/*  */}
+      <AboutCarousel />
     </div>
   );
 };

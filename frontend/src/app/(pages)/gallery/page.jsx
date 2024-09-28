@@ -6,6 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Link from "next/link";
+import Separator from "@/app/components/Separator/Separator";
 
 function Gallery() {
   return (
@@ -27,12 +28,12 @@ function Gallery() {
       </div>
       {/* content */}
       <div className="container my-10">
-        <h1 className="text-5xl text-center mb-10 text-[var(--black-color)] font-bold">
+        <h1 className="text-5xl text-center text-[var(--black-color)] font-bold">
           Albums
         </h1>
-
+        <Separator />
         {/* Albums */}
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 albums">
+        <div className="grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 lg:grid-cols-4 albums">
           <Link href={"/gallery/sadsa"}>
             <Card
               sx={{ maxWidth: 345 }}

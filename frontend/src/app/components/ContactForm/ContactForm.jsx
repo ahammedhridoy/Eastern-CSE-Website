@@ -4,13 +4,9 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useForm } from "react-hook-form";
 import { TextareaAutosize } from "@mui/material";
 import Separator from "../Separator/Separator";
@@ -34,10 +30,10 @@ const ContactForm = () => {
       <Box className="w-[300px] md:w-full">
         <Card variant="outlined">
           <CardContent>
-            <h1 className="my-10 text-5xl  text-center font-semibold text-[var(--black-color)]">
+            <h1 className="mt-10 text-5xl  text-center font-semibold text-[var(--black-color)]">
               Send Us a Message
             </h1>
-
+            <Separator />
             <Box
               component="form"
               sx={{
@@ -45,7 +41,7 @@ const ContactForm = () => {
               }}
               noValidate
               autoComplete="off"
-              className="flex flex-col items-center justify-center max-h-fit "
+              className="flex flex-col items-center justify-center mt-10 max-h-fit"
               onSubmit={handleSubmit(onSubmit)}
             >
               <FormControl variant="outlined" className="w-full mb-5">

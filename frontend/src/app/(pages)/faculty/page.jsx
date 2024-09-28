@@ -1,4 +1,5 @@
 import FacultyCard from "@/app/components/FacultyCard/FacultyCard";
+import Separator from "@/app/components/Separator/Separator";
 import Image from "next/image";
 import React from "react";
 
@@ -18,16 +19,17 @@ function Faculty() {
         <h1 className="absolute z-10 text-3xl text-white -translate-x-1/2 -translate-y-1/2 md:text-5xl top-1/2 left-1/2">
           FACULTY
         </h1>
+
         <div className="absolute top-0 w-full h-full bg-black opacity-50"></div>
       </div>
 
       {/* content */}
       <div className="container p-10">
         {/* Headline */}
-        <h1 className="text-5xl mb-10 text-[var(--black-color)] font-bold text-center">
+        <h1 className="text-5xl  text-[var(--black-color)] font-bold text-center">
           Our Faculties
         </h1>
-
+        <Separator />
         {/* Cards */}
         <FacultyCard />
       </div>

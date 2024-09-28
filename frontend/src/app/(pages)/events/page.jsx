@@ -1,4 +1,5 @@
 import EventCard from "@/app/components/EventCard/EventCard";
+import Separator from "@/app/components/Separator/Separator";
 import Image from "next/image";
 import React from "react";
 
@@ -16,7 +17,7 @@ function Events() {
           alt="Banner"
         />
         <h1 className="absolute z-10 text-3xl text-white -translate-x-1/2 -translate-y-1/2 md:text-5xl top-1/2 left-1/2">
-          EVENTS
+          EVENTS & NEWS
         </h1>
         <div className="absolute top-0 w-full h-full bg-black opacity-50"></div>
       </div>
@@ -24,9 +25,11 @@ function Events() {
       {/* content */}
       <div className="container p-10">
         {/* Headline */}
-        <h1 className="text-5xl mb-10 text-[var(--black-color)] font-bold text-center">
-          Recent Events
+        <h1 className="text-5xl text-[var(--black-color)] font-bold text-center">
+          Recent Events & News
         </h1>
+
+        <Separator />
 
         {/* Cards */}
         <EventCard />

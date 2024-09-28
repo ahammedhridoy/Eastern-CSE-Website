@@ -84,11 +84,15 @@
   --white-color: #ffffff;
   --black-color: #28282b;
   --gray-color: rgb(107 114 128);
-  --website-bg-color: #e8ecff;
+  --website-bg-color: #fbfbfb;
   --input-bg-color: #eef6fd;
   --section-bg-color: #e9e8f4;
   --dark-blue: #3d3288;
   --gray-bg: #e6e6e6;
+}
+
+.active {
+  color: #555;
 }
 
 .swiper {

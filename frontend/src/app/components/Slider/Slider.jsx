@@ -18,8 +18,8 @@ const Slider = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(nextSlide, 3000); // Change slide every 3 seconds
-    return () => clearInterval(interval); // Clear interval on component unmount
+    const interval = setInterval(nextSlide, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -35,7 +35,9 @@ const Slider = () => {
               src={item.src}
               alt={item.alt}
               key={idx}
-              className={`${slide === idx ? "slide" : "slide slide-hidden"} `}
+              className={`${
+                slide === idx ? "slide" : "slide slide-hidden"
+              } object-cover`}
               width={500}
               height={500}
             />
