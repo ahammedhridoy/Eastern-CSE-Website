@@ -1,6 +1,6 @@
 import React from "react";
-import TestimonialCard from "../TestimonialCard/TestimonialCard";
 import Separator from "../Separator/Separator";
+import TestimonialCarousel from "../TestimonialCarousel/TestimonialCarousel";
 const TestimonialBlock = () => {
   return (
     <div className="my-10">
@@ -12,7 +12,7 @@ const TestimonialBlock = () => {
       <Separator width="w-20" position="justify-center" />
 
       {/* Cards */}
-      <TestimonialCard />
+      <TestimonialCarousel />
     </div>
   );
 };
