@@ -10,7 +10,7 @@ const GalleryBlock = () => {
   return (
     <div className="my-10">
       <h1 className="text-5xl text-center  text-[var(--black-color)] font-bold">
-        Gallery
+        Albums
       </h1>
 
       <Separator width="w-20" position="justify-center" />
