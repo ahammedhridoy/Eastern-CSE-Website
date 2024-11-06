@@ -5,8 +5,8 @@ const cors = require("cors");
 const bodyParse = require("body-parser");
 const path = require("path");
 const cookieParser = require("cookie-parser");
-const userRouter = require("./routes/userRoute");
-const questionRouter = require("./routes/questionRoute");
+const authRouter = require("./routes/authRoutes");
+const sliderRouter = require("./routes/sliderRoutes");
 const prisma = new PrismaClient();
 dotenv.config();
 
@@ -40,9 +40,12 @@ async function checkDatabaseConnection() {
 }
 checkDatabaseConnection();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // Use App
-app.use("/api", userRouter);
-app.use("/api", questionRouter);
+
+// Auth
+app.use("/api/v1/auth", authRouter);
+// Slider
+app.use("/api/v1/slider", sliderRouter);

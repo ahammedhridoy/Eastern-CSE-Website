@@ -1,6 +1,6 @@
 // Database schema
 datasource db {
-  provider = "mysql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
@@ -9,9 +9,9 @@ generator client {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
   email    String @unique
+  name     String
   password String
   role     Role   @default(USER)
 }
@@ -19,4 +19,59 @@ model User {
 enum Role {
   USER
   ADMIN
+}
+
+model ResetToken {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  email String
+  token String
+}
+
+model Slider {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  image String
+}
+
+model Blog {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  image String
+  title String
+  desc  String
+}
+
+model Faculty {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  image String
+  desc  String
+}
+
+model Teacher {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  designation String
+  image       String
+  desc        String
+}
+
+model Alumni {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  batch String
+  image String
+  desc  String
+}
+
+model Album {
+  id     String    @id @default(auto()) @map("_id") @db.ObjectId
+  image  String
+  name   String
+  images Gallery[] @relation("AlbumImages")
+}
+
+model Gallery {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  image   String
+  albumId String? @db.ObjectId
+  album   Album?  @relation(fields: [albumId], references: [id], name: "AlbumImages")
 }
