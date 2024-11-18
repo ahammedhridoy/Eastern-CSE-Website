@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+// import { Suspense } from "react";
 import Footer from "./components/Footer/Footer";
 import Navigation from "./components/Navigation/Navigation";
 import "./globals.css";
@@ -18,9 +18,7 @@ export default function RootLayout({ children }) {
           <header>
             <Navigation />
           </header>
-          <div className="">
-            <Suspense fallback={<Loading />}>{children}</Suspense>
-          </div>
+          <div className="">{children}</div>
           <footer>
             <Footer />
           </footer>

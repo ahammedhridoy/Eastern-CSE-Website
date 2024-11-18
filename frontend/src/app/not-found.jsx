@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@mui/material";
 import Link from "next/link";
 const NotFound = () => {
   return (
