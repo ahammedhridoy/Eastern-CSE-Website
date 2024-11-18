@@ -1,5 +1,6 @@
-import LoginForm from "@/app/components/LoginForm/LoginForm";
+// import LoginForm from "@/app/components/LoginForm/LoginForm";
 import React from "react";
+import LoginForm from "../components/LoginForm/LoginForm";
 
 const Admin = () => {
   return (

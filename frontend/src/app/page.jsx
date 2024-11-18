@@ -1,9 +1,10 @@
-import Slider from "./components/Slider/Slider";
+import AlumniBlock from "./components/AlumniBlock/AlumniBlock";
 import EventBlock from "./components/EventBlock/EventBlock";
 import FacultyBlock from "./components/FacultyBlock/FacultyBlock";
 import GalleryBlock from "./components/GalleryBlock/GalleryBlock";
+import Slider from "./components/Slider/Slider";
 import TestimonialBlock from "./components/TestimonialBlock/TestimonialBlock";
-import AlumniBlock from "./components/AlumniBlock/AlumniBlock";
+
 export default function Home() {
   return (
     <main className="main">
