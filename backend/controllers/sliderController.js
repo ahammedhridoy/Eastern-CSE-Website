@@ -1,22 +1,65 @@
+const fs = require("fs");
+const path = require("path");
 const prisma = require("../utils/prismaClient");
 
-// Create slider
-const createSlider = async (req, res) => {
+const createSlide = async (req, res) => {
   try {
-    const images = req.files.map((file) => `/uploads/${file.filename}`);
-    console.log(images);
+    if (!req.file) {
+      return res.status(400).json({ message: "No image uploaded." });
+    }
 
-    const slider = await prisma.slider.create({
+    const imageUrl = `/uploads/${req.file.filename}`; // Path to save in the database
+
+    // Save slide to the database using Prisma
+    const newSlide = await prisma.slider.create({
       data: {
-        images,
+        image: imageUrl,
       },
     });
 
-    res.status(200).json({ message: "Slider created successfully", slider });
+    res
+      .status(201)
+      .json({ message: "Slide created successfully.", slide: newSlide });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Error creating slider", error });
+    res
+      .status(500)
+      .json({ message: "Error creating slide.", error: error.message });
   }
 };
 
-module.exports = createSlider;
+// Delete a slide
+const deleteSlide = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the slide by ID using Prisma
+    const slide = await prisma.slider.findUnique({
+      where: { id },
+    });
+
+    if (!slide) {
+      return res.status(404).json({ message: "Slide not found." });
+    }
+
+    // Delete the file from the server
+    const filePath = path.join(__dirname, "..", slide.image);
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.error("Error deleting file:", err);
+      }
+    });
+
+    // Delete the slide from the database using Prisma
+    await prisma.slider.delete({
+      where: { id },
+    });
+
+    res.status(200).json({ message: "Slide deleted successfully." });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error deleting slide.", error: error.message });
+  }
+};
+
+module.exports = { createSlide, deleteSlide };

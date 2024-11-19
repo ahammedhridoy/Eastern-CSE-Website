@@ -40,7 +40,7 @@ const sendPasswordResetEmail = async (email, token) => {
   await transporter.sendMail({
     from: process.env.SENDER_EMAIL,
     to: email,
-    subject: `Want to contact from (WorkSheet)`,
+    subject: `Forget Password Reset Link`,
     priority: "high",
     html: `
       <div style="width: 100%; height: auto; padding: 15px 10px; text-align: center;">

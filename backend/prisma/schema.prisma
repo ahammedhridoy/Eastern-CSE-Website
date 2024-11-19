@@ -9,15 +9,17 @@ generator client {
 }
 
 model User {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  email    String @unique
-  name     String
-  password String
-  role     Role   @default(USER)
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  name      String
+  password  String
+  role      Role     @default(EDITOR)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum Role {
-  USER
+  EDITOR
   ADMIN
 }
 
@@ -28,50 +30,64 @@ model ResetToken {
 }
 
 model Slider {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  image String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  image     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Blog {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  image String
-  title String
-  desc  String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  image     String
+  title     String
+  desc      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Faculty {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
-  image String
-  desc  String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  image     String
+  desc      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Teacher {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   designation String
   image       String
   desc        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Alumni {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
-  batch String
-  image String
-  desc  String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  batch     String
+  image     String
+  desc      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Album {
-  id     String    @id @default(auto()) @map("_id") @db.ObjectId
-  image  String
-  name   String
-  images Gallery[] @relation("AlbumImages")
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  image     String
+  name      String
+  images    Gallery[] @relation("AlbumImages")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Gallery {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
-  image   String
-  albumId String? @db.ObjectId
-  album   Album?  @relation(fields: [albumId], references: [id], name: "AlbumImages")
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  image     String
+  albumId   String?  @db.ObjectId
+  album     Album?   @relation(fields: [albumId], references: [id], name: "AlbumImages")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

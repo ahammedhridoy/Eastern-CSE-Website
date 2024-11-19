@@ -7,6 +7,12 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/authRoutes");
 const sliderRouter = require("./routes/sliderRoutes");
+const facultyRouter = require("./routes/facultyRoutes");
+const blogRouter = require("./routes/blogRoutes");
+const teacherRouter = require("./routes/teacherRoutes");
+const alumniRouter = require("./routes/alumniRoutes");
+const albumRouter = require("./routes/albumRoutes");
+const galleryRouter = require("./routes/galleryRoutes");
 const prisma = new PrismaClient();
 dotenv.config();
 
@@ -49,3 +55,15 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 app.use("/api/v1/auth", authRouter);
 // Slider
 app.use("/api/v1/slider", sliderRouter);
+// Blogs
+app.use("/api/v1/blog", blogRouter);
+// Faculty
+app.use("/api/v1/faculty", facultyRouter);
+// Teacher
+app.use("/api/v1/teacher", teacherRouter);
+// Alumni
+app.use("/api/v1/alumni", alumniRouter);
+// Album
+app.use("/api/v1/album", albumRouter);
+// Gallery
+app.use("/api/v1/gallery", galleryRouter);

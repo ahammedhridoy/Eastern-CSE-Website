@@ -1,9 +1,13 @@
 const express = require("express");
-const createSlider = require("../controllers/sliderController");
 const { upload } = require("../helpers/multer");
+const { createSlide, deleteSlide } = require("../controllers/sliderController");
 
 const sliderRouter = express.Router();
 
-sliderRouter.post("/create", upload.array("images", 10), createSlider);
+// Route for creating a slide
+sliderRouter.post("/create", upload.single("image"), createSlide);
+
+// Route for deleting a slide
+sliderRouter.delete("/delete/:id", deleteSlide);
 
 module.exports = sliderRouter;
