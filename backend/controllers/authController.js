@@ -7,6 +7,8 @@ const {
   updatePassword,
   invalidateToken,
 } = require("../helpers/utils");
+const generateToken = require("../utils/generateToken");
+const setTokensCookies = require("../utils/setTokensCookies");
 
 /**
  * METHOD: POST
@@ -14,38 +16,39 @@ const {
  */
 const register = async (req, res) => {
   const { name, email, password, role } = req.body;
-  // validate user input
+
+  // Validate user input
   if (!email || !password || !name || !role) {
     return res.status(400).json({ message: "Please enter all fields" });
   }
 
   try {
-    // check if user already exists
+    // Check if user already exists
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
-    // hash password
+
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    // create user
+
+    // Create the new user
     const data = {
       email,
       password: hashedPassword,
       name,
       role,
     };
-    const user = await prisma.user.create({
-      data,
-    });
 
-    // Remove the password field from the user object
-    delete user?.password;
+    const user = await prisma.user.create({ data });
 
-    res.status(200).json(user);
+    // Remove the password field from the user object before sending the response
+    delete user.password;
+
+    res.status(200).json({ message: "User registered successfully", user });
   } catch (error) {
-    res.status(500).json({
-      message: "Internal server error",
-    });
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -67,20 +70,30 @@ const login = async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-    // verify token
-    const token = sign(
-      { userId: user.id, email: user?.email, role: user?.role },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "24h",
-      }
-    );
+    // generate token
+    const { accessToken, accessTokenExp } = await generateToken(user);
+
     // Remove the password field from the user object
     delete user.password;
+
     // set token in cookie
-    res.cookie("token", token, { httpOnly: true });
-    res.cookie("user", user, { httpOnly: true });
-    res.status(200).json({ message: "Login successful", token, user });
+    setTokensCookies(res, accessToken, accessTokenExp);
+
+    //   set user cookie
+    res.cookie("user", JSON.stringify(user), {
+      httpOnly: true,
+      secure: true,
+      // sameSite: "none",
+    });
+
+    // send response
+    res.status(200).json({
+      message: "Login successful",
+      user,
+      accessToken,
+      accessTokenExp,
+      isAuthenticated: true,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error logging in" });
@@ -167,10 +180,100 @@ const logout = async (req, res) => {
   res.status(200).json({ message: "You are logged out" });
 };
 
+const verifyEditor = async (req, res, next) => {
+  try {
+    // Get token from cookies
+    const token = req?.cookies?.accessToken; // Adjust token name if different
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: No token provided" });
+    }
+
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decoded || !decoded.id) {
+      return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    }
+
+    // Find user in the database
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+    });
+
+    if (!user) {
+      return res.status(401).json({ message: "Unauthorized: User not found" });
+    }
+
+    // Check if the user's role is EDITOR
+    if (user.role !== "EDITOR") {
+      return res.status(403).json({ message: "Forbidden: Access denied" });
+    }
+
+    // Attach user to the request object (optional)
+    req.user = user;
+
+    // Proceed to the next middleware
+    next();
+  } catch (error) {
+    console.error("Error verifying user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const verifyAdmin = async (req, res, next) => {
+  try {
+    // Get token from cookies
+    const token = req?.cookies?.accessToken;
+    console.log("Checking access token:", token);
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: No token provided" });
+    }
+
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decoded || !decoded.id) {
+      return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    }
+
+    // Find user in the database
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+    });
+
+    if (!user) {
+      return res.status(401).json({ message: "Unauthorized: User not found" });
+    }
+
+    // Check if the user's role is ADMIN
+    if (user.role !== "ADMIN") {
+      return res.status(403).json({ message: "Forbidden: Access denied" });
+    }
+
+    // Attach user to the request object (optional)
+    req.user = user;
+
+    // Proceed to the next middleware
+    next();
+  } catch (error) {
+    console.error("Error verifying user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const authorized = (req, res) => {
+  res.status(200).json({ message: "Authorized" });
+};
+
 module.exports = {
   register,
   login,
   forgotPassword,
   resetPassword,
   logout,
+  verifyEditor,
+  verifyAdmin,
+  authorized,
 };

@@ -5,7 +5,9 @@ const {
   forgotPassword,
   resetPassword,
   logout,
+  verifyAdmin,
 } = require("../controllers/authController");
+const adminAuthMiddleware = require("../middleware/adminAuth");
 
 const authRouter = express.Router();
 

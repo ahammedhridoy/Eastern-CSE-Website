@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
@@ -13,9 +13,13 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import apiClient from "./../../../config/axiosConfig";
 
 const LoginForm = () => {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState("");
   const {
     register,
     formState: { errors, isSubmitting },
@@ -24,8 +28,24 @@ const LoginForm = () => {
 
   // Submit form
   const onSubmit = async (data) => {
-    await new Promise((r) => setTimeout(r, 500));
-    console.log(data);
+    setLoginError("");
+    try {
+      const response = await apiClient.post("/api/v1/auth/login", data, {
+        withCredentials: true,
+      });
+
+      // Handle successful login
+      toast.success(response.data.message); // Optionally, replace with a toast notification
+      console.log("Logged in user:", response.data.user);
+
+      window.location.href = "/";
+    } catch (error) {
+      // Handle errors
+      setLoginError(
+        error.response?.data?.message ||
+          "Something went wrong. Please try again."
+      );
+    }
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -36,12 +56,17 @@ const LoginForm = () => {
 
   return (
     <div className="login-form">
+      <Toaster />
       <Box className="w-[300px] md:w-[600px]">
         <Card variant="outlined">
           <CardContent>
             <h1 className="my-10 text-5xl font-bold text-center text-[var(--black-color)]">
               Login
             </h1>
+
+            {loginError && (
+              <p className="mb-5 text-center text-red-500">{loginError}</p>
+            )}
 
             <Box
               component="form"
@@ -55,12 +80,12 @@ const LoginForm = () => {
             >
               <div className="">
                 <FormControl variant="outlined" className="w-full mb-5">
-                  <InputLabel htmlFor="outlined-adornment-password">
+                  <InputLabel htmlFor="outlined-adornment-email">
                     Email
                   </InputLabel>
                   <OutlinedInput
                     className="bg-[var(--input-bg-color)]"
-                    id="outlined-adornment-password"
+                    id="outlined-adornment-email"
                     type="email"
                     label="Email"
                     required

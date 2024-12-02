@@ -1,14 +1,9 @@
-import {
-  Dashboard,
-  Person,
-  Article,
-  ExitToApp,
-  HelpOutline,
-} from "@mui/icons-material";
+import { Dashboard, Person, Article } from "@mui/icons-material";
 import ImageIcon from "@mui/icons-material/Image";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -56,6 +51,12 @@ const Sidebar = () => {
           className="flex items-center text-gray-600 cursor-pointer hover:text-blue-500"
         >
           <PhotoLibraryIcon className="mr-3" /> Albums
+        </Link>
+        <Link
+          href="/dashboard/manage-account"
+          className="flex items-center text-gray-600 cursor-pointer hover:text-blue-500"
+        >
+          <AccountCircleIcon className="mr-3" /> Account
         </Link>
         <Link
           href="/dashboard/manage-teacher-testimonial"
