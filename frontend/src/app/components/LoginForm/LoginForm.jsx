@@ -34,13 +34,16 @@ const LoginForm = () => {
         withCredentials: true,
       });
 
-      // Handle successful login
-      toast.success(response.data.message); // Optionally, replace with a toast notification
-      console.log("Logged in user:", response.data.user);
+      if (response.status === 200) {
+        const token = response.data.accessToken;
+        localStorage.setItem("accessToken", JSON.stringify(token));
 
-      window.location.href = "/";
+        toast.success(response.data.message);
+        window.location.href = "/";
+      } else {
+        throw new Error("Login failed");
+      }
     } catch (error) {
-      // Handle errors
       setLoginError(
         error.response?.data?.message ||
           "Something went wrong. Please try again."

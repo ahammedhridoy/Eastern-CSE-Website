@@ -5,13 +5,14 @@ const path = require("path");
 // Create Faculty
 const createFaculty = async (req, res) => {
   try {
-    const { name, desc } = req.body;
+    const { name, description, designation } = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
     const newFaculty = await prisma.faculty.create({
       data: {
         name,
-        desc,
+        description,
+        designation,
         image: imageUrl,
       },
     });
@@ -77,12 +78,10 @@ const updateFaculty = async (req, res) => {
       },
     });
 
-    res
-      .status(200)
-      .json({
-        message: "Faculty updated successfully.",
-        faculty: updatedFaculty,
-      });
+    res.status(200).json({
+      message: "Faculty updated successfully.",
+      faculty: updatedFaculty,
+    });
   } catch (error) {
     res
       .status(500)

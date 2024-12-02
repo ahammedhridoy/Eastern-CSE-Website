@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const { verify, decode, sign } = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const prisma = require("../utils/prismaClient");
 const {
   sendPasswordResetEmail,
@@ -60,43 +60,40 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // check if user exists
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-    // compare passwords
-    const passwordMatch = await bcrypt.compare(password, user?.password);
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-    // generate token
+
     const { accessToken, accessTokenExp } = await generateToken(user);
 
-    // Remove the password field from the user object
-    delete user.password;
+    // Remove sensitive data
+    const { password: _, ...userWithoutPassword } = user;
 
-    // set token in cookie
+    // Set token in cookie
     setTokensCookies(res, accessToken, accessTokenExp);
 
-    //   set user cookie
-    res.cookie("user", JSON.stringify(user), {
+    res.cookie("user", JSON.stringify(userWithoutPassword), {
       httpOnly: true,
-      secure: true,
-      // sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
     });
 
-    // send response
-    res.status(200).json({
+    return res.status(200).json({
       message: "Login successful",
-      user,
+      user: userWithoutPassword,
       accessToken,
       accessTokenExp,
       isAuthenticated: true,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Error logging in" });
+    console.error("Error logging in:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -163,21 +160,26 @@ const resetPassword = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  if (!req.cookies?.token)
-    return res.status(204).json({ message: "Request cookies not found!" });
+  try {
+    // Clear the cookies related to authentication
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Secure in production
+      sameSite: "strict", // Adjust based on your application needs
+    });
 
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-  });
-  res.clearCookie("user", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-  });
+    res.clearCookie("user", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Secure in production
+      sameSite: "strict", // Adjust based on your application needs
+    });
 
-  res.status(200).json({ message: "You are logged out" });
+    // Optionally, you can clear additional cookies if required
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.error("Error logging out:", error);
+    res.status(500).json({ message: "An error occurred during logout" });
+  }
 };
 
 const verifyEditor = async (req, res, next) => {
@@ -225,7 +227,6 @@ const verifyAdmin = async (req, res, next) => {
   try {
     // Get token from cookies
     const token = req?.cookies?.accessToken;
-    console.log("Checking access token:", token);
     if (!token) {
       return res
         .status(401)

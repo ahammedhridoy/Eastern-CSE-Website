@@ -8,9 +8,17 @@ const {
   updateFaculty,
   deleteFaculty,
 } = require("../controllers/facultyController");
+const adminAuthMiddleware = require("../middleware/adminAuth");
+const authMiddleware = require("../middleware/auth");
+const { verifyAdmin } = require("../controllers/authController");
 
 // Create a new faculty
-facultyRouter.post("/create", upload.single("image"), createFaculty);
+facultyRouter.post(
+  "/create",
+  verifyAdmin,
+  upload.single("image"),
+  createFaculty
+);
 
 // Get all faculties
 facultyRouter.get("/all", getAllFaculties);

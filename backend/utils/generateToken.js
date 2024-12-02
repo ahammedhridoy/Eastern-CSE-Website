@@ -5,13 +5,14 @@ const generateToken = async (user) => {
     const payload = {
       id: user.id,
       email: user.email,
-      role: user.role,
+      role: user.role || "EDITOR", // Ensure a default role
     };
 
-    const accessTokenExp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 5;
     const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: accessTokenExp,
+      expiresIn: "5d", // Simplify expiration definition
     });
+
+    const accessTokenExp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 5;
 
     return { accessToken, accessTokenExp };
   } catch (error) {

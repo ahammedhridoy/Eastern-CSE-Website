@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const authMiddleware = (req, res, next) => {
+const editorAuthMiddleware = (req, res, next) => {
   // Extract token from cookies or headers
   const token =
     req.cookies?.accessToken ||
@@ -20,6 +20,13 @@ const authMiddleware = (req, res, next) => {
     // Attach the user to the request object
     req.user = decodedToken;
 
+    // Check for admin role
+    if (req.user.role !== "EDITOR") {
+      return res
+        .status(403)
+        .json({ error: "Forbidden: Admin access required" });
+    }
+
     next();
   } catch (error) {
     console.error("Token verification error:", error);
@@ -29,4 +36,4 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-module.exports = authMiddleware;
+module.exports = editorAuthMiddleware;

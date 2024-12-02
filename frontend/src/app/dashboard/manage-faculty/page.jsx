@@ -1,5 +1,6 @@
 import React from "react";
 import Sidebar from "./../../components/Dashboard/Sidebar";
+import AddFaculty from "./../../components/Dashboard/addFaculty";
 
 const FacultyDash = () => {
   return (
@@ -11,7 +12,7 @@ const FacultyDash = () => {
         </div>
         {/* Main Content */}
         <div className="w-full my-4">
-          <h1>Faculty</h1>
+          <AddFaculty />
         </div>
       </div>
     </div>
