@@ -3,11 +3,10 @@ import React from "react";
 import Card from "@mui/material/Card";
 import { Avatar, Button, CardContent, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import apiClient from "../../../config/axiosConfig";
-import Image from "next/image";
 // Dynamically import ReactQuill with SSR disabled
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import dynamic from "next/dynamic";
