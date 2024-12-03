@@ -6,11 +6,12 @@ const {
   updateBlog,
   deleteBlog,
 } = require("../controllers/blogController");
+const { verifyAdmin } = require("../controllers/authController");
 
 const blogRouter = express.Router();
 
 // Create a new blog
-blogRouter.post("/create", upload.single("image"), createBlog);
+blogRouter.post("/create", verifyAdmin, upload.single("image"), createBlog);
 
 // Get all posts
 blogRouter.get("/all", getAllBlogs);

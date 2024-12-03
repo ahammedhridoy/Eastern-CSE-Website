@@ -5,14 +5,14 @@ const path = require("path");
 // Create Alumni
 const createAlumni = async (req, res) => {
   try {
-    const { name, batch, desc } = req.body;
+    const { name, batch, description } = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
     const newAlumni = await prisma.alumni.create({
       data: {
         name,
         batch,
-        desc,
+        description,
         image: imageUrl,
       },
     });

@@ -6,10 +6,11 @@ const {
   updateAlumni,
   deleteAlumni,
 } = require("../controllers/alumniController");
+const { verifyAdmin } = require("../controllers/authController");
 const alumniRouter = express.Router();
 
 // Create a new alumni
-alumniRouter.post("/create", upload.single("image"), createAlumni);
+alumniRouter.post("/create", verifyAdmin, upload.single("image"), createAlumni);
 
 // Get all alumni
 alumniRouter.get("/all", getAllAlumni);

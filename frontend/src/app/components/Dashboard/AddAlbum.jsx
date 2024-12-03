@@ -1,22 +1,17 @@
 "use client";
 import React from "react";
 import Card from "@mui/material/Card";
-import { Avatar, Button, CardContent, Typography } from "@mui/material";
+import { Button, CardContent, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import apiClient from "../../../config/axiosConfig";
 import Image from "next/image";
-// Dynamically import ReactQuill with SSR disabled
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import dynamic from "next/dynamic";
 
-const AddFaculty = () => {
-  const [description, setDescription] = useState("");
+const AddAlbum = () => {
   const [name, setName] = useState("");
-  const [designation, setDesignation] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
@@ -31,8 +26,8 @@ const AddFaculty = () => {
     }
   }, []);
 
-  // Add Faculty
-  const addFaculty = async (e) => {
+  // Add Blog
+  const submitAlbum = async (e) => {
     e.preventDefault();
 
     try {
@@ -41,18 +36,16 @@ const AddFaculty = () => {
         return;
       }
 
-      if (!name || !designation || !description || !image) {
+      if (!name || !image) {
         toast.error("All fields are required");
         return;
       }
 
       const formData = new FormData();
       formData.append("name", name);
-      formData.append("designation", designation);
-      formData.append("description", description);
       formData.append("image", image);
 
-      const res = await apiClient.post("/api/v1/faculty/create", formData, {
+      const res = await apiClient.post("/api/v1/album/create", formData, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -61,59 +54,31 @@ const AddFaculty = () => {
       });
 
       if (res?.status === 201) {
-        toast.success("Faculty added successfully");
+        toast.success("Album added successfully");
         setName("");
-        setDesignation("");
-        setDescription("");
         setImage("");
       } else {
-        toast.error(res.data.message || "Error adding faculty");
+        toast.error(res.data.message || "Error adding Album");
       }
     } catch (error) {
-      console.error("Error adding faculty:", error);
+      console.error("Error adding Album:", error);
       toast.error(error.response?.data?.message || "Server error");
     }
   };
-
-  // Editor
-
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["link"],
-      ["clean"],
-    ],
-  };
-
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-  ];
 
   return (
     <Card>
       <Toaster />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Add Faculty
+          Add Album
         </Typography>
         {/* Form */}
-        <form encType="multipart/form-data" method="post" onSubmit={addFaculty}>
+        <form
+          encType="multipart/form-data"
+          method="post"
+          onSubmit={submitAlbum}
+        >
           <div className="lg:w-[40%] w-full">
             <div className="mt-4 file-input">
               <input
@@ -126,16 +91,17 @@ const AddFaculty = () => {
             </div>
             <div className="my-2">
               {image && (
-                <Avatar
+                <Image
                   src={URL.createObjectURL(image)}
-                  alt="faculty"
-                  className="mx-auto mt-2 md:w-[300px] md:h-[300px] w-[200px] h-[200px] object-cover border-2 border-var(--primary-color)"
+                  width={200}
+                  height={200}
+                  className="w-full h-full border-2 border-gray-400 border-dashed"
                 />
               )}
             </div>
             <div className="w-full mt-2">
               <TextField
-                id="faculty-name"
+                id="album-name"
                 label="Name"
                 variant="outlined"
                 className="w-full"
@@ -143,29 +109,9 @@ const AddFaculty = () => {
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
-            <div className="w-full mt-2">
-              <TextField
-                id="faculty-designation"
-                label="Designation"
-                variant="outlined"
-                className="w-full"
-                value={designation}
-                onChange={(e) => setDesignation(e.target.value)}
-              />
-            </div>
 
-            <ReactQuill
-              id="faculty-description"
-              modules={modules}
-              formats={formats}
-              className="mt-2 mb-14 quill h-[200px]"
-              theme="snow"
-              onChange={(e) => setDescription(e)}
-              value={description}
-              placeholder="Description"
-            />
             <Button variant="contained" type="submit" className="w-full mt-4">
-              Add Faculty
+              Add Album
             </Button>
           </div>
         </form>
@@ -174,4 +120,4 @@ const AddFaculty = () => {
   );
 };
 
-export default AddFaculty;
+export default AddAlbum;

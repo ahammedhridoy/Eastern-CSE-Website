@@ -7,16 +7,15 @@ import { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import apiClient from "../../../config/axiosConfig";
-import Image from "next/image";
 // Dynamically import ReactQuill with SSR disabled
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import dynamic from "next/dynamic";
 
-const AddFaculty = () => {
+const AddAlumniTestimonial = () => {
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
-  const [designation, setDesignation] = useState("");
-  const [image, setImage] = useState("");
+  const [batch, setBatch] = useState("");
+  const [image, setImage] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
@@ -32,7 +31,7 @@ const AddFaculty = () => {
   }, []);
 
   // Add Faculty
-  const addFaculty = async (e) => {
+  const submitAlumniTestimonial = async (e) => {
     e.preventDefault();
 
     try {
@@ -41,18 +40,18 @@ const AddFaculty = () => {
         return;
       }
 
-      if (!name || !designation || !description || !image) {
+      if (!name || !batch || !description || !image) {
         toast.error("All fields are required");
         return;
       }
 
       const formData = new FormData();
       formData.append("name", name);
-      formData.append("designation", designation);
+      formData.append("batch", batch);
       formData.append("description", description);
       formData.append("image", image);
 
-      const res = await apiClient.post("/api/v1/faculty/create", formData, {
+      const res = await apiClient.post("/api/v1/alumni/create", formData, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -61,16 +60,16 @@ const AddFaculty = () => {
       });
 
       if (res?.status === 201) {
-        toast.success("Faculty added successfully");
+        toast.success("Testimonial added successfully");
         setName("");
-        setDesignation("");
+        setBatch("");
         setDescription("");
         setImage("");
       } else {
-        toast.error(res.data.message || "Error adding faculty");
+        toast.error(res.data.message || "Error adding Testimonial");
       }
     } catch (error) {
-      console.error("Error adding faculty:", error);
+      console.error("Error adding Testimonial:", error);
       toast.error(error.response?.data?.message || "Server error");
     }
   };
@@ -110,10 +109,14 @@ const AddFaculty = () => {
       <Toaster />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Add Faculty
+          Add Alumni Testimonial
         </Typography>
         {/* Form */}
-        <form encType="multipart/form-data" method="post" onSubmit={addFaculty}>
+        <form
+          encType="multipart/form-data"
+          method="post"
+          onSubmit={submitAlumniTestimonial}
+        >
           <div className="lg:w-[40%] w-full">
             <div className="mt-4 file-input">
               <input
@@ -128,14 +131,14 @@ const AddFaculty = () => {
               {image && (
                 <Avatar
                   src={URL.createObjectURL(image)}
-                  alt="faculty"
+                  alt="Alumni"
                   className="mx-auto mt-2 md:w-[300px] md:h-[300px] w-[200px] h-[200px] object-cover border-2 border-var(--primary-color)"
                 />
               )}
             </div>
             <div className="w-full mt-2">
               <TextField
-                id="faculty-name"
+                id="alumni-name"
                 label="Name"
                 variant="outlined"
                 className="w-full"
@@ -145,12 +148,12 @@ const AddFaculty = () => {
             </div>
             <div className="w-full mt-2">
               <TextField
-                id="faculty-designation"
-                label="Designation"
+                id="alumni-batch"
+                label="Batch"
                 variant="outlined"
                 className="w-full"
-                value={designation}
-                onChange={(e) => setDesignation(e.target.value)}
+                value={batch}
+                onChange={(e) => setBatch(e.target.value)}
               />
             </div>
 
@@ -165,7 +168,7 @@ const AddFaculty = () => {
               placeholder="Description"
             />
             <Button variant="contained" type="submit" className="w-full mt-4">
-              Add Faculty
+              Add Testimonial
             </Button>
           </div>
         </form>
@@ -174,4 +177,4 @@ const AddFaculty = () => {
   );
 };
 
-export default AddFaculty;
+export default AddAlumniTestimonial;

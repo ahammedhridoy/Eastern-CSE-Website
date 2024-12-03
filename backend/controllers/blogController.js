@@ -5,13 +5,13 @@ const path = require("path");
 // Create Blog
 const createBlog = async (req, res) => {
   try {
-    const { title, desc } = req.body;
+    const { title, description } = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
     const newBlog = await prisma.blog.create({
       data: {
         title,
-        desc, // Rich text content saved as is
+        description,
         image: imageUrl,
       },
     });

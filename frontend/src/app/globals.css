@@ -222,3 +222,27 @@ body {
 .indicator-inactive {
   background-color: var(--white-color);
 }
+
+.ql-tooltip.ql-editing {
+  left: auto !important;
+}
+
+.file-input {
+  font: inherit;
+  letter-spacing: inherit;
+  color: currentColor;
+  padding: 4px 0 5px;
+  border: 1px solid #c9cacd;
+  box-sizing: content-box;
+  background: none;
+  height: 1.4375em;
+  margin: 0;
+  -webkit-tap-highlight-color: transparent;
+  display: block;
+  -webkit-animation-name: mui-auto-fill-cancel;
+  animation-name: mui-auto-fill-cancel;
+  -webkit-animation-duration: 10ms;
+  animation-duration: 10ms;
+  padding: 16.5px 14px;
+  border-radius: 4px;
+}

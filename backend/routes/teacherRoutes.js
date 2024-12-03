@@ -6,10 +6,16 @@ const {
   deleteTeacher,
 } = require("../controllers/teacherController");
 const { upload } = require("../helpers/multer");
+const { verifyAdmin } = require("../controllers/authController");
 const teacherRouter = express.Router();
 
 // Create a new teacher
-teacherRouter.post("/create", upload.single("image"), createTeacher);
+teacherRouter.post(
+  "/create",
+  verifyAdmin,
+  upload.single("image"),
+  createTeacher
+);
 
 // Get all teachers
 teacherRouter.get("/all", getAllTeachers);

@@ -8,7 +8,7 @@ const DashboardComp = () => {
     <div className="min-h-screen">
       <div className="flex gap-4">
         {/* Sidebar */}
-        <div className="mr-[250px]">
+        <div className="mr-[250px] hidden lg:block">
           <Sidebar />
         </div>
         {/* Main Content */}

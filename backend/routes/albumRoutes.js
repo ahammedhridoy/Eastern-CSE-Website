@@ -6,10 +6,11 @@ const {
   updateAlbum,
   deleteAlbum,
 } = require("../controllers/albumController");
+const { verifyAdmin } = require("../controllers/authController");
 const albumRouter = express.Router();
 
 // Create a new album
-albumRouter.post("/create", upload.single("image"), createAlbum);
+albumRouter.post("/create", verifyAdmin, upload.single("image"), createAlbum);
 
 // Get all albums
 albumRouter.get("/all", getAllAlbums);
