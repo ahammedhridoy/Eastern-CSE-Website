@@ -13,6 +13,7 @@ const addImagesToGallery = async (req, res) => {
       return res.status(404).json({ message: "Album not found." });
     }
 
+    // Check if files are uploaded
     if (!req.files || req.files.length === 0) {
       return res
         .status(400)
@@ -21,7 +22,7 @@ const addImagesToGallery = async (req, res) => {
 
     // Prepare gallery data for Prisma
     const galleryData = req.files.map((file) => ({
-      image: `/uploads/${file.filename}`,
+      image: `/uploads/${file.filename}`, // Adjust this path as needed
       albumId,
     }));
 
@@ -35,12 +36,11 @@ const addImagesToGallery = async (req, res) => {
       count: newImages.count,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Error adding images to gallery.",
-        error: error.message,
-      });
+    console.error("Error adding images to gallery:", error); // Log error for debugging
+    res.status(500).json({
+      message: "Error adding images to gallery.",
+      error: error.message,
+    });
   }
 };
 

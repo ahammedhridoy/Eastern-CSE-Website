@@ -1,6 +1,7 @@
 const prisma = require("../utils/prismaClient"); // Path to your Prisma client
 const fs = require("fs");
 const path = require("path");
+var slugify = require("slugify");
 
 // Create Album
 const createAlbum = async (req, res) => {
@@ -12,6 +13,10 @@ const createAlbum = async (req, res) => {
       data: {
         name,
         image: imageUrl,
+        slug: slugify(name, {
+          replacement: "-",
+          lower: true,
+        }),
       },
     });
 
@@ -29,7 +34,7 @@ const createAlbum = async (req, res) => {
 const getAllAlbums = async (req, res) => {
   try {
     const albums = await prisma.album.findMany({
-      include: { images: true }, // Include associated gallery images
+      include: { images: true },
       orderBy: { createdAt: "desc" },
     });
 
@@ -47,6 +52,8 @@ const updateAlbum = async (req, res) => {
     const { id } = req.params;
     const { name } = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+
+    // if(!id || !name) {
 
     const existingAlbum = await prisma.album.findUnique({
       where: { id },

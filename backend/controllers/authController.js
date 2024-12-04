@@ -16,6 +16,7 @@ const setTokensCookies = require("../utils/setTokensCookies");
  */
 const register = async (req, res) => {
   const { name, email, password, role } = req.body;
+  console.log(req.body);
 
   // Validate user input
   if (!email || !password || !name || !role) {
@@ -45,7 +46,7 @@ const register = async (req, res) => {
     // Remove the password field from the user object before sending the response
     delete user.password;
 
-    res.status(200).json({ message: "User registered successfully", user });
+    res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });

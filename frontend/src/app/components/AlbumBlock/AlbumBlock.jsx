@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Link from "next/link";
 import Separator from "../Separator/Separator";
-const GalleryBlock = () => {
+const AlbumBlock = () => {
   return (
     <div className="my-10">
       <h1 className="text-5xl text-center  text-[var(--black-color)] font-bold">
@@ -140,4 +140,4 @@ const GalleryBlock = () => {
   );
 };
 
-export default GalleryBlock;
+export default AlbumBlock;

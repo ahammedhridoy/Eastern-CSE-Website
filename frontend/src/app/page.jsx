@@ -1,7 +1,7 @@
+import AlbumBlock from "./components/AlbumBlock/AlbumBlock";
 import AlumniBlock from "./components/AlumniBlock/AlumniBlock";
 import EventBlock from "./components/EventBlock/EventBlock";
 import FacultyBlock from "./components/FacultyBlock/FacultyBlock";
-import GalleryBlock from "./components/GalleryBlock/GalleryBlock";
 import Slider from "./components/Slider/Slider";
 import TestimonialBlock from "./components/TestimonialBlock/TestimonialBlock";
 
@@ -13,7 +13,7 @@ export default function Home() {
         <EventBlock />
         <FacultyBlock />
         <TestimonialBlock />
-        <GalleryBlock />
+        <AlbumBlock />
         <AlumniBlock />
       </div>
     </main>

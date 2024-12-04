@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import Card from "@mui/material/Card";
 import { Avatar, Button, CardContent, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -8,21 +8,11 @@ import { Toaster } from "react-hot-toast";
 import apiClient from "../../../config/axiosConfig";
 import Image from "next/image";
 // Dynamically import ReactQuill with SSR disabled
+import { GlobalContext } from "./../../../context/GlobalContext";
 
 const AddSlider = () => {
   const [image, setImage] = useState("");
-  const [accessToken, setAccessToken] = useState(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("accessToken");
-      if (token) {
-        setAccessToken(JSON.parse(token));
-      }
-    } else {
-      toast.error("Access token not found");
-    }
-  }, []);
+  const { accessToken } = useContext(GlobalContext);
 
   // Add Slider
   const addSlider = async (e) => {

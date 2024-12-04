@@ -11,25 +11,14 @@ import Image from "next/image";
 // Dynamically import ReactQuill with SSR disabled
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import dynamic from "next/dynamic";
+import { GlobalContext } from "./../../../context/GlobalContext";
 
 const AddTeacherTestimonial = () => {
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
   const [designation, setDesignation] = useState("");
   const [image, setImage] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("accessToken");
-      console.log("Token retrieved from localStorage:", token);
-      if (token) {
-        setAccessToken(JSON.parse(token));
-      }
-    } else {
-      console.log("Window object is undefined");
-    }
-  }, []);
+  const { accessToken } = useContext(GlobalContext);
 
   // Add Faculty
   const submitTeacherTestimonial = async (e) => {

@@ -2,6 +2,7 @@ import React from "react";
 import Sidebar from "./../../components/Dashboard/Sidebar";
 import DashMobileMenu from "./../../components/Dashboard/DashMobileMenu";
 import AddAlbum from "./../../components/Dashboard/AddAlbum";
+import AlbumCard from "./../../components/Dashboard/AlbumCard";
 const AlbumDash = () => {
   return (
     <div>
@@ -14,6 +15,7 @@ const AlbumDash = () => {
         <div className="w-full my-4">
           <DashMobileMenu />
           <AddAlbum />
+          <AlbumCard />
         </div>
       </div>
     </div>

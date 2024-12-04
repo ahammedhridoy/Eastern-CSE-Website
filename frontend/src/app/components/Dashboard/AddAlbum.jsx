@@ -1,32 +1,30 @@
 "use client";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Card from "@mui/material/Card";
-import { Button, CardContent, Typography } from "@mui/material";
+import {
+  Button,
+  CardContent,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import apiClient from "../../../config/axiosConfig";
 import Image from "next/image";
+import { GlobalContext } from "./../../../context/GlobalContext";
+import AddImages from "./AddImages";
+import Separator from "../Separator/Separator";
 
 const AddAlbum = () => {
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
+  const { accessToken, getAlbums } = useContext(GlobalContext);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("accessToken");
-      console.log("Token retrieved from localStorage:", token);
-      if (token) {
-        setAccessToken(JSON.parse(token));
-      }
-    } else {
-      console.log("Window object is undefined");
-    }
-  }, []);
-
-  // Add Blog
+  // Add Album
   const submitAlbum = async (e) => {
     e.preventDefault();
 
@@ -57,6 +55,7 @@ const AddAlbum = () => {
         toast.success("Album added successfully");
         setName("");
         setImage("");
+        getAlbums();
       } else {
         toast.error(res.data.message || "Error adding Album");
       }
@@ -73,6 +72,7 @@ const AddAlbum = () => {
         <Typography gutterBottom variant="h5" component="div">
           Add Album
         </Typography>
+        <Separator width="w-20" position="justify-start" />
         {/* Form */}
         <form
           encType="multipart/form-data"
@@ -116,6 +116,9 @@ const AddAlbum = () => {
           </div>
         </form>
       </CardContent>
+
+      {/* Add Images */}
+      <AddImages />
     </Card>
   );
 };

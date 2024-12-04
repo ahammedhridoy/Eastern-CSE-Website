@@ -12,7 +12,7 @@ const adminAuthMiddleware = require("../middleware/adminAuth");
 const authRouter = express.Router();
 
 // POST /api/v1/auth/register
-authRouter.post("/register", register);
+authRouter.post("/register", verifyAdmin, register);
 
 // POST /api/v1/auth/login
 authRouter.post("/login", login);

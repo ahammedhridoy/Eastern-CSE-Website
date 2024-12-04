@@ -1,9 +1,7 @@
 "use client";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useContext, useEffect, useState } from "react";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -15,37 +13,66 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import toast, { Toaster } from "react-hot-toast";
 import apiClient from "./../../../config/axiosConfig"; // Ensure axiosConfig is properly set up
+import { TextField } from "@mui/material";
+import { GlobalContext } from "./../../../context/GlobalContext";
 
 const CreateAccount = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = useForm();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
+  const { accessToken } = useContext(GlobalContext);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => event.preventDefault();
 
-  const onSubmit = async (userData) => {
+  // Add User
+  const addUser = async (e) => {
+    e.preventDefault();
+    console.log("Add User:", name, email, password, role);
     setIsLoading(true);
     try {
-      const response = await apiClient.post("/api/v1/auth/register", userData);
-      console.log(response);
-      if (response?.status === 200) {
-        toast.success("User registered successfully!");
-        reset();
+      if (!accessToken) {
+        toast.error("Access token is missing. Please log in again.");
+        return;
+      }
+
+      if (!name || !email || !password || !role) {
+        toast.error("All fields are required");
+        return;
+      }
+
+      const data = {
+        name,
+        email,
+        password,
+        role,
+      };
+
+      const res = await apiClient.post("/api/v1/auth/register", data, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (res?.status === 201) {
+        toast.success("User added successfully");
+        setName("");
+        setEmail("");
+        setPassword("");
+        setRole("");
+      } else {
+        toast.error(res.data.message || "Error adding User");
       }
     } catch (error) {
-      if (error.response) {
-        toast.error(`Error: ${error.response.data.message}`);
-      } else {
-        toast.error("An error occurred. Please try again later.");
-      }
+      console.error("Error adding User:", error);
+      console.error("Error Response:", error.response); // Improved error logging
+      toast.error(error.response?.data?.message || "Server error");
     } finally {
       setIsLoading(false);
     }
@@ -55,85 +82,86 @@ const CreateAccount = () => {
     <div>
       <Toaster />
       <CardContent>
-        <h1 className="my-4 text-3xl font-semibold">Create New Account</h1>
+        <h1 className="my-4 text-3xl font-semibold">Add New Account</h1>
 
-        <Box
+        <form
           component="form"
-          sx={{ "& > :not(style)": { m: 1 } }}
-          className="flex flex-col max-h-fit max-w-[345px]"
-          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col w-full"
+          onSubmit={addUser}
         >
-          {/* Name Input */}
-          <FormControl variant="outlined" className="w-full mb-5">
-            <InputLabel>Name</InputLabel>
-            <OutlinedInput
-              className="bg-[var(--input-bg-color)]"
-              type="text"
-              label="Name"
-              {...register("name", { required: true, maxLength: 40 })}
-            />
-            {errors.name && <p className="text-red-500">Name is required</p>}
-          </FormControl>
+          <div className="lg:w-[40%] w-full">
+            <div className="w-full mt-2">
+              <TextField
+                id="user-name"
+                label="Name"
+                variant="outlined"
+                className="w-full bg-[var(--input-bg-color)]"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
+            <div className="w-full mt-2">
+              <TextField
+                id="user-email-address"
+                label="Email"
+                variant="outlined"
+                className="w-full bg-[var(--input-bg-color)]"
+                value={email}
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            {/* Password Input */}
+            <FormControl variant="outlined" className="w-full my-2">
+              <InputLabel>Password</InputLabel>
+              <OutlinedInput
+                id="user-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="bg-[var(--input-bg-color)] w-full"
+                type={showPassword ? "text" : "password"}
+                required
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
 
-          {/* Email Input */}
-          <FormControl variant="outlined" className="w-full mb-5">
-            <InputLabel>Email</InputLabel>
-            <OutlinedInput
-              className="bg-[var(--input-bg-color)]"
-              type="email"
-              label="Email"
-              {...register("email", { required: true })}
-            />
-            {errors.email && <p className="text-red-500">Email is required</p>}
-          </FormControl>
+            {/* Role Selector */}
+            <FormControl className="w-full my-2">
+              <InputLabel>Role</InputLabel>
+              <Select
+                className="bg-[var(--input-bg-color)] w-full"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                required
+              >
+                <MenuItem value="ADMIN">ADMIN</MenuItem>
+                <MenuItem value="EDITOR">EDITOR</MenuItem>
+              </Select>
+            </FormControl>
 
-          {/* Password Input */}
-          <FormControl variant="outlined" className="w-full mb-5">
-            <InputLabel>Password</InputLabel>
-            <OutlinedInput
-              className="bg-[var(--input-bg-color)]"
-              type={showPassword ? "text" : "password"}
-              {...register("password", { required: true, minLength: 6 })}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-            {errors.password && (
-              <p className="text-red-500">Password is required</p>
-            )}
-          </FormControl>
-
-          {/* Role Selector */}
-          <FormControl className="w-full mb-5">
-            <InputLabel>Role</InputLabel>
-            <Select
-              className="bg-[var(--input-bg-color)]"
-              {...register("role", { required: true })}
+            {/* Submit Button */}
+            <Button
+              disabled={isLoading}
+              type="submit"
+              variant="contained"
+              className="w-full"
             >
-              <MenuItem value="ADMIN">ADMIN</MenuItem>
-              <MenuItem value="EDITOR">EDITOR</MenuItem>
-            </Select>
-            {errors.role && <p className="text-red-500">Role is required</p>}
-          </FormControl>
-
-          {/* Submit Button */}
-          <Button
-            disabled={isLoading}
-            type="submit"
-            variant="contained"
-            className="w-full"
-          >
-            {isLoading ? "Submitting..." : "Submit"}
-          </Button>
-        </Box>
+              {isLoading ? "Adding..." : "Add User"}
+            </Button>
+          </div>
+        </form>
       </CardContent>
     </div>
   );

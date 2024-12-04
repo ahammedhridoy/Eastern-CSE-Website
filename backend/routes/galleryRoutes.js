@@ -5,10 +5,16 @@ const {
   deleteGalleryImage,
   addImagesToGallery,
 } = require("../controllers/galleryController");
+const { verifyAdmin } = require("../controllers/authController");
 const galleryRouter = express.Router();
 
 // Add an image to a gallery
-galleryRouter.post("/create", upload.array("images", 10), addImagesToGallery);
+galleryRouter.post(
+  "/create",
+  verifyAdmin,
+  upload.array("images", 30),
+  addImagesToGallery
+);
 
 // Get images by album
 galleryRouter.get("/:albumId", getImagesByAlbum);

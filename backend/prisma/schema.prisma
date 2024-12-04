@@ -89,6 +89,7 @@ model Album {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   image     String
   name      String
+  slug      String
   images    Gallery[] @relation("AlbumImages")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

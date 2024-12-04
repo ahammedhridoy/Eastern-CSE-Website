@@ -12,24 +12,13 @@ import Image from "next/image";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import dynamic from "next/dynamic";
 import { formats, modules } from "./../../../config/editorConfig";
+import { GlobalContext } from "./../../../context/GlobalContext";
 
 const AddBlog = () => {
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
   const [image, setImage] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("accessToken");
-      console.log("Token retrieved from localStorage:", token);
-      if (token) {
-        setAccessToken(JSON.parse(token));
-      }
-    } else {
-      console.log("Window object is undefined");
-    }
-  }, []);
+  const { accessToken } = useContext(GlobalContext);
 
   // Add Blog
   const addBlog = async (e) => {

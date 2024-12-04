@@ -16,9 +16,9 @@ albumRouter.post("/create", verifyAdmin, upload.single("image"), createAlbum);
 albumRouter.get("/all", getAllAlbums);
 
 // Update an album
-albumRouter.put("/:id", upload.single("image"), updateAlbum);
+albumRouter.put("/:id", verifyAdmin, upload.single("image"), updateAlbum);
 
 // Delete an album
-albumRouter.delete("/:id", deleteAlbum);
+albumRouter.delete("/:id", verifyAdmin, deleteAlbum);
 
 module.exports = albumRouter;
