@@ -13,12 +13,13 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import dynamic from "next/dynamic";
 import { formats, modules } from "./../../../config/editorConfig";
 import { GlobalContext } from "./../../../context/GlobalContext";
+import Separator from "../Separator/Separator";
 
 const AddBlog = () => {
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
   const [image, setImage] = useState(null);
-  const { accessToken } = useContext(GlobalContext);
+  const { accessToken, fetchBlogs } = useContext(GlobalContext);
 
   // Add Blog
   const addBlog = async (e) => {
@@ -53,6 +54,7 @@ const AddBlog = () => {
         setTitle("");
         setDescription("");
         setImage("");
+        fetchBlogs();
       } else {
         toast.error(res.data.message || "Error adding Blog");
       }
@@ -69,9 +71,10 @@ const AddBlog = () => {
         <Typography gutterBottom variant="h5" component="div">
           Add Blog
         </Typography>
+        <Separator position="justify-start" />
         {/* Form */}
         <form encType="multipart/form-data" method="post" onSubmit={addBlog}>
-          <div className="w-full">
+          <div className="lg:w-[50%] w-full">
             <div className="mt-4 file-input">
               <input
                 type="file"
@@ -87,7 +90,7 @@ const AddBlog = () => {
                   src={URL.createObjectURL(image)}
                   width={200}
                   height={200}
-                  className="w-full h-full border-2 border-gray-400 border-dashed"
+                  className="w-[500px] h-[300px] border-2 border-gray-400 border-dashed"
                 />
               )}
             </div>

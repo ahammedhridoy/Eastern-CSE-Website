@@ -5,6 +5,7 @@ const {
   getAllBlogs,
   updateBlog,
   deleteBlog,
+  getSingleBlog,
 } = require("../controllers/blogController");
 const { verifyAdmin } = require("../controllers/authController");
 
@@ -16,10 +17,13 @@ blogRouter.post("/create", verifyAdmin, upload.single("image"), createBlog);
 // Get all posts
 blogRouter.get("/all", getAllBlogs);
 
+// Get Single post
+blogRouter.get("/:id", getSingleBlog);
+
 // Update a blog
-blogRouter.put("/:id", updateBlog);
+blogRouter.put("/:id", verifyAdmin, upload.single("image"), updateBlog);
 
 // Delete a blog
-blogRouter.delete("/:id", deleteBlog);
+blogRouter.delete("/:id", verifyAdmin, deleteBlog);
 
 module.exports = blogRouter;

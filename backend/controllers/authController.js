@@ -98,6 +98,42 @@ const login = async (req, res) => {
   }
 };
 
+// Get All Users
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await prisma.user.findMany();
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching users.", error: error.message });
+  }
+};
+
+// Get User by ID
+const getSingleUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching user.", error: error.message });
+  }
+};
+
 /**
  * METHOD: POST
  * API: /api/v1/auth/forgot-password
@@ -278,4 +314,6 @@ module.exports = {
   verifyEditor,
   verifyAdmin,
   authorized,
+  getAllUsers,
+  getSingleUser,
 };

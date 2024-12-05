@@ -1,8 +1,8 @@
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
-const Loading = () => {
+const LoadingSpinner = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen loading">
+    <div className="flex items-center justify-center loading">
       <Box sx={{ display: "flex" }}>
         <CircularProgress />
       </Box>
@@ -10,4 +10,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default LoadingSpinner;

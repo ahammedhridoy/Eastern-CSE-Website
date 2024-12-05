@@ -3,6 +3,8 @@ import Sidebar from "./../../components/Dashboard/Sidebar";
 import BlogCard from "./../../components/Dashboard/BlogCard";
 import DashMobileMenu from "./../../components/Dashboard/DashMobileMenu";
 import AddBlog from "./../../components/Dashboard/AddBlog";
+import { Typography } from "@mui/material";
+import Separator from "@/app/components/Separator/Separator";
 
 const BlogDash = () => {
   return (
@@ -13,21 +15,18 @@ const BlogDash = () => {
           <Sidebar />
         </div>
         {/* Main Content */}
-        <div className="my-4">
+        <div className="w-full my-4">
           {/* Create Blog */}
           <DashMobileMenu />
           <div>
             <AddBlog />
           </div>
           {/* Blogs */}
-          <div className="grid w-full grid-cols-1 gap-5 my-4 md:grid-cols-2 lg:grid-cols-4 place-content-center place-items-center">
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
+          <div className="w-full mt-5">
+            <Typography gutterBottom variant="h5" component="div">
+              All Blogs
+            </Typography>
+            <Separator position="justify-start" />
             <BlogCard />
           </div>
         </div>

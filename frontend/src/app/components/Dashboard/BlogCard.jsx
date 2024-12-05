@@ -1,109 +1,149 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import Link from "next/link";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
+import { GlobalContext } from "@/context/GlobalContext";
+import usePagination from "./../../../hooks/usePagination";
+import LoadingSpinner from "./../LoadingSpinner/LoadingSpinner";
+import toast, { Toaster } from "react-hot-toast";
+import UpdateBlog from "./UpdateBlog";
 
-const BlogCard = ({}) => {
+const BlogCard = () => {
+  const { blogs, loading, accessToken, deleteBlog, fetchBlogs } =
+    useContext(GlobalContext);
   const [open, setOpen] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [blogToDelete, setBlogToDelete] = useState(null); // Track which blog to delete
+  const { visibleCount, loadMore } = usePagination(8, 8);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (blogId) => {
+    setBlogToDelete(blogId); // Set the blog ID for deletion
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    setBlogToDelete(null); // Reset blog ID when closing
   };
+
+  // Delete Blog
+  const handleDelete = async (blogId) => {
+    const success = await deleteBlog(blogId, accessToken);
+    if (success) {
+      handleClose();
+      fetchBlogs(); // Refresh blogs list after deletion
+    }
+  };
+
+  //Update   Dialog
+
+  const handleUpdateOpen = () => {
+    setUpdate(true);
+  };
+
+  const handleUpdateClose = () => {
+    setUpdate(false);
+  };
+
   return (
-    <div className="">
-      <Card
-        sx={{ maxWidth: 345 }}
-        className="transition-all duration-300 hover:scale-110"
-      >
-        <CardMedia
-          component="img"
-          height="194"
-          image="/images/event/b1.jpg"
-          alt="event"
-          className="object-cover"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            15 Things To Do After Installing Kali Linux
-          </Typography>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            className="line-clamp-3"
-          >
-            Features of Kali Linux: Comprehensive Toolkit: Kali Linux comes with
-            a wide selection of pre-installed security tools that cover all
-            aspects of penetration testing and ethical hacking, making it a
-            one-stop shop for cybersecurity professionals. Open Source & Free:
-            Kali Linux is an open-source distribution, so users can change,
-            distribute, and contribute to its development under the GNU General
-            Public License. Frequent updates: Kali Linux is regularly updated,
-            ensuring that security experts have access to the most recent tools
-            and technology for assessing and addressing cybersecurity
-            vulnerabilities. 15 Things To Do After Installing Kali Linux In this
-            section, we will explore the important 15 Things that we should do
-            and perform once the installation of the Kali Linux Operating System
-            is done. So, perform each of the tasks properly with essential
-            command execution. 1. Update and Upgrade: Step 1: Open your terminal
-            and run the following command to update and upgrade the Kali System.
-            The below command ensures that the package lists are refreshed,
-            providing the latest available versions of software packages. It is
-            a crucial first step to keep the system up-to-date and secure. 4.
-            Configure Network Repositories: After that, you can Ensure the
-            correct network repository configuration using the following
-            command. Once the initial setup is complete, it is imperative to
-            validate and optimize the network repository configuration. This
-            verification ensures your system fetches software packages from
-            accurate and current sources. Execute the following command to
-            safeguard this configuration. This crucial step guarantees that your
-            system remains synchronized with the latest software releases and
-            security patches. sudo cp /etc/apt/sources.list
-            /etc/apt/sources.list.backup sudo echo "deb
-            http://http.kali.org/kali kali-rolling main non-free contrib" | sudo
-            tee /etc/apt/sources.list
-          </Typography>
-        </CardContent>
-        <div className="flex justify-end gap-2 p-3">
-          <EditIcon className="text-green-700 cursor-pointer" />
-          <DeleteForeverIcon
-            className="text-red-700 cursor-pointer"
-            onClick={handleClickOpen}
-          />
-          {/* Dialog */}
+    <div>
+      <Toaster />
+      <div className="grid w-full grid-cols-1 gap-5 my-4 md:grid-cols-2 lg:grid-cols-4 place-content-center place-items-center">
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          blogs?.slice(0, visibleCount).map((blog) => (
+            <Card
+              sx={{ maxWidth: 345 }}
+              className="transition-all"
+              key={blog?.id}
+            >
+              <CardMedia
+                component="img"
+                height="194"
+                image={`${process.env.NEXT_PUBLIC_IMAGE_URL}${blog?.image}`}
+                alt="event"
+                className="object-cover h-[300px]"
+              />
+              <CardContent>
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                  className="line-clamp-2"
+                >
+                  {blog?.title}
+                </Typography>
+              </CardContent>
+              <div className="flex justify-end gap-2 p-3">
+                <EditIcon
+                  className="text-green-700 cursor-pointer"
+                  onClick={handleUpdateOpen}
+                />
+                <DeleteForeverIcon
+                  className="text-red-700 cursor-pointer"
+                  onClick={() => handleClickOpen(blog?.id)} // Pass blog ID here
+                />
+                {/*Delete Dialog */}
+                <Dialog
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="alert-dialog-title"
+                >
+                  <DialogTitle id="blog-delete-title">
+                    {"Are you sure you want to delete this blog?"}
+                  </DialogTitle>
+                  <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button
+                      onClick={() => handleDelete(blogToDelete)}
+                      color="error"
+                      autoFocus
+                    >
+                      Delete
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+                {/*Delete Dialog */}
+                {/*Update Dialog */}
+                <Dialog
+                  open={update}
+                  onClose={handleUpdateClose}
+                  aria-labelledby="alert-dialog-title"
+                >
+                  <DialogTitle id="blog-update-title">
+                    <UpdateBlog
+                      blog={blog}
+                      handleUpdateClose={handleUpdateClose}
+                    />
+                  </DialogTitle>
+                  <DialogActions>
+                    <Button onClick={handleUpdateClose}>Cancel</Button>
+                  </DialogActions>
+                </Dialog>
+                {/*Update Dialog */}
+              </div>
+            </Card>
+          ))
+        )}
+      </div>
 
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Are you sure you want to delete this blog?"}
-            </DialogTitle>
-
-            <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={handleClose} autoFocus>
-                Delete
-              </Button>
-            </DialogActions>
-          </Dialog>
-          {/* Dialog */}
+      {/* Load More */}
+      {blogs?.length > visibleCount && (
+        <div className="mt-10 text-center">
+          <Button variant="contained" onClick={loadMore}>
+            Load More
+          </Button>
         </div>
-      </Card>
+      )}
     </div>
   );
 };

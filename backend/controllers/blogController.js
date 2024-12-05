@@ -31,7 +31,7 @@ const getAllBlogs = async (req, res) => {
   try {
     // Fetch all blogs from the database
     const blogs = await prisma.blog.findMany({
-      orderBy: { createdAt: "desc" }, // Sort by most recent
+      orderBy: { createdAt: "desc" },
     });
 
     res.status(200).json({ message: "Blogs fetched successfully.", blogs });
@@ -42,11 +42,33 @@ const getAllBlogs = async (req, res) => {
   }
 };
 
+// Fetch single blog by ID
+const getSingleBlog = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const blog = await prisma.blog.findUnique({
+      where: { id },
+    });
+
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found." });
+    }
+
+    res.status(200).json(blog);
+  } catch (error) {
+    console.error("Error fetching blog:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching blog.", error: error.message });
+  }
+};
+
 // Update Blog
 const updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, desc } = req.body;
+    const { title, description } = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
     // Check if the blog exists
@@ -71,10 +93,16 @@ const updateBlog = async (req, res) => {
       where: { id },
       data: {
         title,
-        desc, // Rich text content updated as is
+        description,
         ...(imageUrl && { image: imageUrl }),
       },
     });
+
+    if (!updatedBlog) {
+      return res
+        .status(500)
+        .json({ message: "Error updating blog.", error: error.message });
+    }
 
     res
       .status(200)
@@ -104,7 +132,9 @@ const deleteBlog = async (req, res) => {
     if (blog.image) {
       const filePath = path.join(__dirname, "..", blog.image);
       fs.unlink(filePath, (err) => {
-        if (err) console.error("Error deleting file:", err);
+        if (err) {
+          console.error("Error deleting file:", err.message); // Log specific error message
+        }
       });
     }
 
@@ -121,4 +151,10 @@ const deleteBlog = async (req, res) => {
   }
 };
 
-module.exports = { createBlog, updateBlog, deleteBlog, getAllBlogs };
+module.exports = {
+  createBlog,
+  updateBlog,
+  deleteBlog,
+  getAllBlogs,
+  getSingleBlog,
+};
