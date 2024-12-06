@@ -6,8 +6,11 @@ export const GlobalContext = createContext();
 
 export const GlobalContextProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
-  const [albums, setAlbums] = useState(null);
-  const [blogs, setBlogs] = useState(null);
+  const [albums, setAlbums] = useState([]);
+  const [blogs, setBlogs] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [slides, setSlides] = useState([]);
+  const [faculties, setFaculties] = useState([]);
   const [loading, setLoading] = useState(false);
 
   // Access Token
@@ -177,10 +180,244 @@ export const GlobalContextProvider = ({ children }) => {
     }
   };
 
+  // Fetch All users
+  const fetchUsers = async () => {
+    try {
+      const response = await apiClient.get("/api/v1/auth/user/all", {
+        withCredentials: true, // Include credentials if needed
+        headers: {
+          Authorization: `Bearer ${accessToken}`, // Add your access token if required
+        },
+      });
+
+      if (response.status === 200) {
+        setUsers(response?.data?.users);
+        return response.data;
+      }
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      toast.error(error.response?.data?.message || "Server error");
+      return []; // Return an empty array on error
+    }
+  };
+
+  // Update User
+  const updateUser = async (userId, name, email, role, password) => {
+    try {
+      if (!userId || !name || !email || !role) {
+        toast.error("All fields are required");
+      }
+      const response = await apiClient.patch(
+        `/api/v1/auth/user/update/${userId}`,
+        {
+          name,
+          email,
+          role,
+          password,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("User updated successfully");
+        fetchUsers();
+        return true;
+      }
+    } catch (error) {
+      console.error("Error updating user:", error);
+      toast.error(error.response?.data?.message || "Server error");
+      return false;
+    }
+  };
+
+  // Delete User
+  const deleteUser = async (userId) => {
+    try {
+      const response = await apiClient.delete(
+        `/api/v1/auth/user/delete/${userId}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("User deleted successfully");
+        return true;
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      toast.error(error.response?.data?.message || "Server error");
+      return false;
+    }
+  };
+
+  // Fetch All Slides
+  const fetchSliders = async () => {
+    try {
+      const response = await apiClient.get("/api/v1/slider/all", {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response.status === 200) {
+        setSlides(response?.data?.slides);
+        return response.data;
+      }
+    } catch (error) {
+      console.error("Error fetching slides:", error);
+      toast.error(error.response?.data?.message || "Server error");
+      return [];
+    }
+  };
+
+  // Update a slide
+  const updateSlide = async (slideId, formData) => {
+    try {
+      if (!formData.has("image")) {
+        toast.error("Image is required");
+        return false;
+      }
+
+      const response = await apiClient.put(
+        `/api/v1/slider/update/${slideId}`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "multipart/form-data", // Required for file uploads
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Slide updated successfully");
+        fetchSliders();
+        return true;
+      } else {
+        toast.error("Failed to update slide");
+        return false;
+      }
+    } catch (error) {
+      console.error("Error updating slide:", error);
+      toast.error(error.response?.data?.message || "Server error");
+      return false;
+    }
+  };
+
+  // Delete a Slide
+  const deleteSlide = async (slideId) => {
+    try {
+      const response = await apiClient.delete(
+        `/api/v1/slider/delete/${slideId}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Slide deleted successfully");
+        fetchSliders();
+        return true;
+      }
+    } catch (error) {
+      console.error("Error deleting slide:", error);
+      toast.error(error.response?.data?.message || "Server error");
+      return false;
+    }
+  };
+
+  // Fetch All Faculties
+  const fetchAllFaculties = async () => {
+    try {
+      const response = await apiClient.get("/api/v1/faculty/all");
+
+      if (response?.status === 200) {
+        setFaculties(response?.data?.faculties);
+        return response?.data;
+      }
+    } catch (error) {
+      console.error("Error fetching faculties:", error.response?.data?.message);
+      throw error;
+    }
+  };
+
+  // Get Single Faculty
+  const fetchSingleFaculty = async (facultyId) => {
+    try {
+      const response = await apiClient.get(`/api/v1/faculty/${facultyId}`);
+      return response?.data;
+    } catch (error) {
+      console.error("Error fetching faculty:", error.response?.data?.message);
+      throw error;
+    }
+  };
+
+  // Update Faculty
+  const updateFaculty = async (facultyId, formData) => {
+    try {
+      const response = await apiClient.patch(
+        `/api/v1/faculty/${facultyId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Faculty updated successfully");
+        fetchAllFaculties();
+      }
+
+      return response.data.faculty; // Return updated faculty object
+    } catch (error) {
+      console.error("Error updating faculty:", error.response?.data?.message);
+      throw error;
+    }
+  };
+
+  // Delete Faculty
+  const deleteFaculty = async (facultyId) => {
+    try {
+      const response = await apiClient.delete(`/api/v1/faculty/${facultyId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (response.status === 200) {
+        toast.success("Faculty deleted successfully");
+        fetchAllFaculties();
+      }
+      return response.data.message;
+    } catch (error) {
+      console.error("Error deleting faculty:", error.response?.data?.message);
+      throw error;
+    }
+  };
+
   // Fetching
   useEffect(() => {
     getAlbums();
     fetchBlogs();
+    fetchUsers();
+    fetchSliders();
+    fetchAllFaculties();
   }, []);
 
   return (
@@ -197,6 +434,19 @@ export const GlobalContextProvider = ({ children }) => {
         blogs,
         deleteBlog,
         updateBlog,
+        fetchUsers,
+        users,
+        deleteUser,
+        updateUser,
+        fetchSliders,
+        slides,
+        deleteSlide,
+        updateSlide,
+        fetchAllFaculties,
+        faculties,
+        fetchSingleFaculty,
+        updateFaculty,
+        deleteFaculty,
       }}
     >
       {children}

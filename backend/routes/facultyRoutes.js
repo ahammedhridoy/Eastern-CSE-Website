@@ -7,6 +7,7 @@ const {
   getAllFaculties,
   updateFaculty,
   deleteFaculty,
+  getSingleFaculty,
 } = require("../controllers/facultyController");
 const adminAuthMiddleware = require("../middleware/adminAuth");
 const authMiddleware = require("../middleware/auth");
@@ -23,10 +24,13 @@ facultyRouter.post(
 // Get all faculties
 facultyRouter.get("/all", getAllFaculties);
 
+// Get Single Faculty
+facultyRouter.get("/:id", getSingleFaculty);
+
 // Update a faculty
-facultyRouter.put("/:id", upload.single("image"), updateFaculty);
+facultyRouter.patch("/:id", verifyAdmin, upload.single("image"), updateFaculty);
 
 // Delete a faculty
-facultyRouter.delete("/:id", deleteFaculty);
+facultyRouter.delete("/:id", verifyAdmin, deleteFaculty);
 
 module.exports = facultyRouter;

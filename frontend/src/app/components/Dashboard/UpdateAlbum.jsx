@@ -8,7 +8,6 @@ const UpdateAlbum = ({ albumId, handleUpdateClose, album }) => {
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
   const { updateAlbum } = useContext(GlobalContext);
-  console.log(album.image);
 
   // Update Album
   const handleUpdate = (e) => {

@@ -3,6 +3,7 @@ import Sidebar from "./../../components/Dashboard/Sidebar";
 import { Card } from "@mui/material";
 import CreateAccount from "./../../components/Dashboard/CreateAccount";
 import DashMobileMenu from "./../../components/Dashboard/DashMobileMenu";
+import ShowAllUsers from "@/app/components/Dashboard/ShowAllUsers";
 
 const UserDash = () => {
   return (
@@ -17,6 +18,7 @@ const UserDash = () => {
           <Card className="p-4">
             <DashMobileMenu />
             <CreateAccount />
+            <ShowAllUsers />
           </Card>
         </div>
       </div>

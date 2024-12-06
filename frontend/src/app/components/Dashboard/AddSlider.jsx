@@ -9,10 +9,11 @@ import apiClient from "../../../config/axiosConfig";
 import Image from "next/image";
 // Dynamically import ReactQuill with SSR disabled
 import { GlobalContext } from "./../../../context/GlobalContext";
+import Separator from "../Separator/Separator";
 
 const AddSlider = () => {
   const [image, setImage] = useState("");
-  const { accessToken } = useContext(GlobalContext);
+  const { accessToken, fetchSliders } = useContext(GlobalContext);
 
   // Add Slider
   const addSlider = async (e) => {
@@ -43,6 +44,7 @@ const AddSlider = () => {
       if (res?.status === 201) {
         toast.success("Slider added successfully");
         setImage("");
+        fetchSliders();
       } else {
         toast.error(res.data.message || "Error adding Slider");
       }
@@ -53,12 +55,13 @@ const AddSlider = () => {
   };
 
   return (
-    <Card className="min-h-screen">
+    <Card className="">
       <Toaster />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Add Slider
+          Add a Slide
         </Typography>
+        <Separator position="justify-start" />
         {/* Form */}
         <form encType="multipart/form-data" method="post" onSubmit={addSlider}>
           <div className="lg:w-[40%] w-full">
@@ -77,13 +80,13 @@ const AddSlider = () => {
                   src={URL.createObjectURL(image)}
                   width={200}
                   height={200}
-                  className="w-full h-full border-2 border-gray-400 border-dashed"
+                  className="w-full h-[400px] border-2 border-gray-400 border-dashed"
                 />
               )}
             </div>
 
             <Button variant="contained" type="submit" className="w-full mt-4">
-              Add Slider
+              Add Slide
             </Button>
           </div>
         </form>

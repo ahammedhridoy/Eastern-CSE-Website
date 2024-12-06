@@ -1,66 +1,37 @@
 "use client";
-import React, { useContext } from "react";
-import Card from "@mui/material/Card";
-import { Avatar, Button, CardContent, Typography } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
-import { Toaster } from "react-hot-toast";
-import apiClient from "../../../config/axiosConfig";
-// Dynamically import ReactQuill with SSR disabled
+import { Avatar, Button, CardContent, TextField } from "@mui/material";
+import React, { useContext, useState } from "react";
+import { GlobalContext } from "./../../../context/GlobalContext";
+import Image from "next/image";
+import toast, { Toaster } from "react-hot-toast";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import dynamic from "next/dynamic";
-import { GlobalContext } from "./../../../context/GlobalContext";
 
-const AddFaculty = () => {
-  const [description, setDescription] = useState("");
-  const [name, setName] = useState("");
-  const [designation, setDesignation] = useState("");
-  const [image, setImage] = useState("");
-  const { accessToken, fetchAllFaculties } = useContext(GlobalContext);
+const UpdateFaculty = ({ faculty, handleUpdateClose }) => {
+  const [description, setDescription] = useState(faculty?.description);
+  const [name, setName] = useState(faculty?.name);
+  const [designation, setDesignation] = useState(faculty?.designation);
+  const [image, setImage] = useState(null);
+  const { updateFaculty } = useContext(GlobalContext);
 
-  // Add Faculty
-  const addFaculty = async (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
-    try {
-      if (!accessToken) {
-        toast.error("Access token is missing. Please log in again.");
-        return;
-      }
+    // Create FormData to send image
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("designation", designation);
+    formData.append("description", description);
 
-      if (!name || !designation || !description || !image) {
-        toast.error("All fields are required");
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("designation", designation);
-      formData.append("description", description);
+    if (image) {
       formData.append("image", image);
+    }
 
-      const res = await apiClient.post("/api/v1/faculty/create", formData, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+    // Call the updateSlide function with the slide ID and formData
+    const success = await updateFaculty(faculty.id, formData);
 
-      if (res?.status === 201) {
-        toast.success("Faculty added successfully");
-        setName("");
-        setDesignation("");
-        setDescription("");
-        setImage("");
-        fetchAllFaculties();
-      } else {
-        toast.error(res.data.message || "Error adding faculty");
-      }
-    } catch (error) {
-      console.error("Error adding faculty:", error);
-      toast.error(error.response?.data?.message || "Server error");
+    if (success) {
+      handleUpdateClose(); // Close modal only if the update is successful
     }
   };
 
@@ -95,15 +66,11 @@ const AddFaculty = () => {
   ];
 
   return (
-    <Card>
-      <Toaster />
+    <div>
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Add Faculty
-        </Typography>
-        {/* Form */}
-        <form encType="multipart/form-data" method="post" onSubmit={addFaculty}>
-          <div className="lg:w-[40%] w-full">
+        <Toaster />
+        <form className="flex flex-col w-full" onSubmit={handleUpdate}>
+          <div className="w-full">
             <div className="mt-4 file-input">
               <input
                 type="file"
@@ -154,13 +121,13 @@ const AddFaculty = () => {
               placeholder="Description"
             />
             <Button variant="contained" type="submit" className="w-full mt-4">
-              Add Faculty
+              Update Faculty
             </Button>
           </div>
         </form>
       </CardContent>
-    </Card>
+    </div>
   );
 };
 
-export default AddFaculty;
+export default UpdateFaculty;

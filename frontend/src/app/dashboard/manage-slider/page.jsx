@@ -2,6 +2,7 @@ import React from "react";
 import Sidebar from "./../../components/Dashboard/Sidebar";
 import DashMobileMenu from "./../../components/Dashboard/DashMobileMenu";
 import AddSlider from "./../../components/Dashboard/AddSlider";
+import ShowAllSlider from "@/app/components/Dashboard/ShowAllSlider";
 
 const SliderDash = () => {
   return (
@@ -15,6 +16,7 @@ const SliderDash = () => {
         <div className="w-full my-4">
           <DashMobileMenu />
           <AddSlider />
+          <ShowAllSlider />
         </div>
       </div>
     </div>

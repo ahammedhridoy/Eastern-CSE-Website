@@ -27,6 +27,63 @@ const createSlide = async (req, res) => {
   }
 };
 
+// Get All Slides
+const getAllSlides = async (req, res) => {
+  try {
+    const slides = await prisma.slider.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+
+    res.status(200).json({ message: "Slides fetched successfully.", slides });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error fetching slides.", error: error.message });
+  }
+};
+
+// Update a slide
+const updateSlide = async (req, res) => {
+  try {
+    const { id } = req.params; // Get slide ID from the request params
+    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+
+    // Validate slide existence
+    const existingSlide = await prisma.slider.findUnique({
+      where: { id },
+    });
+
+    if (!existingSlide) {
+      return res.status(404).json({ message: "Slide not found" });
+    }
+
+    // If a new image is uploaded, delete the old image
+    if (imageUrl && existingSlide.image) {
+      const oldImagePath = path.join(__dirname, "..", existingSlide.image);
+      fs.unlink(oldImagePath, (err) => {
+        if (err) console.error("Error deleting old image:", err);
+      });
+    }
+
+    // Update the slide record
+    const updatedSlide = await prisma.slider.update({
+      where: { id },
+      data: {
+        ...(imageUrl && { image: imageUrl }),
+      },
+    });
+
+    res
+      .status(200)
+      .json({ message: "Slide updated successfully", slide: updatedSlide });
+  } catch (error) {
+    console.error("Error updating slide:", error);
+    res
+      .status(500)
+      .json({ message: "Error updating slide", error: error.message });
+  }
+};
+
 // Delete a slide
 const deleteSlide = async (req, res) => {
   try {
@@ -62,4 +119,4 @@ const deleteSlide = async (req, res) => {
   }
 };
 
-module.exports = { createSlide, deleteSlide };
+module.exports = { createSlide, deleteSlide, getAllSlides, updateSlide };

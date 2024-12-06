@@ -44,11 +44,33 @@ const getAllFaculties = async (req, res) => {
   }
 };
 
+// Get Single Faculty
+const getSingleFaculty = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Fetch the faculty using Prisma
+    const faculty = await prisma.faculty.findUnique({
+      where: { id },
+    });
+
+    if (!faculty) {
+      return res.status(404).json({ message: "Faculty not found." });
+    }
+
+    res.status(200).json({ message: "Faculty fetched successfully.", faculty });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error fetching faculty.", error: error.message });
+  }
+};
+
 // Update Faculty
 const updateFaculty = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, desc } = req.body;
+    const { name, designation, description } = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
     // Check if the faculty exists
@@ -73,7 +95,8 @@ const updateFaculty = async (req, res) => {
       where: { id },
       data: {
         name,
-        desc,
+        description,
+        designation,
         ...(imageUrl && { image: imageUrl }),
       },
     });
@@ -129,4 +152,5 @@ module.exports = {
   getAllFaculties,
   updateFaculty,
   deleteFaculty,
+  getSingleFaculty,
 };

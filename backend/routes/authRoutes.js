@@ -8,6 +8,8 @@ const {
   verifyAdmin,
   getAllUsers,
   getSingleUser,
+  updateUser,
+  deleteUser,
 } = require("../controllers/authController");
 const adminAuthMiddleware = require("../middleware/adminAuth");
 
@@ -24,6 +26,12 @@ authRouter.get("/user/all", verifyAdmin, getAllUsers);
 
 // POST /api/v1/auth/user/:id
 authRouter.get("/user/:id", verifyAdmin, getSingleUser);
+
+// POST /api/v1/auth/user/update/:id
+authRouter.patch("/user/update/:id", verifyAdmin, updateUser);
+
+// POST /api/v1/auth/user/delete/:id
+authRouter.delete("/user/delete/:id", verifyAdmin, deleteUser);
 
 // POST /api/v1/auth/forgot-password
 authRouter.post("/forgot-password", forgotPassword);

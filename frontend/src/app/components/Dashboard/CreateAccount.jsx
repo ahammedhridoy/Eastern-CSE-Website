@@ -13,8 +13,9 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import toast, { Toaster } from "react-hot-toast";
 import apiClient from "./../../../config/axiosConfig"; // Ensure axiosConfig is properly set up
-import { TextField } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { GlobalContext } from "./../../../context/GlobalContext";
+import Separator from "../Separator/Separator";
 
 const CreateAccount = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,7 +24,7 @@ const CreateAccount = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
-  const { accessToken } = useContext(GlobalContext);
+  const { accessToken, fetchUsers } = useContext(GlobalContext);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -66,6 +67,7 @@ const CreateAccount = () => {
         setEmail("");
         setPassword("");
         setRole("");
+        fetchUsers();
       } else {
         toast.error(res.data.message || "Error adding User");
       }
@@ -82,7 +84,10 @@ const CreateAccount = () => {
     <div>
       <Toaster />
       <CardContent>
-        <h1 className="my-4 text-3xl font-semibold">Add New Account</h1>
+        <Typography gutterBottom variant="h5" component="div">
+          Create a new User
+        </Typography>
+        <Separator position="justify-start" />
 
         <form
           component="form"

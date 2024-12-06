@@ -16,7 +16,6 @@ const setTokensCookies = require("../utils/setTokensCookies");
  */
 const register = async (req, res) => {
   const { name, email, password, role } = req.body;
-  console.log(req.body);
 
   // Validate user input
   if (!email || !password || !name || !role) {
@@ -103,7 +102,7 @@ const getAllUsers = async (req, res) => {
   try {
     const users = await prisma.user.findMany();
 
-    res.status(200).json(users);
+    res.status(200).json({ message: "Users fetched successfully.", users });
   } catch (error) {
     console.error("Error fetching users:", error);
     res
@@ -131,6 +130,84 @@ const getSingleUser = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error fetching user.", error: error.message });
+  }
+};
+
+// Update User
+const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, role, password } = req.body;
+
+    // Validate required fields
+    if (!name || !email || !role) {
+      return res.status(400).json({ message: "Please enter all fields" });
+    }
+
+    // Initialize an object to hold the updated data
+    const updatedData = {
+      name,
+      email,
+      role,
+    };
+
+    // If a new password is provided, hash it and add it to updatedData
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updatedData.password = hashedPassword; // Add hashed password to update data
+    }
+
+    // Check if the user exists
+    const existingUser = await prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!existingUser) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    // Update the user
+    const updatedUser = await prisma.user.update({
+      where: { id },
+      data: updatedData, // Use the updatedData object
+    });
+
+    res
+      .status(200)
+      .json({ message: "User updated successfully.", user: updatedUser });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res
+      .status(500)
+      .json({ message: "Error updating user.", error: error.message });
+  }
+};
+
+// Delete User
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params; // Get user ID from request parameters
+
+    // Check if the user exists
+    const existingUser = await prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!existingUser) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    // Delete the user
+    await prisma.user.delete({
+      where: { id },
+    });
+
+    res.status(200).json({ message: "User deleted successfully." });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res
+      .status(500)
+      .json({ message: "Error deleting user.", error: error.message });
   }
 };
 
@@ -263,7 +340,9 @@ const verifyEditor = async (req, res, next) => {
 const verifyAdmin = async (req, res, next) => {
   try {
     // Get token from cookies
-    const token = req?.cookies?.accessToken;
+    const token =
+      req.cookies?.accessToken ||
+      (req.headers.authorization && req.headers.authorization.split(" ")[1]);
     if (!token) {
       return res
         .status(401)
@@ -316,4 +395,6 @@ module.exports = {
   authorized,
   getAllUsers,
   getSingleUser,
+  updateUser,
+  deleteUser,
 };
