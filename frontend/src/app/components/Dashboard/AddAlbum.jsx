@@ -95,7 +95,7 @@ const AddAlbum = () => {
                   src={URL.createObjectURL(image)}
                   width={200}
                   height={200}
-                  className="w-full h-full border-2 border-gray-400 border-dashed"
+                  className="w-full h-[300px] border-2 border-gray-400 border-dashed"
                 />
               )}
             </div>

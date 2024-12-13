@@ -83,15 +83,21 @@ const BlogCard = () => {
                   {blog?.title}
                 </Typography>
               </CardContent>
-              <div className="flex justify-end gap-2 p-3">
-                <EditIcon
-                  className="text-green-700 cursor-pointer"
-                  onClick={handleUpdateOpen}
-                />
-                <DeleteForeverIcon
-                  className="text-red-700 cursor-pointer"
-                  onClick={() => handleClickOpen(blog?.id)} // Pass blog ID here
-                />
+              <div className="flex justify-end gap-4 p-4">
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={handleUpdateOpen} // Pass the current slide for editing
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => handleClickOpen(blog?.id)} // Pass the slide ID for deletion
+                >
+                  Delete
+                </Button>
                 {/*Delete Dialog */}
                 <Dialog
                   open={open}

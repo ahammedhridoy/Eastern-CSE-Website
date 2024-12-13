@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
@@ -13,11 +13,12 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import apiClient from "./../../../config/axiosConfig";
+import { GlobalContext } from "@/context/GlobalContext";
 
 const LoginForm = () => {
+  const { setCurrentUser } = useContext(GlobalContext);
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState("");
   const {
@@ -34,9 +35,12 @@ const LoginForm = () => {
         withCredentials: true,
       });
 
-      if (response.status === 200) {
-        const token = response.data.accessToken;
+      if (response?.status === 200) {
+        const token = response?.data?.accessToken;
+        const user = response?.data?.user;
+        setCurrentUser(user);
         localStorage.setItem("accessToken", JSON.stringify(token));
+        localStorage.setItem("user", JSON.stringify(user));
 
         toast.success(response.data.message);
         window.location.href = "/";

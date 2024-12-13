@@ -6,25 +6,36 @@ const {
   getAllSlides,
   updateSlide,
 } = require("../controllers/sliderController");
-const { verifyAdmin } = require("../controllers/authController");
+const {
+  verifyAdmin,
+  verifyUser,
+  verifyEditor,
+} = require("../controllers/authController");
 
 const sliderRouter = express.Router();
 
 // Route for creating a slide
-sliderRouter.post("/create", verifyAdmin, upload.single("image"), createSlide);
+sliderRouter.post(
+  "/create",
+  verifyUser,
+  verifyEditor,
+  upload.single("image"),
+  createSlide
+);
 
 // Route for getting all slides
-sliderRouter.get("/all", verifyAdmin, getAllSlides);
+sliderRouter.get("/all", getAllSlides);
 
 // Route for update slides
 sliderRouter.put(
   "/update/:id",
-  verifyAdmin,
+  verifyUser,
+  verifyEditor,
   upload.single("image"),
   updateSlide
 );
 
 // Route for deleting a slide
-sliderRouter.delete("/delete/:id", verifyAdmin, deleteSlide);
+sliderRouter.delete("/delete/:id", verifyUser, verifyEditor, deleteSlide);
 
 module.exports = sliderRouter;

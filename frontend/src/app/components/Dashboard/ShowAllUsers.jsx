@@ -20,37 +20,34 @@ import UpdateUser from "./UpdateUser";
 import usePagination from "@/hooks/usePagination";
 
 const ShowAllUsers = () => {
-  const { users, deleteUser, fetchUsers } = useContext(GlobalContext);
-  const [open, setOpen] = useState(false);
-  const [update, setUpdate] = useState(false);
+  const { users, deleteUser } = useContext(GlobalContext);
   const { visibleCount, loadMore } = usePagination(10, 10);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [deleteUserId, setDeleteUserId] = useState(null);
 
-  //   Delete Dialog
-  const handleClickOpen = () => {
-    setOpen(true);
+  // Delete dialog handlers
+  const handleDeleteOpen = (userId) => {
+    setDeleteUserId(userId); // Store the user ID
+    setOpenDelete(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleDeleteClose = () => {
+    setOpenDelete(false);
+    setDeleteUserId(null); // Reset the user ID
   };
 
-  // Delete User
-  const handleDelete = async (userId) => {
-    const success = await deleteUser(userId);
-    if (success) {
-      handleClose();
-      fetchUsers();
-    }
-  };
-
-  //Update   Dialog
-
-  const handleUpdateOpen = () => {
-    setUpdate(true);
+  // Update dialog handlers
+  const handleUpdateOpen = (user) => {
+    console.log("Selected user for update:", user); // Debugging
+    setCurrentUser(user);
+    setOpenUpdate(true);
   };
 
   const handleUpdateClose = () => {
-    setUpdate(false);
+    setOpenUpdate(false);
+    setCurrentUser(null); // Reset current user
   };
 
   return (
@@ -85,57 +82,19 @@ const ShowAllUsers = () => {
                     <Button
                       variant="contained"
                       color="success"
-                      onClick={handleUpdateOpen}
+                      onClick={() => handleUpdateOpen(user)} // Pass the user object here
                     >
                       Edit
                     </Button>
                     <Button
                       variant="contained"
                       color="error"
-                      onClick={handleClickOpen}
+                      onClick={() => handleDeleteOpen(user.id)} // Pass the user ID here
                     >
                       Delete
                     </Button>
                   </div>
                 </TableCell>
-                {/*Delete Dialog */}
-                <Dialog
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="alert-dialog-title"
-                >
-                  <DialogTitle id="user-delete-title">
-                    {"Are you sure you want to delete this user?"}
-                  </DialogTitle>
-                  <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button
-                      onClick={() => handleDelete(user?.id)}
-                      color="error"
-                      autoFocus
-                    >
-                      Delete
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-                {/*Delete Dialog */}
-                {/*Update Dialog */}
-                <Dialog
-                  open={update}
-                  onClose={handleUpdateClose}
-                  aria-labelledby="alert-dialog-title"
-                >
-                  <DialogTitle id="user-update-title">
-                    <UpdateUser
-                      user={user}
-                      handleUpdateClose={handleUpdateClose}
-                    />
-                  </DialogTitle>
-                  <DialogActions>
-                    <Button onClick={handleUpdateClose}>Cancel</Button>
-                  </DialogActions>
-                </Dialog>
-                {/*Update Dialog */}
               </TableRow>
             ))}
           </TableBody>
@@ -150,6 +109,47 @@ const ShowAllUsers = () => {
           </Button>
         </div>
       )}
+
+      {/* Delete Dialog */}
+      <Dialog
+        open={openDelete}
+        onClose={handleDeleteClose}
+        aria-labelledby="alert-dialog-title"
+      >
+        <DialogTitle id="user-delete-title">
+          {"Are you sure you want to delete this user?"}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleDeleteClose}>Cancel</Button>
+          <Button
+            onClick={() => {
+              deleteUser(deleteUserId);
+              handleDeleteClose();
+            }}
+            color="error"
+            autoFocus
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Update Dialog */}
+      <Dialog
+        open={openUpdate}
+        onClose={handleUpdateClose}
+        aria-labelledby="alert-dialog-title"
+      >
+        <DialogTitle id="user-update-title">
+          <UpdateUser
+            user={currentUser}
+            handleUpdateClose={handleUpdateClose}
+          />
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleUpdateClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

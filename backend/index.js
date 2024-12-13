@@ -13,6 +13,7 @@ const teacherRouter = require("./routes/teacherRoutes");
 const alumniRouter = require("./routes/alumniRoutes");
 const albumRouter = require("./routes/albumRoutes");
 const galleryRouter = require("./routes/galleryRoutes");
+const aboutSliderRouter = require("./routes/aboutSliderRoutes");
 const prisma = new PrismaClient();
 dotenv.config();
 
@@ -67,3 +68,5 @@ app.use("/api/v1/alumni", alumniRouter);
 app.use("/api/v1/album", albumRouter);
 // Gallery
 app.use("/api/v1/gallery", galleryRouter);
+// About Sliders
+app.use("/api/v1/about/slider", aboutSliderRouter);

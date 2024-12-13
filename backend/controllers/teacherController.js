@@ -48,7 +48,7 @@ const getAllTeachers = async (req, res) => {
 const updateTeacher = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, designation, desc } = req.body;
+    const { name, designation, description } = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
     // Check if the teacher exists
@@ -74,7 +74,7 @@ const updateTeacher = async (req, res) => {
       data: {
         name,
         designation,
-        desc,
+        description,
         ...(imageUrl && { image: imageUrl }),
       },
     });

@@ -11,7 +11,7 @@ const BlogDash = () => {
     <div className="min-h-screen">
       <div className="flex gap-4">
         {/* Sidebar */}
-        <div className="mr-[250px] hidden lg:block">
+        <div className="mr-[300px] hidden lg:block">
           <Sidebar />
         </div>
         {/* Main Content */}

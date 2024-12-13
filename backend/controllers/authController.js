@@ -9,6 +9,7 @@ const {
 } = require("../helpers/utils");
 const generateToken = require("../utils/generateToken");
 const setTokensCookies = require("../utils/setTokensCookies");
+const { ObjectId } = require("mongodb");
 
 /**
  * METHOD: POST
@@ -116,15 +117,19 @@ const getSingleUser = async (req, res) => {
   const { id } = req.params;
 
   try {
+    if (!id || !ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid or missing user ID." });
+    }
+
     const user = await prisma.user.findUnique({
-      where: { id },
+      where: { id: id.toString() },
     });
 
     if (!user) {
       return res.status(404).json({ message: "User not found." });
     }
 
-    res.status(200).json(user);
+    res.status(200).json({ message: "User fetched successfully.", user });
   } catch (error) {
     console.error("Error fetching user:", error);
     res
@@ -139,42 +144,39 @@ const updateUser = async (req, res) => {
     const { id } = req.params;
     const { name, email, role, password } = req.body;
 
-    // Validate required fields
-    if (!name || !email || !role) {
-      return res.status(400).json({ message: "Please enter all fields" });
+    if (!id || (!name && !email && !role)) {
+      return res.status(400).json({ message: "Invalid input data" });
     }
 
-    // Initialize an object to hold the updated data
+    // Validate input fields
+    if (password && password.length < 6) {
+      toast.error("Password must be at least 6 characters long.");
+      return;
+    }
+
+    // Hash the password if provided
     const updatedData = {
-      name,
-      email,
-      role,
+      ...(name && { name }),
+      ...(email && { email }),
+      ...(role && { role }),
+      ...(password && { password: await bcrypt.hash(password, 10) }),
     };
 
-    // If a new password is provided, hash it and add it to updatedData
-    if (password) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      updatedData.password = hashedPassword; // Add hashed password to update data
-    }
-
-    // Check if the user exists
-    const existingUser = await prisma.user.findUnique({
-      where: { id },
-    });
-
-    if (!existingUser) {
-      return res.status(404).json({ message: "User not found." });
+    // Ensure the user exists
+    const user = await prisma.user.findUnique({ where: { id } });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Update the user
     const updatedUser = await prisma.user.update({
       where: { id },
-      data: updatedData, // Use the updatedData object
+      data: updatedData,
     });
 
     res
       .status(200)
-      .json({ message: "User updated successfully.", user: updatedUser });
+      .json({ message: "User updated successfully", user: updatedUser });
   } catch (error) {
     console.error("Error updating user:", error);
     res
@@ -296,47 +298,7 @@ const logout = async (req, res) => {
   }
 };
 
-const verifyEditor = async (req, res, next) => {
-  try {
-    // Get token from cookies
-    const token = req?.cookies?.accessToken; // Adjust token name if different
-    if (!token) {
-      return res
-        .status(401)
-        .json({ message: "Unauthorized: No token provided" });
-    }
-
-    // Verify the token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (!decoded || !decoded.id) {
-      return res.status(401).json({ message: "Unauthorized: Invalid token" });
-    }
-
-    // Find user in the database
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.id },
-    });
-
-    if (!user) {
-      return res.status(401).json({ message: "Unauthorized: User not found" });
-    }
-
-    // Check if the user's role is EDITOR
-    if (user.role !== "EDITOR") {
-      return res.status(403).json({ message: "Forbidden: Access denied" });
-    }
-
-    // Attach user to the request object (optional)
-    req.user = user;
-
-    // Proceed to the next middleware
-    next();
-  } catch (error) {
-    console.error("Error verifying user:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
+// Verify Admin
 const verifyAdmin = async (req, res, next) => {
   try {
     // Get token from cookies
@@ -380,6 +342,83 @@ const verifyAdmin = async (req, res, next) => {
   }
 };
 
+// Verify Editor
+const verifyEditor = async (req, res, next) => {
+  try {
+    const token =
+      req.cookies?.accessToken ||
+      (req.headers.authorization && req.headers.authorization.split(" ")[1]);
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: No token provided" });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decoded || !decoded.id) {
+      return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+    });
+
+    if (!user) {
+      return res.status(401).json({ message: "Unauthorized: User not found" });
+    }
+
+    // Corrected role check
+    if (user.role !== "EDITOR" && user.role !== "ADMIN") {
+      return res.status(403).json({ message: "Forbidden: Access denied" });
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    console.error("Error verifying editor:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// Verify User
+const verifyUser = async (req, res, next) => {
+  try {
+    // Get token from cookies
+    const token =
+      req?.cookies?.accessToken ||
+      (req.headers.authorization && req.headers.authorization.split(" ")[1]);
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: No token provided" });
+    }
+
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decoded || !decoded.id) {
+      return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    }
+
+    // Find user in the database
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+    });
+
+    if (!user) {
+      return res.status(401).json({ message: "Unauthorized: User not found" });
+    }
+
+    // Attach user to the request object (optional)
+    req.user = user;
+
+    // Proceed to the next middleware
+    next();
+  } catch (error) {
+    console.error("Error verifying user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 const authorized = (req, res) => {
   res.status(200).json({ message: "Authorized" });
 };
@@ -397,4 +436,5 @@ module.exports = {
   getSingleUser,
   updateUser,
   deleteUser,
+  verifyUser,
 };

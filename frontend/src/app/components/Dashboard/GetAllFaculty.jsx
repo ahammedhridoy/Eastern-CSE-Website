@@ -18,7 +18,6 @@ import UpdateFaculty from "./UpdateFaculty";
 const GetAllFaculty = () => {
   const { visibleCount, loadMore } = usePagination(8, 8);
   const { deleteFaculty, faculties } = useContext(GlobalContext);
-  console.log("Faculty", faculties);
   const [openDelete, setOpenDelete] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [currentFaculty, setCurrentFaculty] = useState(null);
@@ -69,7 +68,7 @@ const GetAllFaculty = () => {
                 </Typography>
               </CardContent>
 
-              <div className="flex justify-between gap-4 p-4">
+              <div className="flex justify-end gap-4 p-4">
                 <Button
                   variant="contained"
                   color="success"

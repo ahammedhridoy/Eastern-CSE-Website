@@ -6,19 +6,35 @@ const {
   updateAlbum,
   deleteAlbum,
 } = require("../controllers/albumController");
-const { verifyAdmin } = require("../controllers/authController");
+const {
+  verifyAdmin,
+  verifyUser,
+  verifyEditor,
+} = require("../controllers/authController");
 const albumRouter = express.Router();
 
 // Create a new album
-albumRouter.post("/create", verifyAdmin, upload.single("image"), createAlbum);
+albumRouter.post(
+  "/create",
+  verifyUser,
+  verifyEditor,
+  upload.single("image"),
+  createAlbum
+);
 
 // Get all albums
 albumRouter.get("/all", getAllAlbums);
 
 // Update an album
-albumRouter.put("/:id", verifyAdmin, upload.single("image"), updateAlbum);
+albumRouter.put(
+  "/:id",
+  verifyUser,
+  verifyEditor,
+  upload.single("image"),
+  updateAlbum
+);
 
 // Delete an album
-albumRouter.delete("/:id", verifyAdmin, deleteAlbum);
+albumRouter.delete("/:id", verifyUser, verifyEditor, deleteAlbum);
 
 module.exports = albumRouter;

@@ -4,16 +4,27 @@ import { Button, CardContent, TextField } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { GlobalContext } from "./../../../context/GlobalContext";
 
-const UpdateAlbum = ({ albumId, handleUpdateClose, album }) => {
-  const [name, setName] = useState("");
+const UpdateAlbum = ({ handleUpdateClose, album }) => {
+  const [name, setName] = useState(album?.name);
   const [image, setImage] = useState(null);
   const { updateAlbum } = useContext(GlobalContext);
 
   // Update Album
-  const handleUpdate = (e) => {
+
+  const handleUpdate = async (e) => {
     e.preventDefault();
-    updateAlbum(albumId, name, image);
-    handleUpdateClose(); // Close the dialog after updating
+
+    // Create FormData to send image
+    const formData = new FormData();
+    formData.append("name", name);
+
+    if (image) {
+      formData.append("image", image);
+    }
+
+    // Call the updateSlide function with the slide ID and formData
+    const success = await updateAlbum(album.id, formData);
+    handleUpdateClose();
   };
 
   return (

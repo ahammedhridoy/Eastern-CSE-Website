@@ -9,10 +9,10 @@ const generateToken = async (user) => {
     };
 
     const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "5d", // Simplify expiration definition
+      expiresIn: "365d", // Simplify expiration definition
     });
 
-    const accessTokenExp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 5;
+    const accessTokenExp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 365;
 
     return { accessToken, accessTokenExp };
   } catch (error) {

@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const prisma = require("../utils/prismaClient");
 
-const createSlide = async (req, res) => {
+const createAboutSlide = async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: "No image uploaded." });
@@ -11,7 +11,7 @@ const createSlide = async (req, res) => {
     const imageUrl = `/uploads/${req.file.filename}`; // Path to save in the database
 
     // Save slide to the database using Prisma
-    const newSlide = await prisma.slider.create({
+    const newSlide = await prisma.aboutslider.create({
       data: {
         image: imageUrl,
       },
@@ -28,9 +28,9 @@ const createSlide = async (req, res) => {
 };
 
 // Get All Slides
-const getAllSlides = async (req, res) => {
+const getAboutAllSlides = async (req, res) => {
   try {
-    const slides = await prisma.slider.findMany({
+    const slides = await prisma.aboutslider.findMany({
       orderBy: { createdAt: "desc" },
     });
 
@@ -43,13 +43,13 @@ const getAllSlides = async (req, res) => {
 };
 
 // Update a slide
-const updateSlide = async (req, res) => {
+const updateAboutSlide = async (req, res) => {
   try {
     const { id } = req.params; // Get slide ID from the request params
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
     // Validate slide existence
-    const existingSlide = await prisma.slider.findUnique({
+    const existingSlide = await prisma.aboutslider.findUnique({
       where: { id },
     });
 
@@ -75,7 +75,7 @@ const updateSlide = async (req, res) => {
     }
 
     // Update the slide record
-    const updatedSlide = await prisma.slider.update({
+    const updatedSlide = await prisma.aboutslider.update({
       where: { id },
       data: {
         ...(imageUrl && { image: imageUrl }), // Update the image if a new one is provided
@@ -95,12 +95,12 @@ const updateSlide = async (req, res) => {
 };
 
 // Delete a slide
-const deleteSlide = async (req, res) => {
+const deleteAboutSlide = async (req, res) => {
   try {
     const { id } = req.params;
 
     // Find the slide by ID using Prisma
-    const slide = await prisma.slider.findUnique({
+    const slide = await prisma.aboutslider.findUnique({
       where: { id },
     });
 
@@ -126,7 +126,7 @@ const deleteSlide = async (req, res) => {
     }
 
     // Delete the slide from the database using Prisma
-    await prisma.slider.delete({
+    await prisma.aboutslider.delete({
       where: { id },
     });
 
@@ -139,4 +139,9 @@ const deleteSlide = async (req, res) => {
   }
 };
 
-module.exports = { createSlide, deleteSlide, getAllSlides, updateSlide };
+module.exports = {
+  createAboutSlide,
+  deleteAboutSlide,
+  getAboutAllSlides,
+  updateAboutSlide,
+};

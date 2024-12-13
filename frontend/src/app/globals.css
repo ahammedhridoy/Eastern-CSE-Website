@@ -246,3 +246,8 @@ body {
   padding: 16.5px 14px;
   border-radius: 4px;
 }
+
+.active {
+  color: #1d4ed8;
+  font-weight: bold;
+}

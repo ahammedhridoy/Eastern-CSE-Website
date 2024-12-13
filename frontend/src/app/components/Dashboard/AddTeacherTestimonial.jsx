@@ -18,7 +18,7 @@ const AddTeacherTestimonial = () => {
   const [name, setName] = useState("");
   const [designation, setDesignation] = useState("");
   const [image, setImage] = useState(null);
-  const { accessToken } = useContext(GlobalContext);
+  const { accessToken, fetchTeacherTestimonials } = useContext(GlobalContext);
 
   // Add Faculty
   const submitTeacherTestimonial = async (e) => {
@@ -55,6 +55,7 @@ const AddTeacherTestimonial = () => {
         setDesignation("");
         setDescription("");
         setImage("");
+        fetchTeacherTestimonials();
       } else {
         toast.error(res.data.message || "Error adding Testimonial");
       }

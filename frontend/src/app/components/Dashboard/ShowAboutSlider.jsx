@@ -10,16 +10,16 @@ import {
   Typography,
 } from "@mui/material";
 import { GlobalContext } from "@/context/GlobalContext";
-import UpdateSlide from "./UpdateSlide";
 import usePagination from "@/hooks/usePagination";
 import Separator from "../Separator/Separator";
+import UpdateAboutSlide from "./UpdateAboutSlide";
 
-const ShowAllSlider = () => {
-  const { slides, fetchSliders, deleteSlide } = useContext(GlobalContext);
+const ShowAboutSlider = () => {
+  const { aboutSlides, deleteAboutSlide } = useContext(GlobalContext);
   const [openDelete, setOpenDelete] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(null);
-  const [deleteSlideId, setDeleteSlideId] = useState(null); // Track the ID of the slide to delete
+  const [deleteSlideId, setDeleteSlideId] = useState(null);
   const { visibleCount, loadMore } = usePagination(8, 8);
 
   // Delete dialog handlers
@@ -51,7 +51,7 @@ const ShowAllSlider = () => {
         </Typography>
         <Separator position="justify-start" />
         <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 place-content-center place-items-center">
-          {slides.map((slide) => (
+          {aboutSlides.map((slide) => (
             <Card sx={{ maxWidth: 345 }} key={slide.id}>
               <CardMedia
                 component="img"
@@ -90,7 +90,7 @@ const ShowAllSlider = () => {
                   <Button onClick={handleDeleteClose}>Cancel</Button>
                   <Button
                     onClick={() => {
-                      deleteSlide(deleteSlideId); // Use the stored slide ID
+                      deleteAboutSlide(deleteSlideId); // Use the stored slide ID
                       handleDeleteClose();
                     }}
                     color="error"
@@ -108,7 +108,7 @@ const ShowAllSlider = () => {
                 aria-labelledby="alert-dialog-title"
               >
                 <DialogTitle id="slider-update-title">Update Slide</DialogTitle>
-                <UpdateSlide
+                <UpdateAboutSlide
                   slide={currentSlide} // Pass the current slide for updating
                   handleUpdateClose={handleUpdateClose}
                 />
@@ -118,7 +118,7 @@ const ShowAllSlider = () => {
         </div>
 
         {/* Load More */}
-        {slides.length > visibleCount && (
+        {aboutSlides.length > visibleCount && (
           <div className="mt-10 text-center">
             <Button variant="contained" onClick={loadMore}>
               Load More
@@ -130,4 +130,4 @@ const ShowAllSlider = () => {
   );
 };
 
-export default ShowAllSlider;
+export default ShowAboutSlider;

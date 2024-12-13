@@ -5,7 +5,6 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Link from "next/link";
 import Separator from "../Separator/Separator";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -14,30 +13,37 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import { GlobalContext } from "./../../../context/GlobalContext";
 import UpdateAlbum from "./UpdateAlbum";
+import usePagination from "@/hooks/usePagination";
+
 const AlbumCard = () => {
   const { albums, deleteAlbum } = useContext(GlobalContext);
+  const { visibleCount, loadMore } = usePagination(8, 8);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const [currentAlbum, setCurrentAlbum] = useState(null);
+  const [deleteAlbumId, setDeleteAlbumId] = useState(null);
 
-  //Delete   Dialog
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
+  // Delete dialog handlers
+  const handleDeleteOpen = (albumId) => {
+    setDeleteAlbumId(albumId); // Store the album ID
+    setOpenDelete(true);
+  };
+  const handleDeleteClose = () => {
+    setOpenDelete(false);
+    setDeleteAlbumId(null); // Reset the album ID
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  //Update   Dialog
-  const [update, setUpdate] = useState(false);
-
-  const handleUpdateOpen = () => {
-    setUpdate(true);
+  // Update dialog handlers
+  const handleUpdateOpen = (album) => {
+    setCurrentAlbum(album);
+    setOpenUpdate(true);
   };
 
   const handleUpdateClose = () => {
-    setUpdate(false);
+    setOpenUpdate(false);
+    setCurrentAlbum(null); // Reset current album
   };
+
   return (
     <Card className="p-4 my-10">
       <Typography gutterBottom variant="h5" component="div">
@@ -48,18 +54,15 @@ const AlbumCard = () => {
 
       {/* Albums */}
       <div className="grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 lg:grid-cols-4 albums">
-        {albums?.map((album) => (
-          <Card
-            sx={{ maxWidth: 345 }}
-            className="transition-all duration-300 hover:scale-110"
-            key={album?.id}
-          >
+        {albums?.slice(0, visibleCount).map((album) => (
+          // Return the card here
+          <Card sx={{ maxWidth: 345 }} className="" key={album?.id}>
             <CardMedia
               component="img"
               height="194"
               image={`${process.env.NEXT_PUBLIC_IMAGE_URL}${album?.image}`}
-              alt="Paella dish"
-              className="cursor-pointer h-[300px]"
+              alt={album?.name || "Album"}
+              className="cursor-pointer h-[300px] p-2 object-cover"
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
@@ -67,19 +70,27 @@ const AlbumCard = () => {
               </Typography>
             </CardContent>
             <div className="flex justify-end gap-2 p-3">
-              <EditIcon
-                className="text-green-700 cursor-pointer"
-                onClick={handleUpdateOpen}
-              />
-              <DeleteForeverIcon
-                className="text-red-700 cursor-pointer"
-                onClick={handleClickOpen}
-              />
-              {/*Delete Dialog */}
+              <div className="flex justify-end gap-4">
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() => handleUpdateOpen(album)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => handleDeleteOpen(album?.id)}
+                >
+                  Delete
+                </Button>
+              </div>
 
+              {/* Delete Dialog */}
               <Dialog
-                open={open}
-                onClose={handleClose}
+                open={openDelete}
+                onClose={handleDeleteClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
               >
@@ -88,11 +99,11 @@ const AlbumCard = () => {
                 </DialogTitle>
 
                 <DialogActions>
-                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button onClick={handleDeleteClose}>Cancel</Button>
                   <Button
                     onClick={() => {
-                      handleClose(); // Close the dialog or modal
-                      deleteAlbum(album?.id); // Delete the album
+                      handleDeleteClose(); // Close the dialog
+                      deleteAlbum(deleteAlbumId); // Delete the album
                     }}
                     autoFocus
                   >
@@ -100,37 +111,33 @@ const AlbumCard = () => {
                   </Button>
                 </DialogActions>
               </Dialog>
-              {/*Delete Dialog */}
-              {/*Update Dialog */}
 
+              {/* Update Dialog */}
               <Dialog
-                open={update}
+                open={openUpdate}
                 onClose={handleUpdateClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
               >
-                <DialogTitle id="album-update">
-                  <UpdateAlbum
-                    albumId={album?.id}
-                    handleUpdateClose={handleUpdateClose}
-                    album={album}
-                  />
-                </DialogTitle>
-
-                <DialogActions>
-                  <Button onClick={handleUpdateClose}>Cancel</Button>
-                </DialogActions>
+                <DialogTitle id="album-update">Update Album</DialogTitle>
+                <UpdateAlbum
+                  handleUpdateClose={handleUpdateClose}
+                  album={currentAlbum}
+                />
               </Dialog>
-              {/*Update Dialog */}
             </div>
           </Card>
         ))}
       </div>
 
       {/* Load More */}
-      <div className="mt-10 text-center">
-        <Button variant="contained">Load More</Button>
-      </div>
+      {albums.length > visibleCount && (
+        <div className="mt-10 text-center">
+          <Button variant="contained" onClick={loadMore}>
+            Load More
+          </Button>
+        </div>
+      )}
     </Card>
   );
 };
