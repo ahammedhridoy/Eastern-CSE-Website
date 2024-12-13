@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { GlobalContext } from "@/context/GlobalContext";
-import ProtectedRoute from "./../../../../../backend/utils/ProtectedRoute";
+import ProtectedRoute from "../ProtectedRoute";
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
