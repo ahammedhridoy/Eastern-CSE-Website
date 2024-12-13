@@ -2,7 +2,7 @@ import React from "react";
 import Sidebar from "./../../components/Dashboard/Sidebar";
 import GetAllFaculty from "./../../components/Dashboard/GetAllFaculty";
 import DashMobileMenu from "./../../components/Dashboard/DashMobileMenu";
-import AddFaculty from "@/app/components/Dashboard/AddFaculty";
+import AddFaculty from "./../../components/Dashboard/AddFaculty";
 
 const FacultyDash = () => {
   return (
