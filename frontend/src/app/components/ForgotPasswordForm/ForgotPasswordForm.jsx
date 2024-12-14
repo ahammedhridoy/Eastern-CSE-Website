@@ -37,9 +37,6 @@ const ForgotPasswordForm = () => {
 
         // Clear the email field
         reset();
-
-        // Navigate to login page
-        router.push("/admin");
       }
     } catch (error) {
       toast.error("Failed to send password reset email");

@@ -3,12 +3,6 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcryptjs");
 const prisma = require("../utils/prismaClient");
-dotenv.config();
-
-// Generate unique token
-function generateToken(payload) {
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
-}
 
 // Send password reset email
 const sendPasswordResetEmail = async (email, token, name) => {
@@ -107,8 +101,6 @@ async function invalidateToken(token) {
 }
 
 module.exports = {
-  generateToken,
-  // storeTokenInDatabase,
   sendPasswordResetEmail,
   validateTokenAndGetEmail,
   updatePassword,
