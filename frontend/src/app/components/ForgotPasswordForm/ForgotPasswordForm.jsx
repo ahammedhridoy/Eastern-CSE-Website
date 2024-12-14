@@ -8,22 +8,48 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation"; // Import useRouter
+import apiClient from "@/config/axiosConfig";
 
 const ForgotPasswordForm = () => {
   const {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
+    reset, // Hook to reset the form
   } = useForm();
+
+  const router = useRouter(); // Initialize Next.js router
 
   // Submit form
   const onSubmit = async (data) => {
-    await new Promise((r) => setTimeout(r, 500));
-    console.log(data);
+    try {
+      if (!data?.email) {
+        toast.error("Email is required");
+        return;
+      }
+
+      const res = await apiClient.post("/api/v1/auth/forgot-password", data);
+
+      if (res?.status === 200) {
+        toast.success("Password reset email sent");
+
+        // Clear the email field
+        reset();
+
+        // Navigate to login page
+        router.push("/admin");
+      }
+    } catch (error) {
+      toast.error("Failed to send password reset email");
+      console.error(error.message);
+    }
   };
 
   return (
     <div className="forgot-form">
+      <Toaster />
       <Box className="w-[300px] md:w-[750px]">
         <Card variant="outlined">
           <CardContent>

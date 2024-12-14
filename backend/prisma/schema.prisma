@@ -9,14 +9,16 @@ generator client {
 }
 
 model User {
-  id            String             @id @default(auto()) @map("_id") @db.ObjectId
-  email         String             @unique
-  name          String
-  password      String
-  role          Role               @default(EDITOR)
-  refreshTokens UserRefreshToken[]
-  createdAt     DateTime           @default(now())
-  updatedAt     DateTime           @updatedAt
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  email            String             @unique
+  name             String
+  password         String
+  role             Role               @default(EDITOR)
+  refreshTokens    UserRefreshToken[]
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
 }
 
 model UserRefreshToken {

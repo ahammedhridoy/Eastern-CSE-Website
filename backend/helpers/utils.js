@@ -10,23 +10,8 @@ function generateToken(payload) {
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
 }
 
-// Store token in database
-// async function storeTokenInDatabase(email, token) {
-//   try {
-//     await prisma.resetToken.create({
-//       data: {
-//         email,
-//         token,
-//       },
-//     });
-//     console.log("Token stored in database");
-//   } catch (error) {
-//     console.error("Error storing token in database:", error);
-//   }
-// }
-
 // Send password reset email
-const sendPasswordResetEmail = async (email, token) => {
+const sendPasswordResetEmail = async (email, token, name) => {
   // Create Nodemailer transporter
   let transporter = nodemailer.createTransport({
     service: "Gmail",
@@ -36,41 +21,52 @@ const sendPasswordResetEmail = async (email, token) => {
     },
   });
 
+  // Properly encode the token in the reset password URL
+  const resetPasswordUrl = `${
+    process.env.CLIENT_DOMAIN_NAME
+  }/reset-password/${encodeURIComponent(token)}`;
+
   // Send email with password reset link
   await transporter.sendMail({
-    from: process.env.SENDER_EMAIL,
+    from: process.env.SMTP_AUTH_USER,
     to: email,
-    subject: `Forget Password Reset Link`,
+    subject: `Password Reset Link`,
     priority: "high",
     html: `
       <div style="width: 100%; height: auto; padding: 15px 10px; text-align: center;">
-      <h1 style="font-size: 25px;">Hi ${email}</h1>
-      <div>
-        <p>You have requested to reset your password. Please click on the button below to continue.<br>The link will expire within 2 minutes.</p>
-        <a href="${process.env.CLIENT_DOMAIN_NAME}/reset-password/${token}}" style="background: green; color: white; font-weight: 500; font-size: 17px; padding: 7px 15px; text-decoration: none; border-radius: 6px; margin-top: 7px">Reset Password</a>
+        <h1 style="font-size: 25px;">Hi ${name}</h1>
+        <div>
+          <p>You have requested to reset your password. Please click on the button below to continue.<br>If you did not request a password reset, please ignore this email. <br> <p> <strong>NOTE:</strong> This link will expire in 5 minutes. </p>
+          <a href="${resetPasswordUrl}" style="background: blue; color: white; font-weight: 500; font-size: 17px; padding: 7px 15px; text-decoration: none; border-radius: 6px; margin-top: 7px">Reset Password</a>
+        </div>
       </div>
-    <div>
     `,
   });
 };
 
 // Validate token and get email
 async function validateTokenAndGetEmail(token) {
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
   try {
+    // Decode the token to handle URL-encoded characters
+    const decodedToken = decodeURIComponent(token);
+
+    const decoded = jwt.verify(decodedToken, process.env.JWT_SECRET);
+
     const resetToken = await prisma.resetToken.findFirst({
       where: {
         email: decoded.email,
-        token,
+        token: decodedToken,
       },
     });
+
     if (!resetToken) {
-      throw new Error("Invalid token");
+      throw new Error("Token does not exist in database");
     }
+
     return resetToken.email;
-  } catch (error) {
-    console.error("Error validating token and getting email:", error);
-    throw error;
+  } catch (err) {
+    console.error("Error validating token:", err.message);
+    throw new Error("Invalid token");
   }
 }
 
@@ -78,13 +74,20 @@ async function validateTokenAndGetEmail(token) {
 async function updatePassword(email, newPassword) {
   try {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Check if user exists
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) throw new Error("User not found");
+
+    // Update the password
     await prisma.user.update({
       where: { email },
       data: { password: hashedPassword },
     });
-    console.log("Password updated successfully");
+
+    console.log("Password updated successfully for", email);
   } catch (error) {
-    console.error("Error updating password:", error);
+    console.error("Error updating password:", error.message);
     throw error;
   }
 }
@@ -92,16 +95,13 @@ async function updatePassword(email, newPassword) {
 // Invalidate token
 async function invalidateToken(token) {
   try {
-    // Delete the single token with the specified token value
-    await prisma.resetToken.deleteMany({
-      where: {
-        token: { equals: token },
-      },
+    const deleted = await prisma.resetToken.deleteMany({
+      where: { token },
     });
 
-    console.log("Token invalidated successfully");
+    if (!deleted.count) throw new Error("Token not found for deletion");
   } catch (error) {
-    console.error("Error invalidating token:", error);
+    console.error("Error invalidating token:", error.message);
     throw error;
   }
 }

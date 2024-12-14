@@ -228,7 +228,7 @@ const forgotPassword = async (req, res) => {
 
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    const encoded = sign({ email }, process.env.JWT_SECRET, {
+    const encoded = jwt.sign({ email }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
 
@@ -240,7 +240,7 @@ const forgotPassword = async (req, res) => {
     });
 
     // Send password reset email
-    await sendPasswordResetEmail(email, encoded);
+    await sendPasswordResetEmail(email, encoded, user?.name);
 
     res.status(200).json({ message: "Password reset email sent", encoded });
   } catch (error) {
@@ -256,25 +256,29 @@ const forgotPassword = async (req, res) => {
 const resetPassword = async (req, res) => {
   const { token, newPassword } = req.body;
 
-  if (!token || !newPassword)
+  if (!token || !newPassword) {
     return res
       .status(400)
       .json({ message: "Please provide both token and new password" });
+  }
 
   try {
     const email = await validateTokenAndGetEmail(token);
     if (!email) {
       return res.status(400).json({ error: "Invalid or expired token" });
     }
+
     await updatePassword(email, newPassword);
     await invalidateToken(token);
-    res.status(200).json({ message: "Password updated successfully" });
+
+    return res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Error on reset password" });
+    console.error(error);
+    return res.status(500).json({ message: "Error resetting password" });
   }
 };
 
+// Logout
 const logout = async (req, res) => {
   try {
     // Clear the cookies related to authentication

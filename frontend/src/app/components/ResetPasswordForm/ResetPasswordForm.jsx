@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
@@ -12,8 +13,12 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
+import toast, { Toaster } from "react-hot-toast";
+import apiClient from "@/config/axiosConfig";
+import { useParams } from "next/navigation";
 
 const ResetPasswordForm = () => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const {
@@ -21,19 +26,43 @@ const ResetPasswordForm = () => {
     formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm();
+  const { token } = useParams();
 
   // Submit form
   const onSubmit = async (data) => {
-    await new Promise((r) => setTimeout(r, 500));
-    console.log(data);
+    if (!token) {
+      toast.error("Invalid or missing token");
+      return;
+    }
+
+    if (data.password !== data.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    try {
+      const res = await apiClient.post("/api/v1/auth/reset-password", {
+        token,
+        newPassword: data.password,
+      });
+
+      if (res.status === 200) {
+        toast.success("Password updated successfully");
+        setTimeout(() => router.push("/admin"), 1500);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to reset password");
+      console.error("Error resetting password:", error.message);
+    }
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () =>
-    setShowConfirmPassword((showConfirmPassword) => !showConfirmPassword);
+    setShowConfirmPassword((show) => !show);
 
   return (
     <div className="forgot-form">
+      <Toaster />
       <Box className="w-[300px] md:w-[750px]">
         <Card variant="outlined">
           <CardContent>
@@ -52,9 +81,10 @@ const ResetPasswordForm = () => {
               onSubmit={handleSubmit(onSubmit)}
             >
               <div className="w-full">
+                {/* New Password Input */}
                 <FormControl variant="outlined" className="w-full mb-5">
                   <InputLabel htmlFor="outlined-adornment-password">
-                    Password
+                    New Password
                   </InputLabel>
                   <OutlinedInput
                     {...register("password", {
@@ -77,7 +107,7 @@ const ResetPasswordForm = () => {
                         </IconButton>
                       </InputAdornment>
                     }
-                    label="Password"
+                    label="New Password"
                   />
                   {errors.password?.type === "required" && (
                     <p className="text-red-500" role="alert">
@@ -96,8 +126,9 @@ const ResetPasswordForm = () => {
                   )}
                 </FormControl>
 
+                {/* Confirm Password Input */}
                 <FormControl variant="outlined" className="w-full mb-5">
-                  <InputLabel htmlFor="outlined-adornment-password">
+                  <InputLabel htmlFor="outlined-adornment-confirm-password">
                     Confirm Password
                   </InputLabel>
                   <OutlinedInput
@@ -108,7 +139,7 @@ const ResetPasswordForm = () => {
                     })}
                     required
                     className="bg-[var(--input-bg-color)]"
-                    id="outlined-adornment-password"
+                    id="outlined-adornment-confirm-password"
                     type={showConfirmPassword ? "text" : "password"}
                     endAdornment={
                       <InputAdornment position="end">
@@ -144,6 +175,7 @@ const ResetPasswordForm = () => {
                   )}
                 </FormControl>
 
+                {/* Submit Button */}
                 <Button
                   disabled={isSubmitting}
                   type="submit"
