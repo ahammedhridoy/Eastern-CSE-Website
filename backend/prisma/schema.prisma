@@ -21,6 +21,14 @@ model User {
   updatedAt        DateTime           @updatedAt
 }
 
+model ResetToken {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model UserRefreshToken {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   token     String
@@ -33,12 +41,6 @@ model UserRefreshToken {
 enum Role {
   EDITOR
   ADMIN
-}
-
-model ResetToken {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  email String
-  token String
 }
 
 model Slider {
