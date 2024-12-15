@@ -2,15 +2,18 @@
 import { createContext, useState, useEffect } from "react";
 import apiClient from "./../config/axiosConfig";
 import { toast } from "react-hot-toast";
+
 export const GlobalContext = createContext(null);
 
 export const GlobalContextProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
   const [albums, setAlbums] = useState([]);
   const [blogs, setBlogs] = useState([]);
+  const [singleBlog, setSingleBlog] = useState(null);
   const [users, setUsers] = useState([]);
   const [slides, setSlides] = useState([]);
   const [faculties, setFaculties] = useState([]);
+  const [singleFaculty, setSingleFaculty] = useState(null);
   const [loading, setLoading] = useState(false);
   const [teacherTestimonials, setTeacherTestimonials] = useState([]);
   const [alumniTestimonials, setAlumniTestimonials] = useState([]);
@@ -157,15 +160,19 @@ export const GlobalContextProvider = ({ children }) => {
 
   // Get Single Blog
   const fetchSingleBlog = async (blogId) => {
+    setLoading(true);
     try {
       const response = await apiClient.get(`/api/v1/blog/${blogId}`);
 
       if (response?.status === 200) {
+        setSingleBlog(response?.data?.blog);
         return response?.data;
       }
     } catch (error) {
       console.error("Error fetching blog:", error);
       toast.error(error.response?.data?.message || "Server error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -191,15 +198,8 @@ export const GlobalContextProvider = ({ children }) => {
   };
 
   // Update blog
-  const updateBlog = async (blogId, title, description, image) => {
+  const updateBlog = async (blogId, formData) => {
     try {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      if (image) {
-        formData.append("image", image);
-      }
-
       const response = await apiClient.put(`/api/v1/blog/${blogId}`, formData, {
         withCredentials: true,
         headers: {
@@ -216,7 +216,7 @@ export const GlobalContextProvider = ({ children }) => {
     } catch (error) {
       console.error("Error updating blog:", error);
       toast.error(error.response?.data?.message || "Server error");
-      return false; // Indicate failure
+      return false;
     }
   };
 
@@ -226,7 +226,7 @@ export const GlobalContextProvider = ({ children }) => {
       const response = await apiClient.get("/api/v1/auth/user/all", {
         withCredentials: true, // Include credentials if needed
         headers: {
-          Authorization: `Bearer ${accessToken}`, // Add your access token if required
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 
@@ -458,6 +458,7 @@ export const GlobalContextProvider = ({ children }) => {
 
   // Fetch All Faculties
   const fetchAllFaculties = async () => {
+    setLoading(true);
     try {
       const response = await apiClient.get("/api/v1/faculty/all");
 
@@ -468,17 +469,27 @@ export const GlobalContextProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching faculties:", error.response?.data?.message);
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   // Get Single Faculty
   const fetchSingleFaculty = async (facultyId) => {
+    setLoading(true);
     try {
       const response = await apiClient.get(`/api/v1/faculty/${facultyId}`);
+
+      if (response?.status === 200) {
+        setSingleFaculty(response?.data?.faculty);
+      }
+
       return response?.data;
     } catch (error) {
       console.error("Error fetching faculty:", error.response?.data?.message);
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -529,6 +540,7 @@ export const GlobalContextProvider = ({ children }) => {
 
   // Fetch Teacher Testimonials
   const fetchTeacherTestimonials = async () => {
+    setLoading(true);
     try {
       const response = await apiClient.get("/api/v1/teacher/all");
 
@@ -539,6 +551,8 @@ export const GlobalContextProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching teachers:", error.response?.data?.message);
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -550,7 +564,7 @@ export const GlobalContextProvider = ({ children }) => {
         formData,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`, // Replace with your token retrieval logic
+            Authorization: `Bearer ${accessToken}`,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -618,12 +632,12 @@ export const GlobalContextProvider = ({ children }) => {
         }
       );
 
-      if (response.status === 200) {
+      if (response?.status === 200) {
         toast.success("Alumni updated successfully");
-        fetchAlumniTestimonials(); // Refresh the alumni list
+        fetchAlumniTestimonials();
       }
 
-      return response.data.alumni; // Return updated alumni object
+      return response?.data?.alumni;
     } catch (error) {
       console.error("Error updating alumni:", error.response?.data?.message);
       throw error;
@@ -701,6 +715,7 @@ export const GlobalContextProvider = ({ children }) => {
         updateAlbum,
         fetchBlogs,
         fetchSingleBlog,
+        singleBlog,
         blogs,
         deleteBlog,
         updateBlog,
@@ -714,6 +729,7 @@ export const GlobalContextProvider = ({ children }) => {
         updateSlide,
         fetchAllFaculties,
         faculties,
+        singleFaculty,
         fetchSingleFaculty,
         updateFaculty,
         deleteFaculty,

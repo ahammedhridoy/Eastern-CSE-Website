@@ -14,11 +14,23 @@ const UpdateBlog = ({ blog, handleUpdateClose }) => {
   const [image, setImage] = useState(null);
   const { updateBlog } = useContext(GlobalContext);
 
-  // Update Album
-  const handleUpdate = (e) => {
+  // Update Blog
+
+  const handleUpdate = async (e) => {
     e.preventDefault();
-    updateBlog(blog?.id, title, description, image);
-    handleUpdateClose();
+
+    // Create FormData to send image
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("image", image);
+
+    // Call the updateSlide function with the slide ID and formData
+    const success = await updateBlog(blog?.id, formData);
+
+    if (success) {
+      handleUpdateClose();
+    }
   };
 
   return (

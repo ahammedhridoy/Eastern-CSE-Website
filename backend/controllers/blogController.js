@@ -55,7 +55,7 @@ const getSingleBlog = async (req, res) => {
       return res.status(404).json({ message: "Blog not found." });
     }
 
-    res.status(200).json(blog);
+    res.status(200).json({ message: "Blog fetched successfully.", blog });
   } catch (error) {
     console.error("Error fetching blog:", error);
     res

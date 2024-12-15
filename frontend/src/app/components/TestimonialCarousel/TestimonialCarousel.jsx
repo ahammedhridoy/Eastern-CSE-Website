@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useContext } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -8,59 +9,19 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Avatar } from "@mui/material";
+import { GlobalContext } from "@/context/GlobalContext";
+import ContentLoading from "../ContentLoading/ContentLoading";
+import DOMPurify from "dompurify";
 
 const TestimonialCarousel = () => {
-  const testimonials = [
-    {
-      id: 1,
-      name: "Mahfuz Hasan",
-      role: "Software Engineer",
-      avatar: "/images/testimonial/avatar-modified.png",
-      content:
-        "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
-    },
-    {
-      id: 2,
-      name: "Jane Doe",
-      role: "UX Designer",
-      avatar: "/images/testimonial/avatar-modified.png",
-      content:
-        "The user experience is not just about making things look pretty, it's about making things work intuitively and efficiently.",
-    },
-    {
-      id: 3,
-      name: "John Smith",
-      role: "Product Manager",
-      avatar: "/images/testimonial/avatar-modified.png",
-      content:
-        "Building great products is all about understanding user needs and delivering solutions that exceed expectations.",
-    },
-    {
-      id: 4,
-      name: "John Smith",
-      role: "Product Manager",
-      avatar: "/images/testimonial/avatar-modified.png",
-      content:
-        "Building great products is all about understanding user needs and delivering solutions that exceed expectations.",
-    },
-    {
-      id: 5,
-      name: "John Smith",
-      role: "Product Manager",
-      avatar: "/images/testimonial/avatar-modified.png",
-      content:
-        "Building great products is all about understanding user needs and delivering solutions that exceed expectations.",
-    },
-    {
-      id: 6,
-      name: "John Smith",
-      role: "Product Manager",
-      avatar: "/images/testimonial/avatar-modified.png",
-      content:
-        "Building great products is all about understanding user needs and delivering solutions that exceed expectations.",
-    },
-    // Add more testimonials as needed
-  ];
+  const { teacherTestimonials, loading } = useContext(GlobalContext);
+
+  if (loading || teacherTestimonials?.length === 0) {
+    return <ContentLoading height="[300px]" />;
+  }
+
+  const sanitizedContent = (content) => DOMPurify.sanitize(content || "");
+
   return (
     <div className="container mx-auto mb-10">
       <Carousel
@@ -70,29 +31,32 @@ const TestimonialCarousel = () => {
         className="w-full"
       >
         <CarouselContent>
-          {testimonials.map((testimonial) => (
+          {teacherTestimonials.map((testimonial) => (
             <CarouselItem
-              key={testimonial.id}
+              key={testimonial?.id}
               className="md:basis-1/2 lg:basis-1/3"
             >
               <div className="p-1 py-10">
                 <div className="relative card-wrapper max-w-[345px] mx-auto">
                   <Avatar
-                    alt={testimonial.name}
-                    src={testimonial.avatar}
+                    alt={testimonial?.name}
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${testimonial?.image}`}
                     sx={{ width: 70, height: 70 }}
                     className="absolute z-20 -translate-y-1/2 left-[40%]"
                   />
                   <Card className="transition-all duration-300 rounded-2xl hover:scale-110">
                     <CardContent className="p-6 mt-10 text-center">
-                      <p className="mb-5 text-sm text-muted-foreground">
-                        {testimonial.content}
-                      </p>
+                      <div
+                        className="mb-5 text-sm text-muted-foreground blog-description"
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizedContent(testimonial?.description),
+                        }}
+                      ></div>
                       <h3 className="mb-1 text-lg font-semibold">
-                        {testimonial.name}
+                        {testimonial?.name}
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        {testimonial.role}
+                        {testimonial?.designation}
                       </p>
                     </CardContent>
                   </Card>

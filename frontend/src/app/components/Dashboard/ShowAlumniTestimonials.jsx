@@ -63,14 +63,12 @@ const ShowAlumniTestimonials = () => {
               />
               <Card className="">
                 <CardContent className="p-6 mt-10 text-center">
-                  <p className="mb-5 text-sm text-muted-foreground">
-                    {testimonial?.description}
-                  </p>
                   <h3 className="mb-1 text-lg font-semibold">
                     {testimonial?.name}
                   </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {testimonial?.batch}
+                  <p className=" text-semibold">{testimonial?.designation}</p>
+                  <p className="text-sm text-muted-foreground ">
+                    Batch: {testimonial?.batch}
                   </p>
                 </CardContent>
                 <div className="flex justify-end gap-4 p-4">

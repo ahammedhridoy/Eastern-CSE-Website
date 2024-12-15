@@ -15,42 +15,37 @@ import usePagination from "./../../../hooks/usePagination";
 import LoadingSpinner from "./../LoadingSpinner/LoadingSpinner";
 import toast, { Toaster } from "react-hot-toast";
 import UpdateBlog from "./UpdateBlog";
+import Link from "next/link";
 
 const BlogCard = () => {
-  const { blogs, loading, accessToken, deleteBlog, fetchBlogs } =
-    useContext(GlobalContext);
-  const [open, setOpen] = useState(false);
-  const [update, setUpdate] = useState(false);
-  const [blogToDelete, setBlogToDelete] = useState(null); // Track which blog to delete
+  const { blogs, loading, deleteBlog } = useContext(GlobalContext);
+
+  const [blogToDelete, setBlogToDelete] = useState(null);
   const { visibleCount, loadMore } = usePagination(8, 8);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const [currentBlog, setCurrentBlog] = useState(null);
+  const [deleteBlogId, setDeleteBlogId] = useState(null);
 
-  const handleClickOpen = (blogId) => {
-    setBlogToDelete(blogId); // Set the blog ID for deletion
-    setOpen(true);
+  // Delete dialog handlers
+  const handleDeleteOpen = (blogId) => {
+    setDeleteBlogId(blogId);
+    setOpenDelete(true);
+  };
+  const handleDeleteClose = () => {
+    setOpenDelete(false);
+    setDeleteBlogId(null);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-    setBlogToDelete(null); // Reset blog ID when closing
-  };
-
-  // Delete Blog
-  const handleDelete = async (blogId) => {
-    const success = await deleteBlog(blogId, accessToken);
-    if (success) {
-      handleClose();
-      fetchBlogs(); // Refresh blogs list after deletion
-    }
-  };
-
-  //Update   Dialog
-
-  const handleUpdateOpen = () => {
-    setUpdate(true);
+  // Update dialog handlers
+  const handleUpdateOpen = (blog) => {
+    setCurrentBlog(blog);
+    setOpenUpdate(true);
   };
 
   const handleUpdateClose = () => {
-    setUpdate(false);
+    setOpenUpdate(false);
+    setCurrentBlog(null);
   };
 
   return (
@@ -61,56 +56,59 @@ const BlogCard = () => {
           <LoadingSpinner />
         ) : (
           blogs?.slice(0, visibleCount).map((blog) => (
-            <Card
-              sx={{ maxWidth: 345 }}
-              className="transition-all"
-              key={blog?.id}
-            >
-              <CardMedia
-                component="img"
-                height="194"
-                image={`${process.env.NEXT_PUBLIC_IMAGE_URL}${blog?.image}`}
-                alt="event"
-                className="object-cover h-[300px]"
-              />
-              <CardContent>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="div"
-                  className="line-clamp-2"
-                >
-                  {blog?.title}
-                </Typography>
-              </CardContent>
+            <div sx={{ maxWidth: 345 }}>
+              <Link key={blog.id} href={`/events/${blog.id}`}>
+                <Card sx={{ maxWidth: 345 }} className="transition-all">
+                  <CardMedia
+                    component="img"
+                    height="194"
+                    image={`${process.env.NEXT_PUBLIC_IMAGE_URL}${blog?.image}`}
+                    alt="event"
+                    className="object-cover h-[300px]"
+                  />
+                  <CardContent>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                      className="line-clamp-2"
+                    >
+                      {blog?.title}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Link>
               <div className="flex justify-end gap-4 p-4">
                 <Button
                   variant="contained"
                   color="success"
-                  onClick={handleUpdateOpen} // Pass the current slide for editing
+                  onClick={() => handleUpdateOpen(blog)}
                 >
                   Edit
                 </Button>
                 <Button
                   variant="contained"
                   color="error"
-                  onClick={() => handleClickOpen(blog?.id)} // Pass the slide ID for deletion
+                  onClick={() => handleDeleteOpen(blog?.id)}
                 >
                   Delete
                 </Button>
                 {/*Delete Dialog */}
                 <Dialog
-                  open={open}
-                  onClose={handleClose}
+                  open={openDelete}
+                  onClose={handleDeleteClose}
                   aria-labelledby="alert-dialog-title"
                 >
                   <DialogTitle id="blog-delete-title">
                     {"Are you sure you want to delete this blog?"}
                   </DialogTitle>
                   <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleDeleteClose}>Cancel</Button>
                     <Button
-                      onClick={() => handleDelete(blogToDelete)}
+                      onClick={() => {
+                        deleteBlog(deleteBlogId);
+                        handleDeleteClose();
+                      }}
                       color="error"
                       autoFocus
                     >
@@ -121,13 +119,13 @@ const BlogCard = () => {
                 {/*Delete Dialog */}
                 {/*Update Dialog */}
                 <Dialog
-                  open={update}
+                  open={openUpdate}
                   onClose={handleUpdateClose}
                   aria-labelledby="alert-dialog-title"
                 >
                   <DialogTitle id="blog-update-title">
                     <UpdateBlog
-                      blog={blog}
+                      blog={currentBlog}
                       handleUpdateClose={handleUpdateClose}
                     />
                   </DialogTitle>
@@ -137,7 +135,7 @@ const BlogCard = () => {
                 </Dialog>
                 {/*Update Dialog */}
               </div>
-            </Card>
+            </div>
           ))
         )}
       </div>

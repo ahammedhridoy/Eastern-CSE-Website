@@ -12,7 +12,8 @@ const UpdateAlumniTestimonial = ({ testimonial, handleUpdateClose }) => {
   const [name, setName] = useState(testimonial?.name);
   const [batch, setBatch] = useState(testimonial?.batch);
   const [image, setImage] = useState(null);
-  const { updateTeacherTestimonial } = useContext(GlobalContext);
+  const [designation, setDesignation] = useState(testimonial?.designation);
+  const { updateAlumniTestimonial } = useContext(GlobalContext);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -22,13 +23,14 @@ const UpdateAlumniTestimonial = ({ testimonial, handleUpdateClose }) => {
     formData.append("name", name);
     formData.append("batch", batch);
     formData.append("description", description);
+    formData.append("designation", designation);
 
     if (image) {
       formData.append("image", image);
     }
 
     // Call the updateSlide function with the slide ID and formData
-    const success = await updateTeacherTestimonial(testimonial?.id, formData);
+    const success = await updateAlumniTestimonial(testimonial?.id, formData);
 
     if (success) {
       handleUpdateClose();
@@ -107,6 +109,17 @@ const UpdateAlumniTestimonial = ({ testimonial, handleUpdateClose }) => {
                 className="w-full"
                 value={batch}
                 onChange={(e) => setBatch(e.target.value)}
+              />
+            </div>
+
+            <div className="w-full mt-2">
+              <TextField
+                id="alumni-update-designation"
+                label="Designation"
+                variant="outlined"
+                className="w-full"
+                value={designation}
+                onChange={(e) => setDesignation(e.target.value)}
               />
             </div>
 

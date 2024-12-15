@@ -90,6 +90,7 @@ model Alumni {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   batch       String
+  designation String
   image       String
   description String
   createdAt   DateTime @default(now())

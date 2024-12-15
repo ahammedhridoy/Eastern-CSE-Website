@@ -17,7 +17,8 @@ const AddAlumniTestimonial = () => {
   const [name, setName] = useState("");
   const [batch, setBatch] = useState("");
   const [image, setImage] = useState(null);
-  const { accessToken } = useContext(GlobalContext);
+  const [designation, setDesignation] = useState("");
+  const { accessToken, fetchAlumniTestimonials } = useContext(GlobalContext);
 
   // Add Faculty
   const submitAlumniTestimonial = async (e) => {
@@ -39,6 +40,7 @@ const AddAlumniTestimonial = () => {
       formData.append("batch", batch);
       formData.append("description", description);
       formData.append("image", image);
+      formData.append("designation", designation);
 
       const res = await apiClient.post("/api/v1/alumni/create", formData, {
         withCredentials: true,
@@ -53,7 +55,9 @@ const AddAlumniTestimonial = () => {
         setName("");
         setBatch("");
         setDescription("");
+        setDesignation("");
         setImage("");
+        fetchAlumniTestimonials();
       } else {
         toast.error(res.data.message || "Error adding Testimonial");
       }
@@ -143,6 +147,17 @@ const AddAlumniTestimonial = () => {
                 className="w-full"
                 value={batch}
                 onChange={(e) => setBatch(e.target.value)}
+              />
+            </div>
+
+            <div className="w-full mt-2">
+              <TextField
+                id="alumni-designation"
+                label="Designation"
+                variant="outlined"
+                className="w-full"
+                value={designation}
+                onChange={(e) => setDesignation(e.target.value)}
               />
             </div>
 

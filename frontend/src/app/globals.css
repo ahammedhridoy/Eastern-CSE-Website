@@ -251,3 +251,7 @@ body {
   color: #1d4ed8;
   font-weight: bold;
 }
+
+.blog-description p {
+  margin-bottom: 10px;
+}

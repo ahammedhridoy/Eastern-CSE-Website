@@ -1,139 +1,55 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { Avatar } from "@mui/material";
+import { GlobalContext } from "@/context/GlobalContext";
+import usePagination from "@/hooks/usePagination";
+import ContentLoading from "../ContentLoading/ContentLoading";
 
 const FacultyCard = () => {
+  const { faculties, loading } = useContext(GlobalContext);
+  const { visibleCount, loadMore } = usePagination(8, 8);
+
+  if (loading || faculties.length === 0) {
+    return <ContentLoading height="[300px]" />;
+  }
+
   return (
     <div className="grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 lg:grid-cols-4 faculty-card">
-      <Link href={"/faculty/single"}>
-        <Card
-          sx={{ maxWidth: 345 }}
-          className="transition-all duration-300 hover:scale-110"
-        >
-          <Avatar
-            src="/images/faculty/f1.jpg"
-            alt="faculty"
-            className="mx-auto mt-2 md:w-[300px] md:h-[300px] w-[200px] h-[200px]"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Muhammad Mahfuz Hasan
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Associate Professor and Chairperson
-            </Typography>
-          </CardContent>
-        </Card>
-      </Link>
+      {faculties.slice(0, visibleCount).map((faculty) => (
+        <Link key={faculty?.id} href={`/faculty/${faculty?.id}`}>
+          <Card
+            sx={{ maxWidth: 345 }}
+            className="transition-all duration-300 hover:scale-110"
+          >
+            <Avatar
+              src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${faculty?.image}`}
+              alt={faculty?.title || "Event Image"}
+              className="mx-auto mt-2 md:w-[300px] md:h-[300px] w-[200px] h-[200px]"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {faculty?.name}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {faculty?.designation}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Link>
+      ))}
 
-      <Link href={"/faculty/single"}>
-        <Card
-          sx={{ maxWidth: 345 }}
-          className="transition-all duration-300 hover:scale-110"
-        >
-          <Avatar
-            src="/images/faculty/f1.jpg"
-            alt="faculty"
-            className="mx-auto mt-2 md:w-[300px] md:h-[300px] w-[200px] h-[200px]"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Muhammad Mahfuz Hasan
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Associate Professor and Chairperson
-            </Typography>
-          </CardContent>
-        </Card>
-      </Link>
-
-      <Link href={"/faculty/single"}>
-        <Card
-          sx={{ maxWidth: 345 }}
-          className="transition-all duration-300 hover:scale-110"
-        >
-          <Avatar
-            src="/images/faculty/f1.jpg"
-            alt="faculty"
-            className="mx-auto mt-2 md:w-[300px] md:h-[300px] w-[200px] h-[200px]"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Muhammad Mahfuz Hasan
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Associate Professor and Chairperson
-            </Typography>
-          </CardContent>
-        </Card>
-      </Link>
-
-      <Link href={"/faculty/single"}>
-        <Card
-          sx={{ maxWidth: 345 }}
-          className="transition-all duration-300 hover:scale-110"
-        >
-          <Avatar
-            src="/images/faculty/f1.jpg"
-            alt="faculty"
-            className="mx-auto mt-2 md:w-[300px] md:h-[300px] w-[200px] h-[200px]"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Muhammad Mahfuz Hasan
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Associate Professor and Chairperson
-            </Typography>
-          </CardContent>
-        </Card>
-      </Link>
-
-      <Link href={"/faculty/single"}>
-        <Card
-          sx={{ maxWidth: 345 }}
-          className="transition-all duration-300 hover:scale-110"
-        >
-          <Avatar
-            src="/images/faculty/f1.jpg"
-            alt="faculty"
-            className="mx-auto mt-2 md:w-[300px] md:h-[300px] w-[200px] h-[200px]"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Muhammad Mahfuz Hasan
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Associate Professor and Chairperson
-            </Typography>
-          </CardContent>
-        </Card>
-      </Link>
-
-      <Link href={"/faculty/single"}>
-        <Card
-          sx={{ maxWidth: 345 }}
-          className="transition-all duration-300 hover:scale-110"
-        >
-          <Avatar
-            src="/images/faculty/f1.jpg"
-            alt="faculty"
-            className="mx-auto mt-2 md:w-[300px] md:h-[300px] w-[200px] h-[200px]"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Muhammad Mahfuz Hasan
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Associate Professor and Chairperson
-            </Typography>
-          </CardContent>
-        </Card>
-      </Link>
+      {/* Load More */}
+      {faculties?.length > visibleCount && (
+        <div className="mt-10 text-center">
+          <Button variant="contained" onClick={loadMore}>
+            Load More
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

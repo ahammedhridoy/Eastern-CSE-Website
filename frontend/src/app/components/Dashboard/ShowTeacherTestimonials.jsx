@@ -13,7 +13,6 @@ import React, { useContext, useState } from "react";
 import Separator from "../Separator/Separator";
 import usePagination from "@/hooks/usePagination";
 import { GlobalContext } from "@/context/GlobalContext";
-import UpdateFaculty from "./UpdateFaculty";
 import UpdateTeacherTestimonial from "./UpdateTeacherTestimonial";
 
 const ShowTeacherTestimonials = () => {
@@ -64,9 +63,6 @@ const ShowTeacherTestimonials = () => {
               />
               <Card className="">
                 <CardContent className="p-6 mt-10 text-center">
-                  <p className="mb-5 text-sm text-muted-foreground">
-                    {testimonial?.description}
-                  </p>
                   <h3 className="mb-1 text-lg font-semibold">
                     {testimonial?.name}
                   </h3>
@@ -137,9 +133,12 @@ const ShowTeacherTestimonials = () => {
       >
         <DialogTitle id="tec-tes-update-title">Update Testimonial</DialogTitle>
         <UpdateTeacherTestimonial
-          testimonial={currentTestimonial} // Pass the current faculty for updating
+          testimonial={currentTestimonial}
           handleUpdateClose={handleUpdateClose}
         />
+        <DialogActions>
+          <Button onClick={handleUpdateClose}>Cancel</Button>
+        </DialogActions>
       </Dialog>
     </div>
   );
