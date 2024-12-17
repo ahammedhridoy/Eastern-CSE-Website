@@ -19,6 +19,8 @@ export const GlobalContextProvider = ({ children }) => {
   const [alumniTestimonials, setAlumniTestimonials] = useState([]);
   const [user, setUser] = useState(null);
   const [aboutSlides, setAboutSlides] = useState([]);
+  const [images, setImages] = useState([]);
+  const [allImages, setAllImages] = useState([]);
 
   // Set current user and sync with localStorage
   const setCurrentUser = (user) => {
@@ -76,6 +78,7 @@ export const GlobalContextProvider = ({ children }) => {
 
   // Get All Albums
   const getAlbums = async (e) => {
+    setLoading(true);
     try {
       const res = await apiClient.get("/api/v1/album/all");
       if (res?.status === 200) {
@@ -84,6 +87,8 @@ export const GlobalContextProvider = ({ children }) => {
     } catch (error) {
       console.error("Error getting Album:", error);
       toast.error(error.response?.data?.message || "Server error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -133,11 +138,76 @@ export const GlobalContextProvider = ({ children }) => {
       if (res?.status === 200) {
         toast.success("Album deleted successfully");
         getAlbums();
+        fetchAllImages();
       } else {
         toast.error(res.data.message || "Error deleting Album");
       }
     } catch (error) {
       console.error("Error deleting Album:", error);
+      toast.error(error.response?.data?.message || "Server error");
+    }
+  };
+
+  // Fetch Images From Album
+  const fetchImages = async (albumId) => {
+    setLoading(true);
+    try {
+      const response = await apiClient.get(`api/v1/gallery/${albumId}`);
+
+      if (response?.status === 200) {
+        setImages(response?.data?.images);
+      }
+    } catch (error) {
+      console.error("Error fetching gallery images:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch All Images From Album
+  const fetchAllImages = async () => {
+    setLoading(true);
+    try {
+      const response = await apiClient.get(`api/v1/gallery/all`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response?.status === 200) {
+        setAllImages(response?.data?.images);
+      }
+    } catch (error) {
+      console.error("Error fetching images:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Delete Image From Gallery
+  const deleteImage = async (imageId) => {
+    try {
+      if (!accessToken) {
+        toast.error("Access token is missing. Please log in again.");
+        return;
+      }
+
+      const res = await apiClient.delete(`/api/v1/gallery/${imageId}`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (res?.status === 200) {
+        toast.success("Image deleted successfully");
+        fetchAllImages();
+      } else {
+        toast.error(res.data.message || "Error deleting image");
+      }
+    } catch (error) {
+      console.error("Error deleting image:", error);
       toast.error(error.response?.data?.message || "Server error");
     }
   };
@@ -702,6 +772,7 @@ export const GlobalContextProvider = ({ children }) => {
     fetchAlumniTestimonials();
     fetchSingleUser();
     fetchAboutSliders();
+    fetchAllImages();
   }, []);
 
   return (
@@ -750,6 +821,11 @@ export const GlobalContextProvider = ({ children }) => {
         aboutSlides,
         deleteAboutSlide,
         updateAboutSlide,
+        fetchImages,
+        images,
+        fetchAllImages,
+        allImages,
+        deleteImage,
       }}
     >
       {children}

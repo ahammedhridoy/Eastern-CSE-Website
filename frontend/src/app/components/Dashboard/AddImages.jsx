@@ -19,7 +19,7 @@ import Separator from "../Separator/Separator";
 const AddImages = () => {
   const [albumId, setAlbumId] = useState("");
   const [galleryImages, setGalleryImages] = useState([]);
-  const { albums, accessToken } = useContext(GlobalContext);
+  const { albums, accessToken, fetchAllImages } = useContext(GlobalContext);
 
   // Add Images
   const submitGallery = async (e) => {
@@ -60,6 +60,7 @@ const AddImages = () => {
         toast.success("Images added successfully");
         setAlbumId("");
         setGalleryImages([]);
+        fetchAllImages();
       } else {
         toast.error(res.data.message || "Error adding Images");
       }

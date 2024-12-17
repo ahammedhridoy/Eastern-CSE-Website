@@ -97,14 +97,14 @@ const deleteAlbum = async (req, res) => {
     // Find the album and associated gallery images
     const album = await prisma.album.findUnique({
       where: { id },
-      include: { images: true },
+      include: { images: true }, // Fetch associated gallery images
     });
 
     if (!album) {
       return res.status(404).json({ message: "Album not found." });
     }
 
-    // Delete the album image
+    // Delete the album image (if it exists)
     if (album.image) {
       const albumImagePath = path.join(__dirname, "..", album.image);
       fs.unlink(albumImagePath, (err) => {
@@ -112,7 +112,7 @@ const deleteAlbum = async (req, res) => {
       });
     }
 
-    // Delete associated gallery images
+    // Delete associated gallery images (files)
     for (const gallery of album.images) {
       const galleryImagePath = path.join(__dirname, "..", gallery.image);
       fs.unlink(galleryImagePath, (err) => {
@@ -120,13 +120,21 @@ const deleteAlbum = async (req, res) => {
       });
     }
 
-    // Delete the album and associated gallery records
+    // Delete gallery records from the database
+    await prisma.gallery.deleteMany({
+      where: { albumId: id },
+    });
+
+    // Delete the album record from the database
     await prisma.album.delete({
       where: { id },
     });
 
-    res.status(200).json({ message: "Album deleted successfully." });
+    res
+      .status(200)
+      .json({ message: "Album and associated images deleted successfully." });
   } catch (error) {
+    console.error("Error deleting album:", error.message);
     res
       .status(500)
       .json({ message: "Error deleting album.", error: error.message });

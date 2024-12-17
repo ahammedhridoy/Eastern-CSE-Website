@@ -44,6 +44,23 @@ const addImagesToGallery = async (req, res) => {
   }
 };
 
+// Get All Galleries
+const getAllImages = async (req, res) => {
+  try {
+    const images = await prisma.gallery.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+
+    res
+      .status(200)
+      .json({ message: "All images fetched successfully.", images });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error fetching all images.", error: error.message });
+  }
+};
+
 // Get Images of an Album
 const getImagesByAlbum = async (req, res) => {
   try {
@@ -66,6 +83,7 @@ const getImagesByAlbum = async (req, res) => {
 const deleteGalleryImage = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id);
 
     const image = await prisma.gallery.findUnique({
       where: { id },
@@ -98,4 +116,5 @@ module.exports = {
   addImagesToGallery,
   getImagesByAlbum,
   deleteGalleryImage,
+  getAllImages,
 };

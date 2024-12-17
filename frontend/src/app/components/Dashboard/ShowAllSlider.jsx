@@ -15,11 +15,11 @@ import usePagination from "@/hooks/usePagination";
 import Separator from "../Separator/Separator";
 
 const ShowAllSlider = () => {
-  const { slides, fetchSliders, deleteSlide } = useContext(GlobalContext);
+  const { slides, deleteSlide } = useContext(GlobalContext);
   const [openDelete, setOpenDelete] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(null);
-  const [deleteSlideId, setDeleteSlideId] = useState(null); // Track the ID of the slide to delete
+  const [deleteSlideId, setDeleteSlideId] = useState(null);
   const { visibleCount, loadMore } = usePagination(8, 8);
 
   // Delete dialog handlers

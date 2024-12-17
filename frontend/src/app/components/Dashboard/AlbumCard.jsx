@@ -14,6 +14,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { GlobalContext } from "./../../../context/GlobalContext";
 import UpdateAlbum from "./UpdateAlbum";
 import usePagination from "@/hooks/usePagination";
+import Link from "next/link";
 
 const AlbumCard = () => {
   const { albums, deleteAlbum } = useContext(GlobalContext);
@@ -55,15 +56,16 @@ const AlbumCard = () => {
       {/* Albums */}
       <div className="grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 lg:grid-cols-4 albums">
         {albums?.slice(0, visibleCount).map((album) => (
-          // Return the card here
           <Card sx={{ maxWidth: 345 }} className="" key={album?.id}>
-            <CardMedia
-              component="img"
-              height="194"
-              image={`${process.env.NEXT_PUBLIC_IMAGE_URL}${album?.image}`}
-              alt={album?.name || "Album"}
-              className="cursor-pointer h-[300px] p-2 object-cover"
-            />
+            <Link key={album?.id} href={`/gallery/${album?.id}`}>
+              <CardMedia
+                component="img"
+                height="194"
+                image={`${process.env.NEXT_PUBLIC_IMAGE_URL}${album?.image}`}
+                alt={album?.name || "Album"}
+                className="cursor-pointer h-[300px] p-2 object-cover"
+              />
+            </Link>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 {album?.name}

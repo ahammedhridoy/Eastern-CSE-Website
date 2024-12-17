@@ -3,6 +3,7 @@ import Sidebar from "./../../components/Dashboard/Sidebar";
 import DashMobileMenu from "./../../components/Dashboard/DashMobileMenu";
 import AddAlbum from "./../../components/Dashboard/AddAlbum";
 import AlbumCard from "./../../components/Dashboard/AlbumCard";
+import GalleryImages from "@/app/components/Dashboard/GalleryImages";
 const AlbumDash = () => {
   return (
     <div>
@@ -16,6 +17,7 @@ const AlbumDash = () => {
           <DashMobileMenu />
           <AddAlbum />
           <AlbumCard />
+          <GalleryImages />
         </div>
       </div>
     </div>

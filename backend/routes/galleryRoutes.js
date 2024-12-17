@@ -4,12 +4,9 @@ const {
   getImagesByAlbum,
   deleteGalleryImage,
   addImagesToGallery,
+  getAllImages,
 } = require("../controllers/galleryController");
-const {
-  verifyAdmin,
-  verifyUser,
-  verifyEditor,
-} = require("../controllers/authController");
+const { verifyUser, verifyEditor } = require("../controllers/authController");
 const galleryRouter = express.Router();
 
 // Add an image to a gallery
@@ -21,8 +18,11 @@ galleryRouter.post(
   addImagesToGallery
 );
 
+// Get all images
+galleryRouter.get("/all", verifyEditor, getAllImages);
+
 // Get images by album
-galleryRouter.get("/:albumId", verifyUser, verifyEditor, getImagesByAlbum);
+galleryRouter.get("/:albumId", getImagesByAlbum);
 
 // Delete a gallery image
 galleryRouter.delete("/:id", verifyUser, verifyEditor, deleteGalleryImage);
