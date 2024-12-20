@@ -83,7 +83,6 @@ const getImagesByAlbum = async (req, res) => {
 const deleteGalleryImage = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
 
     const image = await prisma.gallery.findUnique({
       where: { id },
