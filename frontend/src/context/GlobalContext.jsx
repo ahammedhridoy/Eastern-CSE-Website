@@ -367,12 +367,7 @@ export const GlobalContextProvider = ({ children }) => {
   // Fetch All Slides
   const fetchSliders = async () => {
     try {
-      const response = await apiClient.get("/api/v1/slider/all", {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await apiClient.get("/api/v1/slider/all");
 
       if (response.status === 200) {
         setSlides(response?.data?.slides);
@@ -448,12 +443,7 @@ export const GlobalContextProvider = ({ children }) => {
   // Fetch All Slides
   const fetchAboutSliders = async () => {
     try {
-      const response = await apiClient.get("/api/v1/about/slider/all", {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await apiClient.get("/api/v1/about/slider/all");
 
       if (response.status === 200) {
         setAboutSlides(response?.data?.slides);

@@ -3,6 +3,7 @@ import ContactInfo from "@/app/components/ContactInfo/ContactInfo";
 import Separator from "@/app/components/Separator/Separator";
 import Image from "next/image";
 import React from "react";
+import Map from "../components/Map/Map";
 
 const Contact = () => {
   return (
@@ -26,11 +27,14 @@ const Contact = () => {
       {/* Contact Info*/}
       <ContactInfo />
       {/* Form */}
-      <div className="py-10 mt-10">
+      {/* <div className="py-10 mt-10">
         <div className="container my-10">
           <ContactForm />
         </div>
-      </div>
+      </div> */}
+
+      {/* Map */}
+      <Map />
     </div>
   );
 };

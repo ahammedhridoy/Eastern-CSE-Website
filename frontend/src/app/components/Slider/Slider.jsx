@@ -1,26 +1,27 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import styles from "./Slider.module.css";
 import Image from "next/image";
-import { data } from "./sliderData";
+import { GlobalContext } from "@/context/GlobalContext";
 
 const Slider = () => {
   const [slide, setSlide] = useState(0);
+  const { slides } = useContext(GlobalContext);
 
   const nextSlide = () => {
-    setSlide((prev) => (prev === data.length - 1 ? 0 : prev + 1));
+    setSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
   };
 
   const prevSlide = () => {
-    setSlide((prev) => (prev === 0 ? data.length - 1 : prev - 1));
+    setSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   };
 
   useEffect(() => {
     const interval = setInterval(nextSlide, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [slides]); // Adding slides as a dependency
 
   return (
     <div className="">
@@ -29,10 +30,10 @@ const Slider = () => {
           onClick={prevSlide}
           className={`${styles.arrow} ${styles.arrowLeft} z-10 text-[var(--primary-color)] text-[35px] absolute top-[50%] lg:left-[2%] left-[5%] translate-x-[-50%] translate-y-[-50%] bg-[white] rounded-full cursor-pointer hover:bg-[#dad9d9] transition-all duration-300`}
         />
-        {data.map((item, idx) => {
+        {slides.map((item, idx) => {
           return (
             <Image
-              src={item.src}
+              src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item?.image}`}
               alt={item.alt}
               key={idx}
               className={`${
@@ -50,7 +51,7 @@ const Slider = () => {
         <span
           className={`absolute bottom-2rem top-[95%] left-[50%] translate-x-[-50%] translate-y-[-50%]`}
         >
-          {data.map((_, idx) => {
+          {slides.map((_, idx) => {
             return (
               <button
                 key={idx}

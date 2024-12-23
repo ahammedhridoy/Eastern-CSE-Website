@@ -1,10 +1,14 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useContext } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Separator from "../Separator/Separator";
+import { GlobalContext } from "@/context/GlobalContext";
 
 const AboutCarousel = () => {
+  const { aboutSlides } = useContext(GlobalContext);
+
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -38,46 +42,23 @@ const AboutCarousel = () => {
           autoPlaySpeed={5000}
           className="mt-10"
         >
-          <div>
-            <Image
-              src={"/images/contact/contact-banner.jpg"}
-              width={0}
-              height={0}
-              sizes="100vw"
-              style={{ width: "100%", height: "300px", objectFit: "cover" }}
-              alt="Banner"
-            />
-          </div>
-          <div>
-            <Image
-              src={"/images/contact/contact-banner.jpg"}
-              width={0}
-              height={0}
-              sizes="100vw"
-              style={{ width: "100%", height: "300px", objectFit: "cover" }}
-              alt="Banner"
-            />
-          </div>
-          <div>
-            <Image
-              src={"/images/contact/contact-banner.jpg"}
-              width={0}
-              height={0}
-              sizes="100vw"
-              style={{ width: "100%", height: "300px", objectFit: "cover" }}
-              alt="Banner"
-            />
-          </div>
-          <div>
-            <Image
-              src={"/images/contact/contact-banner.jpg"}
-              width={0}
-              height={0}
-              sizes="100vw"
-              style={{ width: "100%", height: "300px", objectFit: "cover" }}
-              alt="Banner"
-            />
-          </div>
+          {aboutSlides.map((slide) => (
+            <div
+              className="flex flex-col items-center justify-center gap-5 px-5"
+              key={slide?.id}
+            >
+              <div>
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${slide?.image}`}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{ width: "100%", height: "300px", objectFit: "cover" }}
+                  alt="Banner"
+                />
+              </div>
+            </div>
+          ))}
         </Carousel>
       </div>
     </div>
