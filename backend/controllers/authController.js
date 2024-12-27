@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const prisma = require("../utils/prismaClient");
+const cookie = require("cookie");
 const {
   sendPasswordResetEmail,
   validateTokenAndGetEmail,
@@ -57,6 +58,7 @@ const register = async (req, res) => {
  * METHOD: POST
  * API: /api/v1/auth/login
  */
+
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -76,14 +78,30 @@ const login = async (req, res) => {
     // Remove sensitive data
     const { password: _, ...userWithoutPassword } = user;
 
-    // Set token in cookie
-    setTokensCookies(res, accessToken, accessTokenExp);
-
-    res.cookie("user", JSON.stringify(userWithoutPassword), {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    });
+    // Set token in cookies
+    res.setHeader("Set-Cookie", [
+      cookie.serialize("accessToken", accessToken, {
+        // httpOnly: true,
+        secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+        maxAge: accessTokenExp, // Set expiration time
+        path: "/", // Cookie path
+        sameSite: "lax", // CSRF protection
+      }),
+      cookie.serialize("accessTokenExp", accessTokenExp.toString(), {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: accessTokenExp,
+        path: "/",
+        sameSite: "lax",
+      }),
+      cookie.serialize("user", JSON.stringify(userWithoutPassword), {
+        httpOnly: false, // Make this accessible via JavaScript
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 60 * 60 * 24 * 7, // 1 week expiration for user data
+        path: "/",
+        sameSite: "lax",
+      }),
+    ]);
 
     return res.status(200).json({
       message: "Login successful",

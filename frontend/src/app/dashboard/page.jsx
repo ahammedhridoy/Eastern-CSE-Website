@@ -1,12 +1,15 @@
 import DashboardComp from "../components/Dashboard/DashboardComp";
 import DashMobileMenu from "../components/Dashboard/DashMobileMenu";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const Dashboard = () => {
   return (
-    <div className="">
-      <DashMobileMenu />
-      <DashboardComp />
-    </div>
+    <ProtectedRoute requiredRole="ADMIN">
+      <div className="">
+        <DashMobileMenu />
+        <DashboardComp />
+      </div>
+    </ProtectedRoute>
   );
 };
 

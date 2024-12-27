@@ -14,6 +14,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation"; // Import useRouter for navigation
 
 const pages = ["Home", "Events", "Faculty", "Gallery", "About", "Contact"];
 const settings = ["Dashboard", "Logout"];
@@ -21,10 +22,12 @@ const settings = ["Dashboard", "Logout"];
 function Navigation() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const router = useRouter(); // Initialize useRouter
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -36,6 +39,17 @@ function Navigation() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  // Function to handle logout
+  const handleLogout = () => {
+    // Clear user data (e.g., remove tokens, user info)
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
+
+    // Redirect to home or login page
+    router.push("/"); // Redirect to home page
+  };
+
   return (
     <div className="Navigation lg:mb-[69px] md:mb-[64px] mb-[57px]">
       <AppBar position="fixed" sx={{ backgroundColor: "var(--primary-color)" }}>
@@ -90,7 +104,6 @@ function Navigation() {
                       onClick={handleCloseNavMenu}
                       href={`/${page === "Home" ? "" : page.toLowerCase()}`}
                       passHref
-                      key={page}
                     >
                       <Typography textAlign="center">{page}</Typography>
                     </Link>
@@ -98,6 +111,7 @@ function Navigation() {
                 ))}
               </Menu>
             </Box>
+
             <Typography
               variant="h5"
               noWrap
@@ -120,6 +134,7 @@ function Navigation() {
                 height={50}
               />
             </Typography>
+
             <Box
               sx={{
                 flexGrow: 1,
@@ -176,7 +191,17 @@ function Navigation() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <MenuItem
+                    key={setting}
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      if (setting === "Logout") {
+                        handleLogout(); // Call logout function if Logout is clicked
+                      } else if (setting === "Dashboard") {
+                        router.push("/dashboard"); // Navigate to dashboard if Dashboard is clicked
+                      }
+                    }}
+                  >
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}

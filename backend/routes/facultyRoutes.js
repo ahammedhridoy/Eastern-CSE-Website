@@ -11,13 +11,16 @@ const {
 } = require("../controllers/facultyController");
 const adminAuthMiddleware = require("../middleware/adminAuth");
 const authMiddleware = require("../middleware/auth");
-const { verifyAdmin, verifyUser } = require("../controllers/authController");
+const {
+  verifyAdmin,
+  verifyUser,
+  verifyRole,
+} = require("../controllers/authController");
 
 // Create a new faculty
 facultyRouter.post(
   "/create",
-  verifyUser,
-  verifyAdmin,
+  verifyRole(["ADMIN"]),
   upload.single("image"),
   createFaculty
 );
@@ -31,13 +34,12 @@ facultyRouter.get("/:id", getSingleFaculty);
 // Update a faculty
 facultyRouter.patch(
   "/:id",
-  verifyUser,
-  verifyAdmin,
+  verifyRole(["ADMIN"]),
   upload.single("image"),
   updateFaculty
 );
 
 // Delete a faculty
-facultyRouter.delete("/:id", verifyUser, verifyAdmin, deleteFaculty);
+facultyRouter.delete("/:id", verifyRole(["ADMIN"]), deleteFaculty);
 
 module.exports = facultyRouter;

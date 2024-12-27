@@ -21,24 +21,25 @@ import IconButton from "@mui/material/IconButton";
 import toast, { Toaster } from "react-hot-toast";
 
 const ShowAccount = () => {
-  const { user, fetchSingleUser, updateUserAccount } =
+  const { user, fetchSingleUser, updateUserAccount, loading, accessToken } =
     useContext(GlobalContext);
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState(user?.name || "");
   const [email, setEmail] = useState(user?.email || "");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState(user?.role || "");
-  console.log(password);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => event.preventDefault();
 
   useEffect(() => {
-    if (user && user?.id) {
+    if (!loading && accessToken && user) {
       fetchSingleUser();
     }
   }, []);
+
+  if (loading) return <div>Loading...</div>;
 
   // Update User
   const handleUpdate = async (e) => {

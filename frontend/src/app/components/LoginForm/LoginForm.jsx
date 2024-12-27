@@ -42,7 +42,7 @@ const LoginForm = () => {
         localStorage.setItem("accessToken", JSON.stringify(token));
         localStorage.setItem("user", JSON.stringify(user));
 
-        toast.success(response.data.message);
+        toast.success(response?.data?.message);
         window.location.href = "/";
       } else {
         throw new Error("Login failed");

@@ -10,6 +10,7 @@ const {
   verifyAdmin,
   verifyUser,
   verifyEditor,
+  verifyRole,
 } = require("../controllers/authController");
 
 const sliderRouter = express.Router();
@@ -17,8 +18,7 @@ const sliderRouter = express.Router();
 // Route for creating a slide
 sliderRouter.post(
   "/create",
-  verifyUser,
-  verifyEditor,
+  verifyRole(["EDITOR", "ADMIN"]),
   upload.single("image"),
   createSlide
 );
@@ -29,13 +29,16 @@ sliderRouter.get("/all", getAllSlides);
 // Route for update slides
 sliderRouter.put(
   "/update/:id",
-  verifyUser,
-  verifyEditor,
+  verifyRole(["EDITOR", "ADMIN"]),
   upload.single("image"),
   updateSlide
 );
 
 // Route for deleting a slide
-sliderRouter.delete("/delete/:id", verifyUser, verifyEditor, deleteSlide);
+sliderRouter.delete(
+  "/delete/:id",
+  verifyRole(["EDITOR", "ADMIN"]),
+  deleteSlide
+);
 
 module.exports = sliderRouter;

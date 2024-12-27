@@ -6,14 +6,17 @@ const {
   deleteTeacher,
 } = require("../controllers/teacherController");
 const { upload } = require("../helpers/multer");
-const { verifyAdmin, verifyUser } = require("../controllers/authController");
+const {
+  verifyAdmin,
+  verifyUser,
+  verifyRole,
+} = require("../controllers/authController");
 const teacherRouter = express.Router();
 
 // Create a new teacher
 teacherRouter.post(
   "/create",
-  verifyUser,
-  verifyAdmin,
+  verifyRole(["ADMIN"]),
   upload.single("image"),
   createTeacher
 );
@@ -24,13 +27,12 @@ teacherRouter.get("/all", getAllTeachers);
 // Update a teacher
 teacherRouter.patch(
   "/:id",
-  verifyUser,
-  verifyAdmin,
+  verifyRole(["ADMIN"]),
   upload.single("image"),
   updateTeacher
 );
 
 // Delete a teacher
-teacherRouter.delete("/:id", verifyUser, verifyAdmin, deleteTeacher);
+teacherRouter.delete("/:id", verifyRole(["ADMIN"]), deleteTeacher);
 
 module.exports = teacherRouter;

@@ -2,6 +2,7 @@
 import { createContext, useState, useEffect } from "react";
 import apiClient from "./../config/axiosConfig";
 import { toast } from "react-hot-toast";
+import Cookies from "js-cookie";
 
 export const GlobalContext = createContext(null);
 
@@ -21,60 +22,52 @@ export const GlobalContextProvider = ({ children }) => {
   const [aboutSlides, setAboutSlides] = useState([]);
   const [images, setImages] = useState([]);
   const [allImages, setAllImages] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
 
-  // Set current user and sync with localStorage
-  const setCurrentUser = (user) => {
-    setUser(user);
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-    } else {
-      localStorage.removeItem("user");
+  useEffect(() => {
+    setLoading(true);
+
+    const accessTokenFromCookie = Cookies.get("accessToken");
+    const userFromCookie = Cookies.get("user");
+
+    if (accessTokenFromCookie) {
+      setAccessToken(accessTokenFromCookie);
     }
-  };
+
+    if (userFromCookie) {
+      setUser(JSON.parse(userFromCookie));
+    }
+
+    setLoading(false);
+  }, []);
 
   // Fetch Single User
   const fetchSingleUser = async () => {
-    if (!user || !user?.id) {
+    setLoading(true);
+    if (!user || !user.id) {
       console.error("User or user.id is undefined");
       return;
     }
 
     try {
-      const response = await apiClient.get(`/api/v1/auth/user/${user?.id}`, {
+      const response = await apiClient.get(`/api/v1/auth/user/${user.id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
       if (response?.status === 200) {
-        setCurrentUser(response?.data?.user);
-        return response.data.user;
+        setCurrentUser(response.data.user);
+      } else {
+        console.error("Failed to fetch user:", response.data.message);
       }
     } catch (error) {
       console.error("Error fetching user:", error);
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
-
-  // Load user from localStorage when the app initializes
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
-
-  // Access Token
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("accessToken");
-      if (token) {
-        setAccessToken(JSON.parse(token));
-      }
-    } else {
-      console.log("Window object is undefined");
-    }
-  }, []);
 
   // Get All Albums
   const getAlbums = async (e) => {
@@ -760,7 +753,6 @@ export const GlobalContextProvider = ({ children }) => {
     fetchAllFaculties();
     fetchTeacherTestimonials();
     fetchAlumniTestimonials();
-    fetchSingleUser();
     fetchAboutSliders();
     fetchAllImages();
   }, []);
@@ -816,6 +808,7 @@ export const GlobalContextProvider = ({ children }) => {
         fetchAllImages,
         allImages,
         deleteImage,
+        currentUser,
       }}
     >
       {children}
