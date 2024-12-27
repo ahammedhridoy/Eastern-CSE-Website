@@ -302,125 +302,42 @@ const logout = async (req, res) => {
   }
 };
 
-// Verify Admin
-const verifyAdmin = async (req, res, next) => {
-  try {
-    // Get token from cookies
-    const token =
-      req.cookies?.accessToken ||
-      (req.headers.authorization && req.headers.authorization.split(" ")[1]);
-    if (!token) {
-      return res
-        .status(401)
-        .json({ message: "Unauthorized: No token provided" });
+// Verify Role
+const verifyRole = (allowedRoles) => {
+  return async (req, res, next) => {
+    try {
+      const token =
+        req.cookies?.accessToken ||
+        (req.headers.authorization && req.headers.authorization.split(" ")[1]);
+      if (!token) {
+        return res
+          .status(401)
+          .json({ message: "Unauthorized: No token provided" });
+      }
+
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      if (!decoded || !decoded.id) {
+        return res.status(401).json({ message: "Unauthorized: Invalid token" });
+      }
+
+      const user = await prisma.user.findUnique({ where: { id: decoded.id } });
+      if (!user) {
+        return res
+          .status(401)
+          .json({ message: "Unauthorized: User not found" });
+      }
+
+      if (!allowedRoles.includes(user.role)) {
+        return res.status(403).json({ message: "Forbidden: Access denied" });
+      }
+
+      req.user = user;
+      next();
+    } catch (error) {
+      console.error("Error verifying role:", error);
+      res.status(500).json({ message: "Internal server error" });
     }
-
-    // Verify the token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (!decoded || !decoded.id) {
-      return res.status(401).json({ message: "Unauthorized: Invalid token" });
-    }
-
-    // Find user in the database
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.id },
-    });
-
-    if (!user) {
-      return res.status(401).json({ message: "Unauthorized: User not found" });
-    }
-
-    // Check if the user's role is ADMIN
-    if (user.role !== "ADMIN") {
-      return res.status(403).json({ message: "Forbidden: Access denied" });
-    }
-
-    // Attach user to the request object (optional)
-    req.user = user;
-
-    // Proceed to the next middleware
-    next();
-  } catch (error) {
-    console.error("Error verifying user:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-// Verify Editor
-const verifyEditor = async (req, res, next) => {
-  try {
-    const token =
-      req.cookies?.accessToken ||
-      (req.headers.authorization && req.headers.authorization.split(" ")[1]);
-    if (!token) {
-      return res
-        .status(401)
-        .json({ message: "Unauthorized: No token provided" });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (!decoded || !decoded.id) {
-      return res.status(401).json({ message: "Unauthorized: Invalid token" });
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.id },
-    });
-
-    if (!user) {
-      return res.status(401).json({ message: "Unauthorized: User not found" });
-    }
-
-    // Corrected role check
-    if (user.role !== "EDITOR" && user.role !== "ADMIN") {
-      return res.status(403).json({ message: "Forbidden: Access denied" });
-    }
-
-    req.user = user;
-    next();
-  } catch (error) {
-    console.error("Error verifying editor:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-// Verify User
-const verifyUser = async (req, res, next) => {
-  try {
-    // Get token from cookies
-    const token =
-      req?.cookies?.accessToken ||
-      (req.headers.authorization && req.headers.authorization.split(" ")[1]);
-    if (!token) {
-      return res
-        .status(401)
-        .json({ message: "Unauthorized: No token provided" });
-    }
-
-    // Verify the token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (!decoded || !decoded.id) {
-      return res.status(401).json({ message: "Unauthorized: Invalid token" });
-    }
-
-    // Find user in the database
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.id },
-    });
-
-    if (!user) {
-      return res.status(401).json({ message: "Unauthorized: User not found" });
-    }
-
-    // Attach user to the request object (optional)
-    req.user = user;
-
-    // Proceed to the next middleware
-    next();
-  } catch (error) {
-    console.error("Error verifying user:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
+  };
 };
 
 const authorized = (req, res) => {
@@ -433,12 +350,10 @@ module.exports = {
   forgotPassword,
   resetPassword,
   logout,
-  verifyEditor,
-  verifyAdmin,
+  verifyRole,
   authorized,
   getAllUsers,
   getSingleUser,
   updateUser,
   deleteUser,
-  verifyUser,
 };
