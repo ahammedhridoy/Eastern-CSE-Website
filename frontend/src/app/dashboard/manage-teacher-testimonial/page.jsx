@@ -3,6 +3,7 @@ import Sidebar from "./../../components/Dashboard/Sidebar";
 import DashMobileMenu from "./../../components/Dashboard/DashMobileMenu";
 import AddTeacherTestimonial from "./../../components/Dashboard/AddTeacherTestimonial";
 import ShowTeacherTestimonials from "@/app/components/Dashboard/ShowTeacherTestimonials";
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 const TeacherTestimonialDash = () => {
   return (

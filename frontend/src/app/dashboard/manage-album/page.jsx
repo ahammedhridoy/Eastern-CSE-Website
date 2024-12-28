@@ -4,6 +4,7 @@ import DashMobileMenu from "./../../components/Dashboard/DashMobileMenu";
 import AddAlbum from "./../../components/Dashboard/AddAlbum";
 import AlbumCard from "./../../components/Dashboard/AlbumCard";
 import GalleryImages from "@/app/components/Dashboard/GalleryImages";
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 const AlbumDash = () => {
   return (
     <ProtectedRoute requiredRoles={["EDITOR", "ADMIN"]}>
