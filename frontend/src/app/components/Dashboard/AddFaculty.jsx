@@ -10,7 +10,7 @@ import apiClient from "../../../config/axiosConfig";
 // Dynamically import ReactQuill with SSR disabled
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import dynamic from "next/dynamic";
-import { GlobalContext } from "./../../../context/GlobalContext";
+import { GlobalContext } from "../../../context/GlobalContext";
 import Separator from "../Separator/Separator";
 
 const AddFaculty = () => {
