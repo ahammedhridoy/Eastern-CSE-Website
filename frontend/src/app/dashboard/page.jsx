@@ -4,7 +4,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 
 const Dashboard = () => {
   return (
-    <ProtectedRoute requiredRole="ADMIN">
+    <ProtectedRoute requiredRoles={["EDITOR", "ADMIN"]}>
       <div className="">
         <DashMobileMenu />
         <DashboardComp />

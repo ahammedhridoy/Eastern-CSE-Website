@@ -23,7 +23,7 @@ const TestimonialCarousel = () => {
   const sanitizedContent = (content) => DOMPurify.sanitize(content || "");
 
   return (
-    <div className="container mx-auto mb-10">
+    <div className="container mx-auto mb-10 w-[90%]">
       <Carousel
         opts={{
           align: "start",

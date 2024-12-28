@@ -81,24 +81,24 @@ const login = async (req, res) => {
     // Set token in cookies
     res.setHeader("Set-Cookie", [
       cookie.serialize("accessToken", accessToken, {
-        // httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-        maxAge: accessTokenExp, // Set expiration time
-        path: "/", // Cookie path
-        sameSite: "lax", // CSRF protection
-      }),
-      cookie.serialize("accessTokenExp", accessTokenExp.toString(), {
-        httpOnly: true,
+        httpOnly: false, // Allow access from frontend
         secure: process.env.NODE_ENV === "production",
         maxAge: accessTokenExp,
-        path: "/",
+        path: "/", // Ensure this matches with logout
+        sameSite: "lax",
+      }),
+      cookie.serialize("accessTokenExp", accessTokenExp.toString(), {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: accessTokenExp,
+        path: "/", // Ensure this matches with logout
         sameSite: "lax",
       }),
       cookie.serialize("user", JSON.stringify(userWithoutPassword), {
-        httpOnly: false, // Make this accessible via JavaScript
+        httpOnly: false,
         secure: process.env.NODE_ENV === "production",
-        maxAge: 60 * 60 * 24 * 7, // 1 week expiration for user data
-        path: "/",
+        maxAge: accessTokenExp,
+        path: "/", // Ensure this matches with logout
         sameSite: "lax",
       }),
     ]);
@@ -113,6 +113,41 @@ const login = async (req, res) => {
   } catch (error) {
     console.error("Error logging in:", error);
     return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// Logout
+const logout = async (req, res) => {
+  try {
+    // Clear the cookies related to authentication
+    res.setHeader("Set-Cookie", [
+      cookie.serialize("accessToken", "", {
+        httpOnly: false, // Allow access from frontend
+        secure: process.env.NODE_ENV === "production", // Secure in production
+        maxAge: 0, // Expire immediately
+        path: "/", // Ensure this matches with login
+        sameSite: "lax",
+      }),
+      cookie.serialize("accessTokenExp", "", {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 0,
+        path: "/", // Ensure this matches with login
+        sameSite: "lax",
+      }),
+      cookie.serialize("user", "", {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 0,
+        path: "/", // Ensure this matches with login
+        sameSite: "lax",
+      }),
+    ]);
+
+    return res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.error("Error logging out:", error);
+    res.status(500).json({ message: "An error occurred during logout" });
   }
 };
 
@@ -296,30 +331,6 @@ const resetPassword = async (req, res) => {
   }
 };
 
-// Logout
-const logout = async (req, res) => {
-  try {
-    // Clear the cookies related to authentication
-    res.clearCookie("accessToken", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Secure in production
-      sameSite: "strict", // Adjust based on your application needs
-    });
-
-    res.clearCookie("user", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Secure in production
-      sameSite: "strict", // Adjust based on your application needs
-    });
-
-    // Optionally, you can clear additional cookies if required
-    res.status(200).json({ message: "Logout successful" });
-  } catch (error) {
-    console.error("Error logging out:", error);
-    res.status(500).json({ message: "An error occurred during logout" });
-  }
-};
-
 // Verify Role
 const verifyRole = (allowedRoles) => {
   return async (req, res, next) => {
@@ -327,10 +338,11 @@ const verifyRole = (allowedRoles) => {
       const token =
         req.cookies?.accessToken ||
         (req.headers.authorization && req.headers.authorization.split(" ")[1]);
-      if (!token) {
+
+      if (!token || token.split(".").length !== 3) {
         return res
           .status(401)
-          .json({ message: "Unauthorized: No token provided" });
+          .json({ message: "Unauthorized: Malformed or missing token" });
       }
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -352,14 +364,10 @@ const verifyRole = (allowedRoles) => {
       req.user = user;
       next();
     } catch (error) {
-      console.error("Error verifying role:", error);
+      console.error("Error verifying role:", error.message);
       res.status(500).json({ message: "Internal server error" });
     }
   };
-};
-
-const authorized = (req, res) => {
-  res.status(200).json({ message: "Authorized" });
 };
 
 module.exports = {
@@ -369,7 +377,6 @@ module.exports = {
   resetPassword,
   logout,
   verifyRole,
-  authorized,
   getAllUsers,
   getSingleUser,
   updateUser,

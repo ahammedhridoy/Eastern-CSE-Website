@@ -21,7 +21,7 @@ const Slider = () => {
   useEffect(() => {
     const interval = setInterval(nextSlide, 5000);
     return () => clearInterval(interval);
-  }, [slides]); // Adding slides as a dependency
+  }, [slides]);
 
   return (
     <div className="">

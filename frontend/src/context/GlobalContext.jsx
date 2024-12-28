@@ -287,7 +287,7 @@ export const GlobalContextProvider = ({ children }) => {
   const fetchUsers = async () => {
     try {
       const response = await apiClient.get("/api/v1/auth/user/all", {
-        withCredentials: true, // Include credentials if needed
+        withCredentials: true,
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -298,9 +298,8 @@ export const GlobalContextProvider = ({ children }) => {
         return response.data;
       }
     } catch (error) {
-      console.error("Error fetching users:", error);
-      toast.error(error.response?.data?.message || "Server error");
-      return []; // Return an empty array on error
+      console.error("Error fetching users");
+      return [];
     }
   };
 
@@ -368,7 +367,6 @@ export const GlobalContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error fetching slides:", error);
-      toast.error(error.response?.data?.message || "Server error");
       return [];
     }
   };
@@ -444,7 +442,6 @@ export const GlobalContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error fetching slides:", error);
-      toast.error(error.response?.data?.message || "Server error");
       return [];
     }
   };
@@ -539,7 +536,6 @@ export const GlobalContextProvider = ({ children }) => {
 
       return response?.data;
     } catch (error) {
-      console.error("Error fetching faculty:", error.response?.data?.message);
       throw error;
     } finally {
       setLoading(false);
@@ -567,7 +563,6 @@ export const GlobalContextProvider = ({ children }) => {
 
       return response.data.faculty; // Return updated faculty object
     } catch (error) {
-      console.error("Error updating faculty:", error.response?.data?.message);
       throw error;
     }
   };
@@ -586,7 +581,6 @@ export const GlobalContextProvider = ({ children }) => {
       }
       return response.data.message;
     } catch (error) {
-      console.error("Error deleting faculty:", error.response?.data?.message);
       throw error;
     }
   };
@@ -602,7 +596,6 @@ export const GlobalContextProvider = ({ children }) => {
         return response?.data;
       }
     } catch (error) {
-      console.error("Error fetching teachers:", error.response?.data?.message);
       throw error;
     } finally {
       setLoading(false);
@@ -630,7 +623,6 @@ export const GlobalContextProvider = ({ children }) => {
 
       return response.data.teacher; // Return updated teacher object
     } catch (error) {
-      console.error("Error updating teacher:", error.response?.data?.message);
       throw error;
     }
   };
@@ -651,7 +643,6 @@ export const GlobalContextProvider = ({ children }) => {
 
       return response.data.message; // Return success message
     } catch (error) {
-      console.error("Error deleting teacher:", error.response?.data?.message);
       throw error;
     }
   };
@@ -666,7 +657,6 @@ export const GlobalContextProvider = ({ children }) => {
         return response?.data;
       }
     } catch (error) {
-      console.error("Error fetching alumni:", error.response?.data?.message);
       throw error;
     }
   };
@@ -679,7 +669,7 @@ export const GlobalContextProvider = ({ children }) => {
         formData,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`, // Replace with your token retrieval logic
+            Authorization: `Bearer ${accessToken}`,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -692,7 +682,6 @@ export const GlobalContextProvider = ({ children }) => {
 
       return response?.data?.alumni;
     } catch (error) {
-      console.error("Error updating alumni:", error.response?.data?.message);
       throw error;
     }
   };
@@ -702,7 +691,7 @@ export const GlobalContextProvider = ({ children }) => {
     try {
       const response = await apiClient.delete(`/api/v1/alumni/${alumniId}`, {
         headers: {
-          Authorization: `Bearer ${accessToken}`, // Replace with your token retrieval logic
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 
@@ -713,7 +702,6 @@ export const GlobalContextProvider = ({ children }) => {
 
       return response.data.message; // Return success message
     } catch (error) {
-      console.error("Error deleting alumni:", error.response?.data?.message);
       throw error;
     }
   };
@@ -723,24 +711,51 @@ export const GlobalContextProvider = ({ children }) => {
     try {
       const response = await apiClient.patch(
         `/api/v1/auth/user/update/${userId}`,
-        payload, // Send JSON payload directly
+        payload,
         {
           withCredentials: true,
           headers: {
-            Authorization: `Bearer ${accessToken}`, // Ensure this token is valid
-            "Content-Type": "application/json", // Set content type to JSON
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
           },
         }
       );
 
       if (response.status === 200) {
-        fetchSingleUser(); // Fetch updated user info
+        fetchSingleUser();
         return true;
       }
     } catch (error) {
       console.error("Error updating user:", error);
       toast.error(error.response?.data?.message || "Failed to update user");
       return false;
+    }
+  };
+
+  // Logout
+  const userLogout = async () => {
+    setLoading(true);
+    try {
+      const response = await apiClient.post(`/api/v1/auth/logout`, {
+        withCredentials: true,
+      });
+
+      console.log(response);
+
+      if (response?.status === 200) {
+        toast.success("Logged out successfully");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("user");
+        Cookies.remove("accessToken");
+        Cookies.remove("user");
+        Cookies.remove("accessTokenExp");
+        window.location.href = "/";
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("An error occurred during logout");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -809,6 +824,7 @@ export const GlobalContextProvider = ({ children }) => {
         allImages,
         deleteImage,
         currentUser,
+        userLogout,
       }}
     >
       {children}

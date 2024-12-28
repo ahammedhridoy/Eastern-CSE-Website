@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
@@ -16,8 +16,10 @@ import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
 import apiClient from "./../../../config/axiosConfig";
 import { GlobalContext } from "@/context/GlobalContext";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const LoginForm = () => {
+  const [loading, setLoading] = useState(true);
   const { setCurrentUser } = useContext(GlobalContext);
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState("");
@@ -60,6 +62,19 @@ const LoginForm = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  useEffect(() => {
+    const currentUser = localStorage.getItem("user");
+    if (currentUser) {
+      window.location.href = "/";
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="login-form">
