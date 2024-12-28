@@ -3,9 +3,9 @@ import axios from "axios";
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   headers: {
-    "Access-Control-Allow-Origin":
-      "https://eastern-cse-website-frontend.vercel.app",
+    "Content-Type": "application/json", // Set content type if needed
   },
+  withCredentials: true, // Include credentials (cookies, authorization headers) if needed
 });
 
 export default apiClient;
