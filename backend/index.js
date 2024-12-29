@@ -29,22 +29,33 @@ const allowedOrigins = [
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests without an origin (like Postman or mobile apps)
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true, // Enable cookies and credentials
+  credentials: true, // Allow credentials (cookies, headers, etc.)
   optionsSuccessStatus: 200, // Some browsers choke on 204
 };
 
 // Apply CORS middleware globally
 app.use(cors(corsOptions));
 
-// Handle preflight (OPTIONS) requests
+// Explicitly handle preflight requests
 app.options("*", cors(corsOptions));
+
+// Add the custom CORS middleware here, BEFORE routes
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  next();
+});
 
 // Middleware
 app.use(express.json());
