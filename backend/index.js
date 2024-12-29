@@ -27,29 +27,35 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // CORS Configuration
-const allowedOrigins = [
-  "https://eastern-cse-website-frontend.vercel.app",
-  "http://localhost:3000", // For local development
-];
+// const allowedOrigins = [
+//   "https://eastern-cse-website-frontend.vercel.app",
+//   "http://localhost:3000", // For local development
+// ];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests without an origin (like mobile apps or curl requests)
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true, // Allow credentials (cookies, authorization headers)
-  optionsSuccessStatus: 200, // For older browsers
-};
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     // Allow requests without an origin (like mobile apps or curl requests)
+//     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true, // Allow credentials (cookies, authorization headers)
+//   optionsSuccessStatus: 200, // For older browsers
+// };
 
-// Enable CORS
-app.use(cors(corsOptions));
+// // Enable CORS
+// app.use(cors(corsOptions));
 
-// Handle preflight requests
-app.options("*", cors(corsOptions));
+// // Handle preflight requests
+// app.options("*", cors(corsOptions));
+
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 // Serve static files from the 'uploads' folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
