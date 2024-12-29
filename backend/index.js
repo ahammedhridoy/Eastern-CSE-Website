@@ -24,7 +24,7 @@ const prisma = new PrismaClient();
 // CORS Configuration
 const allowedOrigins = [
   "https://eastern-cse-website-frontend.vercel.app",
-  "http://localhost:3000", // For local development
+  "http://localhost:3000",
 ];
 
 const corsOptions = {
@@ -35,6 +35,7 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
+  methods: ["GET,HEAD,PUT,PATCH,POST,DELETE"],
   credentials: true, // Allow credentials (cookies, headers, etc.)
   optionsSuccessStatus: 200, // Some browsers choke on 204
 };
