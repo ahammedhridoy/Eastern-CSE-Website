@@ -21,41 +21,35 @@ dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
 
+// CORS Configuration
+const allowedOrigins = [
+  "https://eastern-cse-website-frontend.vercel.app",
+  "http://localhost:3000", // For local development
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests without an origin (like Postman or mobile apps)
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true, // Enable cookies and credentials
+  optionsSuccessStatus: 200, // Some browsers choke on 204
+};
+
+// Apply CORS middleware globally
+app.use(cors(corsOptions));
+
+// Handle preflight (OPTIONS) requests
+app.options("*", cors(corsOptions));
+
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// CORS Configuration
-// const allowedOrigins = [
-//   "https://eastern-cse-website-frontend.vercel.app",
-//   "http://localhost:3000", // For local development
-// ];
-
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     // Allow requests without an origin (like mobile apps or curl requests)
-//     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-//   credentials: true, // Allow credentials (cookies, authorization headers)
-//   optionsSuccessStatus: 200, // For older browsers
-// };
-
-// // Enable CORS
-// app.use(cors(corsOptions));
-
-// // Handle preflight requests
-// app.options("*", cors(corsOptions));
-
-app.use(
-  cors({
-    origin: "*",
-  })
-);
 
 // Serve static files from the 'uploads' folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
