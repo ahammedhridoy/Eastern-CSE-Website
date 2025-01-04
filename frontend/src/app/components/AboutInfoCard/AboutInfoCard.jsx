@@ -19,10 +19,17 @@ const AboutInfoCard = () => {
           </CardHeader>
           <CardContent className="text-center">
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur,
-              nemo eius! Voluptas inventore harum amet officia, natus quisquam
-              deserunt ad ut facilis voluptates perspiciatis aliquam atque
-              quibusdam corporis nemo ipsum?
+              At Eastern University's Computer Science and Engineering (CSE)
+              department, we prioritize affordability to ensure that quality
+              education is accessible to all students. We offer a range of
+              scholarships and financial aid opportunities designed to alleviate
+              the financial burden on students and their families. Our tuition
+              rates are competitive, and we strive to maintain transparency
+              regarding costs, allowing students to plan effectively for their
+              education. By providing various financial resources, we empower
+              students to focus on their studies without the stress of
+              overwhelming financial obligations, making higher education a
+              reality for many.
             </p>
           </CardContent>
         </Card>
@@ -36,10 +43,17 @@ const AboutInfoCard = () => {
           </CardHeader>
           <CardContent className="text-center">
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem
-              laudantium accusantium cumque illum alias esse doloremque dolore
-              nam velit eligendi, harum, porro accusamus odio, explicabo
-              molestiae nobis saepe non eaque?
+              The academics at Eastern University's CSE department are
+              structured to provide a comprehensive educational experience that
+              prepares students for the rapidly evolving tech landscape. Our
+              curriculum encompasses a blend of theoretical knowledge and
+              practical skills, ensuring that graduates are well-equipped for
+              both industry demands and advanced studies. Students engage in a
+              rigorous program that includes core courses, electives, and
+              hands-on lab work, fostering critical thinking and problem-solving
+              abilities. The academic environment encourages collaboration among
+              peers and faculty, promoting a culture of innovation and
+              excellence.
             </p>
           </CardContent>
         </Card>
@@ -55,10 +69,18 @@ const AboutInfoCard = () => {
           </CardHeader>
           <CardContent className="text-center">
             <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eum eius
-              labore magnam odit debitis architecto, laudantium beatae sit
-              voluptate numquam quaerat nihil quod illo libero maxime earum
-              incidunt blanditiis! Cum.
+              At Eastern University, we believe that a vibrant student life is
+              integral to personal and academic growth. Our CSE department
+              offers numerous opportunities for students to engage in
+              extracurricular activities that complement their studies. From
+              tech clubs and hackathons to networking events with industry
+              professionals, students can cultivate their interests and build
+              lasting connections. Additionally, our supportive campus community
+              fosters an inclusive atmosphere where diversity is celebrated,
+              allowing students to thrive both academically and socially. We aim
+              to inspire our students not only through academics but also
+              through enriching experiences that prepare them for future
+              success.
             </p>
           </CardContent>
         </Card>

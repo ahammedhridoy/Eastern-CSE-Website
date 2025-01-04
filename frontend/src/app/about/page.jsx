@@ -11,7 +11,7 @@ const About = () => {
       {/* Banner */}
       <div className="relative banner">
         <Image
-          src={"/images/contact/contact-banner.jpg"}
+          src={"/images/about/about_banner.jpg"}
           width={0}
           height={0}
           sizes="100vw"
@@ -30,28 +30,41 @@ const About = () => {
           {/* Left */}
           <div className="about-left basis-1/2">
             <h1 className="lg:text-5xl text-3xl  text-[var(--black-color)] font-bold">
-              Who we are
+              Departmental Vision and Mission
             </h1>
             <Separator width="w-20" position="justify-start" />
-            <p className="text-[var(--gray-color)] text-justify">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              debitis. Maxime quidem soluta repudiandae obcaecati quibusdam
-              minus dignissimos beatae delectus tenetur, non in officia.
-              Corrupti magni iure quia! Cum, perspiciatis! Magnam voluptatibus,
-              eaque iure nobis ut doloribus qui labore dolor cumque a itaque
-              nemo culpa unde delectus nam corporis dolorem voluptatem nihil
-              dolorum maiores dicta ipsum. Quia molestias commodi pariatur
-              officiis, beatae ducimus magnam dolore. Minima ducimus iure
-              cupiditate sint aspernatur. Deserunt nesciunt provident
-              praesentium est expedita asperiores fugiat, ducimus, id doloribus
-              perspiciatis excepturi. Minima earum quos voluptates fugit cumque
-              temporibus sit. Est accusamus accusantium illo quibusdam,
-              explicabo maxime perspiciatis quisquam consequatur quidem ab amet
-              eum doloremque provident tenetur reiciendis nesciunt reprehenderit
-              voluptatibus! Magnam ad nemo neque voluptates voluptatem, error
-              minima unde voluptas in dolore, recusandae eligendi. Maxime
-              cupiditate quae impedit placeat eius atque totam vero quam quo,
-              dolore sit error ab officiis.
+            <h4 className="text-2xl font-semibold text-[--primary-color] mb-2">
+              Vision of Dept. of CSE
+            </h4>
+            <p className="text-[var(--gray-color)] text-justify mb-4">
+              The vision of Department of CSE is to build a center of excellence
+              for producing quality graduates to compete in the national and the
+              international arena in the field of Computer Science and
+              Engineering through ensuring outcome based curriculum, necessary
+              analytical skills and professional diversity.
+            </p>
+            <h4 className="text-2xl font-semibold text-[--primary-color] mb-2">
+              Mission of Dept. of CSE
+            </h4>
+            <p className="text-[var(--gray-color)] text-justify mb-2">
+              <span className="font-semibold">Statement-1:</span> To provide
+              quality education and exposure to the latest tools and
+              technologies in the area of Computer Science and Engineering.
+            </p>
+            <p className="text-[var(--gray-color)] text-justify mb-2">
+              <span className="font-semibold">Statement-2:</span> To promote
+              research based projects/activities in the emerging areas of
+              Computer Science and Engineering.
+            </p>
+            <p className="text-[var(--gray-color)] text-justify mb-2">
+              <span className="font-semibold">Statement-3:</span> To ensure
+              engaging students with real life situations by collaboration with
+              the industry.
+            </p>
+            <p className="text-[var(--gray-color)] text-justify mb-2">
+              <span className="font-semibold">Statement-4:</span> To ensure a
+              spirited, congenial and inclusive environment where students,
+              faculty and staff can flourish together.
             </p>
           </div>
           {/* Right */}

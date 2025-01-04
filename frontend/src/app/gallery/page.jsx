@@ -15,7 +15,7 @@ function Gallery() {
       {/* Banner */}
       <div className="relative banner">
         <Image
-          src={"/images/contact/contact-banner.jpg"}
+          src={"/images/gallery/gallery_banner.jpg"}
           width={0}
           height={0}
           sizes="100vw"

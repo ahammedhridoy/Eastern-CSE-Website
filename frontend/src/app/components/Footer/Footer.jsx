@@ -1,7 +1,9 @@
 "use client";
 import React from "react";
 import FacebookTwoToneIcon from "@mui/icons-material/FacebookTwoTone";
-import SubscriptionsTwoToneIcon from "@mui/icons-material/SubscriptionsTwoTone";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import Link from "next/link";
 
 function Footer() {
@@ -10,8 +12,36 @@ function Footer() {
       <div className="flex flex-col items-center justify-center gap-5 p-5 footer lg:px-0">
         {/* Social Media */}
         <div className="flex gap-5">
-          <FacebookTwoToneIcon className="text-white text-30px hover:text-[var(--yellow-color)] cursor-pointer hover:animate-bounce" />
-          <SubscriptionsTwoToneIcon className="text-white text-30px hover:text-[var(--yellow-color)] cursor-pointer hover:animate-bounce" />
+          <Link
+            href={"https://www.facebook.com/easterncse/"}
+            target="_blank"
+            className="p-2 bg-[var(--yellow-color)] rounded-full"
+          >
+            <FacebookTwoToneIcon className="text-white text-30px  cursor-pointer hover:animate-bounce" />
+          </Link>
+
+          <Link
+            href={"https://www.facebook.com/easterncse/"}
+            target="_blank"
+            className="p-2 bg-[var(--yellow-color)] rounded-full"
+          >
+            <YouTubeIcon className="text-white text-30px  cursor-pointer hover:animate-bounce" />
+          </Link>
+
+          <Link
+            href={"https://www.facebook.com/easterncse/"}
+            target="_blank"
+            className="p-2 bg-[var(--yellow-color)] rounded-full"
+          >
+            <InstagramIcon className="text-white text-30px  cursor-pointer hover:animate-bounce" />
+          </Link>
+          <Link
+            href={"https://www.facebook.com/easterncse/"}
+            target="_blank"
+            className="p-2 bg-[var(--yellow-color)] rounded-full"
+          >
+            <LinkedInIcon className="text-white text-30px  cursor-pointer hover:animate-bounce" />
+          </Link>
         </div>
 
         {/* Links
@@ -61,7 +91,7 @@ function Footer() {
             {new Date().getFullYear() > 2025
               ? `-${new Date().getFullYear()}`
               : ""}{" "}
-            Eastern CSE. All Rights Reserved.
+            Eastern CSE Department. All Rights Reserved.
           </p>
         </div>
       </div>

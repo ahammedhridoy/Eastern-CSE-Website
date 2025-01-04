@@ -21,7 +21,10 @@ const ContactInfo = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="ml-7">
-            <p>1800 Abbot Kinney Blvd. Unit D & E Venice</p>
+            <p>
+              Road 6, Block B, Ashulia Model Town Khagan, Birulia, Savar, Dhaka,
+              Bangladesh
+            </p>
           </CardContent>
         </Card>
 
@@ -34,21 +37,16 @@ const ContactInfo = () => {
           </CardHeader>
           <CardContent className="ml-7">
             <p>
-              Mobile:{" "}
+              Phone:{" "}
               <span className="text-[var(--primary-color)] font-bold">
-                (+88) - 1990 - 6886
+                +8809602666651, +8809602666652
               </span>
             </p>
-            <p>
-              Hotline:{" "}
-              <span className="text-[var(--primary-color)] font-bold">
-                1800 - 1102
-              </span>
-            </p>
+
             <p>
               Mail:{" "}
               <span className="text-[var(--primary-color)] font-bold">
-                contact@edumall.com
+                info@easternuni.edu.bd, registrar@easternuni.edu.bd
               </span>
             </p>
           </CardContent>
@@ -62,10 +60,7 @@ const ContactInfo = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="ml-7">
-            <p>
-              Monday - Friday: 09:00 - 20:00 <br />
-              Sunday & Saturday: 10:30 - 22:00
-            </p>
+            <p>Saturday - Friday: 09:00 AM - 04:00 PM</p>
           </CardContent>
         </Card>
       </div>

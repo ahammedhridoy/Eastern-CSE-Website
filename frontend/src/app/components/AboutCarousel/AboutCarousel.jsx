@@ -5,9 +5,19 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Separator from "../Separator/Separator";
 import { GlobalContext } from "@/context/GlobalContext";
+import ContentLoading from "../ContentLoading/ContentLoading";
+import NoContentFound from "../NoContentFound/NoContentFound";
 
 const AboutCarousel = () => {
-  const { aboutSlides } = useContext(GlobalContext);
+  const { aboutSlides, loading } = useContext(GlobalContext);
+
+  if (loading) {
+    return <ContentLoading height="[300px]" />;
+  }
+
+  // if (aboutSlides?.length === 0) {
+  //   return <NoContentFound mesage="No Slide Found!" height={"[300px]"} />;
+  // }
 
   const responsive = {
     desktop: {
@@ -42,7 +52,7 @@ const AboutCarousel = () => {
           autoPlaySpeed={5000}
           className="mt-10"
         >
-          {aboutSlides.map((slide) => (
+          {aboutSlides?.map((slide) => (
             <div
               className="flex flex-col items-center justify-center gap-5 px-5"
               key={slide?.id}

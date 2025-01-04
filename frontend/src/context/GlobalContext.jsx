@@ -436,6 +436,7 @@ export const GlobalContextProvider = ({ children }) => {
 
   // Fetch All Slides
   const fetchAboutSliders = async () => {
+    setLoading(true);
     try {
       const response = await apiClient.get("/api/v1/about/slider/all");
 
@@ -446,6 +447,8 @@ export const GlobalContextProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching slides:", error);
       return [];
+    } finally {
+      setLoading(false);
     }
   };
 
