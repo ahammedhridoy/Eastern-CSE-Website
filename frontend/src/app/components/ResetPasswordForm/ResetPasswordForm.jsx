@@ -46,7 +46,7 @@ const ResetPasswordForm = () => {
         newPassword: data.password,
       });
 
-      if (res.status === 200) {
+      if (res?.status === 200) {
         toast.success("Password updated successfully");
         setTimeout(() => router.push("/admin"), 1500);
       }
@@ -63,10 +63,10 @@ const ResetPasswordForm = () => {
   return (
     <div className="forgot-form">
       <Toaster />
-      <Box className="w-[300px] md:w-[750px]">
+      <Box className="w-full md:w-[750px] p-2">
         <Card variant="outlined">
           <CardContent>
-            <h1 className="my-10 text-5xl font-bold text-center text-[var(--black-color)]">
+            <h1 className="my-10 lg:text-5xl text-3xl font-bold text-center text-[var(--black-color)]">
               Reset Password
             </h1>
 

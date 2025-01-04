@@ -18,7 +18,7 @@ const About = () => {
           style={{ width: "100%", height: "300px", objectFit: "cover" }}
           alt="Banner"
         />
-        <h1 className="absolute z-10 text-3xl text-white -translate-x-1/2 -translate-y-1/2 md:text-5xl top-1/2 left-1/2">
+        <h1 className="absolute z-10 text-3xl text-white -translate-x-1/2 -translate-y-1/2 lg:text-5xl top-1/2 left-1/2">
           About Us
         </h1>
         <div className="absolute top-0 w-full h-full bg-black opacity-50"></div>
@@ -29,7 +29,7 @@ const About = () => {
         <div className="container flex flex-col-reverse items-center justify-center gap-5 p-5 about-wrapper lg:flex-row lg:p-0">
           {/* Left */}
           <div className="about-left basis-1/2">
-            <h1 className="text-5xl  text-[var(--black-color)] font-bold">
+            <h1 className="lg:text-5xl text-3xl  text-[var(--black-color)] font-bold">
               Who we are
             </h1>
             <Separator width="w-20" position="justify-start" />

@@ -22,7 +22,7 @@ const sendPasswordResetEmail = async (email, token, name) => {
 
   // Send email with password reset link
   await transporter.sendMail({
-    from: process.env.SMTP_AUTH_USER,
+    from: `Eastern University CSE Website ${process.env.SMTP_AUTH_USER}`,
     to: email,
     subject: `Password Reset Link`,
     priority: "high",
@@ -30,7 +30,7 @@ const sendPasswordResetEmail = async (email, token, name) => {
       <div style="width: 100%; height: auto; padding: 15px 10px; text-align: center;">
         <h1 style="font-size: 25px;">Hi ${name}</h1>
         <div>
-          <p>You have requested to reset your password. Please click on the button below to continue.<br>If you did not request a password reset, please ignore this email. <br> <p> <strong>NOTE:</strong> This link will expire in 5 minutes. </p>
+          <p>You have requested to reset your password. Please click on the button below to continue.<br>If you did not request a password reset, please ignore this email. <br> <p> <strong>NOTE: This link will expire in 5 minutes. </p></strong>
           <a href="${resetPasswordUrl}" style="background: blue; color: white; font-weight: 500; font-size: 17px; padding: 7px 15px; text-decoration: none; border-radius: 6px; margin-top: 7px">Reset Password</a>
         </div>
       </div>
@@ -78,8 +78,6 @@ async function updatePassword(email, newPassword) {
       where: { email },
       data: { password: hashedPassword },
     });
-
-    console.log("Password updated successfully for", email);
   } catch (error) {
     console.error("Error updating password:", error.message);
     throw error;

@@ -5,10 +5,20 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import styles from "./Slider.module.css";
 import Image from "next/image";
 import { GlobalContext } from "@/context/GlobalContext";
+import ContentLoading from "../ContentLoading/ContentLoading";
+import NoContentFound from "../NoContentFound/NoContentFound";
 
 const Slider = () => {
   const [slide, setSlide] = useState(0);
-  const { slides } = useContext(GlobalContext);
+  const { slides, loading } = useContext(GlobalContext);
+
+  if (loading) {
+    return <ContentLoading height="[400px]" />;
+  }
+
+  if (slides?.length === 0) {
+    return <NoContentFound mesage="No Slides Found!" height={"[400px]"} />;
+  }
 
   const nextSlide = () => {
     setSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));

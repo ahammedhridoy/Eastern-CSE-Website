@@ -16,7 +16,7 @@ const UserDash = () => {
             <Sidebar />
           </div>
           {/* Main Content */}
-          <div className="w-full my-4">
+          <div className="w-full p-4 my-4">
             <Card className="p-4">
               <DashMobileMenu />
               <CreateAccount />

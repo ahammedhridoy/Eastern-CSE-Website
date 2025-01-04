@@ -11,7 +11,7 @@ import AlbumCardHome from "../AlbumCardHome/AlbumCardHome";
 const AlbumBlock = () => {
   return (
     <div className="my-10">
-      <h1 className="text-5xl text-center  text-[var(--black-color)] font-bold">
+      <h1 className="lg:text-5xl text-3xl text-center  text-[var(--black-color)] font-bold">
         Albums
       </h1>
 

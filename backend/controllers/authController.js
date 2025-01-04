@@ -75,6 +75,8 @@ const login = async (req, res) => {
 
     const { accessToken, accessTokenExp } = await generateToken(user);
 
+    if (!accessToken || !accessTokenExp)
+      throw new Error("Failed to generate tokens.");
     // Remove sensitive data
     const { password: _, ...userWithoutPassword } = user;
 
@@ -85,21 +87,21 @@ const login = async (req, res) => {
         secure: process.env.NODE_ENV === "production",
         maxAge: accessTokenExp,
         path: "/", // Ensure this matches with logout
-        sameSite: "none",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       }),
       cookie.serialize("accessTokenExp", accessTokenExp.toString(), {
         httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         maxAge: accessTokenExp,
         path: "/", // Ensure this matches with logout
-        sameSite: "none",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       }),
       cookie.serialize("user", JSON.stringify(userWithoutPassword), {
         httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         maxAge: accessTokenExp,
         path: "/", // Ensure this matches with logout
-        sameSite: "none",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       }),
     ]);
 
@@ -122,25 +124,25 @@ const logout = async (req, res) => {
     // Clear the cookies related to authentication
     res.setHeader("Set-Cookie", [
       cookie.serialize("accessToken", "", {
-        httpOnly: false, // Allow access from frontend
-        secure: process.env.NODE_ENV === "production", // Secure in production
-        maxAge: 0, // Expire immediately
-        path: "/", // Ensure this matches with login
-        sameSite: "none",
+        httpOnly: false,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 0,
+        path: "/",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       }),
       cookie.serialize("accessTokenExp", "", {
         httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         maxAge: 0,
-        path: "/", // Ensure this matches with login
-        sameSite: "none",
+        path: "/",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       }),
       cookie.serialize("user", "", {
         httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         maxAge: 0,
-        path: "/", // Ensure this matches with login
-        sameSite: "none",
+        path: "/",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       }),
     ]);
 
@@ -203,8 +205,9 @@ const updateUser = async (req, res) => {
 
     // Validate input fields
     if (password && password.length < 6) {
-      toast.error("Password must be at least 6 characters long.");
-      return;
+      return res.status(400).json({
+        message: "Password must be at least 6 characters long.",
+      });
     }
 
     // Hash the password if provided
@@ -282,7 +285,7 @@ const forgotPassword = async (req, res) => {
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const encoded = jwt.sign({ email }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "5min",
     });
 
     await prisma.resetToken.create({

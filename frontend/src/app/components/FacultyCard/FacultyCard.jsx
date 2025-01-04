@@ -8,17 +8,22 @@ import { Avatar } from "@mui/material";
 import { GlobalContext } from "@/context/GlobalContext";
 import usePagination from "@/hooks/usePagination";
 import ContentLoading from "../ContentLoading/ContentLoading";
+import NoContentFound from "../NoContentFound/NoContentFound";
 
 const FacultyCard = () => {
   const { faculties, loading } = useContext(GlobalContext);
   const { visibleCount, loadMore } = usePagination(8, 8);
 
-  if (loading || faculties.length === 0) {
+  if (loading) {
     return <ContentLoading height="[300px]" />;
   }
 
+  if (faculties?.length === 0) {
+    return <NoContentFound mesage="No Faculty Found!" height={"[300px]"} />;
+  }
+
   return (
-    <div className="grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 lg:grid-cols-4 faculty-card">
+    <div className="grid grid-cols-1 gap-5 p-4 mt-10 md:grid-cols-2 lg:grid-cols-4 faculty-card">
       {faculties.slice(0, visibleCount).map((faculty) => (
         <Link key={faculty?.id} href={`/faculty/${faculty?.id}`}>
           <Card

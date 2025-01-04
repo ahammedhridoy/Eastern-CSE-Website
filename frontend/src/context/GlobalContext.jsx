@@ -358,6 +358,7 @@ export const GlobalContextProvider = ({ children }) => {
 
   // Fetch All Slides
   const fetchSliders = async () => {
+    setLoading(true);
     try {
       const response = await apiClient.get("/api/v1/slider/all");
 
@@ -368,6 +369,8 @@ export const GlobalContextProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching slides:", error);
       return [];
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -739,8 +742,6 @@ export const GlobalContextProvider = ({ children }) => {
       const response = await apiClient.post(`/api/v1/auth/logout`, {
         withCredentials: true,
       });
-
-      console.log(response);
 
       if (response?.status === 200) {
         toast.success("Logged out successfully");

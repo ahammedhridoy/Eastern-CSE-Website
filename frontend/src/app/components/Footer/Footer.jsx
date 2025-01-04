@@ -6,7 +6,7 @@ import Link from "next/link";
 
 function Footer() {
   return (
-    <div className="footer-wrap bg-[var(--primary-color)] min-h-[300px] flex  items-center justify-center relative z-50">
+    <div className="footer-wrap bg-[var(--primary-color)] min-h-[100px] flex  items-center justify-center relative z-50">
       <div className="flex flex-col items-center justify-center gap-5 p-5 footer lg:px-0">
         {/* Social Media */}
         <div className="flex gap-5">
@@ -14,7 +14,7 @@ function Footer() {
           <SubscriptionsTwoToneIcon className="text-white text-30px hover:text-[var(--yellow-color)] cursor-pointer hover:animate-bounce" />
         </div>
 
-        {/* Links */}
+        {/* Links
         <div className="flex flex-col items-center justify-center gap-5 lg:flex-row">
           <Link
             href={"/"}
@@ -52,12 +52,16 @@ function Footer() {
           >
             CONTACT
           </Link>
-        </div>
+        </div> */}
 
         {/* Copyright */}
         <div>
           <p className="font-bold text-white">
-            Copyright © 2024 Eastern CSE. All Rights Reserved.
+            Copyright © 2025
+            {new Date().getFullYear() > 2025
+              ? `-${new Date().getFullYear()}`
+              : ""}{" "}
+            Eastern CSE. All Rights Reserved.
           </p>
         </div>
       </div>

@@ -9,18 +9,25 @@ import { Button } from "@mui/material";
 import { GlobalContext } from "@/context/GlobalContext";
 import usePagination from "@/hooks/usePagination";
 import ContentLoading from "../ContentLoading/ContentLoading";
+import NoContentFound from "../NoContentFound/NoContentFound";
 
 const EventCard = () => {
   const { blogs, loading } = useContext(GlobalContext);
   const { visibleCount, loadMore } = usePagination(8, 8);
 
-  if (loading || blogs.length === 0) {
+  if (loading) {
     return <ContentLoading height="[300px]" />;
+  }
+
+  if (blogs?.length === 0) {
+    return (
+      <NoContentFound mesage="No Events & News Found!" height={"[300px]"} />
+    );
   }
 
   return (
     <div className="mt-10 event-card">
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-5 p-4 md:grid-cols-2 lg:grid-cols-4">
         {blogs.slice(0, visibleCount).map((blog) => (
           <Link key={blog.id} href={`/events/${blog.id}`}>
             <Card

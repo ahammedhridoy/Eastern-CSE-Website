@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "https://eastern-cse-website-backend.vercel.app",
-  withCredentials: true, // Necessary to include cookies for requests
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+  withCredentials: true,
 });
 
 // // Public API client

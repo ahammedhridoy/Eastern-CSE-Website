@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
@@ -11,8 +11,10 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation"; // Import useRouter
 import apiClient from "@/config/axiosConfig";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const ForgotPasswordForm = () => {
+  const [loading, setLoading] = useState(true);
   const {
     register,
     formState: { errors, isSubmitting },
@@ -37,6 +39,8 @@ const ForgotPasswordForm = () => {
 
         // Clear the email field
         reset();
+
+        setTimeout(() => router.push("/admin"), 500);
       }
     } catch (error) {
       toast.error("Failed to send password reset email");
@@ -44,13 +48,26 @@ const ForgotPasswordForm = () => {
     }
   };
 
+  useEffect(() => {
+    const currentUser = localStorage.getItem("user");
+    if (currentUser) {
+      window.location.href = "/";
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <div className="forgot-form">
       <Toaster />
-      <Box className="w-[300px] md:w-[750px]">
+      <Box className="md:w-[750px] w-full p-2">
         <Card variant="outlined">
           <CardContent>
-            <h1 className="my-10 text-5xl font-bold text-center text-[var(--black-color)]">
+            <h1 className="my-10 lg:text-5xl text-3xl font-bold text-center text-[var(--black-color)]">
               Send Reset Password Email
             </h1>
 

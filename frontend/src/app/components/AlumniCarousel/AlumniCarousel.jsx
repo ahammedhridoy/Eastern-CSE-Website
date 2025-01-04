@@ -12,12 +12,17 @@ import { Avatar } from "@mui/material";
 import { GlobalContext } from "@/context/GlobalContext";
 import ContentLoading from "../ContentLoading/ContentLoading";
 import DOMPurify from "dompurify";
+import NoContentFound from "../NoContentFound/NoContentFound";
 
 const AlumniCarousel = () => {
   const { alumniTestimonials, loading } = useContext(GlobalContext);
 
-  if (loading || alumniTestimonials?.length === 0) {
+  if (loading) {
     return <ContentLoading height="[300px]" />;
+  }
+
+  if (alumniTestimonials?.length === 0) {
+    return <NoContentFound mesage="No Testimonial Found!" height={"[300px]"} />;
   }
 
   const sanitizedContent = (content) => DOMPurify.sanitize(content || "");

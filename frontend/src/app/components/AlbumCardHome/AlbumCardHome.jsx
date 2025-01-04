@@ -27,7 +27,7 @@ const AlbumCardHome = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 lg:grid-cols-4 albums">
+      <div className="grid grid-cols-1 gap-5 p-4 mt-10 md:grid-cols-2 lg:grid-cols-4 albums">
         {albums?.slice(0, visibleCount).map((album) => (
           <Link key={album?.id} href={`/gallery/${album?.id}`}>
             <Card
