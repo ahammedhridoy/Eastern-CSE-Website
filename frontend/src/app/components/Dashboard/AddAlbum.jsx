@@ -79,7 +79,7 @@ const AddAlbum = () => {
           method="post"
           onSubmit={submitAlbum}
         >
-          <div className="lg:w-[40%] w-full">
+          <div className="w-full ">
             <div className="mt-4 file-input">
               <input
                 type="file"
@@ -95,7 +95,7 @@ const AddAlbum = () => {
                   src={URL.createObjectURL(image)}
                   width={200}
                   height={200}
-                  className="w-full h-[300px] border-2 border-gray-400 border-dashed"
+                  className="h-[300px] w-[300px] border-2 border-gray-400 border-dashed"
                 />
               )}
             </div>

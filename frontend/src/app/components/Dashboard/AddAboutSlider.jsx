@@ -67,7 +67,7 @@ const AddAboutSlider = () => {
         <Separator position="justify-start" />
         {/* Form */}
         <form encType="multipart/form-data" method="post" onSubmit={addSlider}>
-          <div className="lg:w-[40%] w-full">
+          <div className="w-full">
             <div className="mt-4 file-input">
               <input
                 type="file"

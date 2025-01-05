@@ -20,7 +20,7 @@ const DashMobileMenu = () => {
     setOpen(newOpen);
   };
   return (
-    <div className="lg:ml-[260px] flex justify-end ml-0">
+    <div className="lg:ml-[260px] flex justify-end ml-0 lg:hidden">
       <Button onClick={toggleDrawer(true)}>Open Dashboard Menu</Button>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         <Sidebar />

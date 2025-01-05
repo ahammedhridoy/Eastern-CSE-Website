@@ -7,11 +7,14 @@ import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { GlobalContext } from "@/context/GlobalContext";
 
 const Sidebar = () => {
   const router = useRouter();
-  const [active, setActive] = useState("/dashboard"); // Default active route
+  const [active, setActive] = useState("/dashboard");
+  const { user } = useContext(GlobalContext);
+  const admin = user?.role === "ADMIN";
 
   // Menu items for the sidebar
   const menuItems = [
@@ -20,11 +23,15 @@ const Sidebar = () => {
       href: "/dashboard",
       icon: <Dashboard className="mr-3" />,
     },
-    {
-      label: "Users",
-      href: "/dashboard/manage-user",
-      icon: <Person className="mr-3" />,
-    },
+    ...(admin
+      ? [
+          {
+            label: "Users",
+            href: "/dashboard/manage-user",
+            icon: <Person className="mr-3" />,
+          },
+        ]
+      : []),
     {
       label: "Sliders",
       href: "/dashboard/manage-slider",
@@ -40,11 +47,16 @@ const Sidebar = () => {
       href: "/dashboard/manage-about-slider",
       icon: <ImageIcon className="mr-3" />,
     },
-    {
-      label: "Faculties",
-      href: "/dashboard/manage-faculty",
-      icon: <SupervisedUserCircleIcon className="mr-3" />,
-    },
+
+    ...(admin
+      ? [
+          {
+            label: "Faculties",
+            href: "/dashboard/manage-faculty",
+            icon: <SupervisedUserCircleIcon className="mr-3" />,
+          },
+        ]
+      : []),
     {
       label: "Albums",
       href: "/dashboard/manage-album",
@@ -55,16 +67,26 @@ const Sidebar = () => {
       href: "/dashboard/manage-account",
       icon: <AccountCircleIcon className="mr-3" />,
     },
-    {
-      label: "Teacher's Testimonials",
-      href: "/dashboard/manage-teacher-testimonial",
-      icon: <FormatQuoteIcon className="mr-3" />,
-    },
-    {
-      label: "Alumni's Testimonials",
-      href: "/dashboard/manage-alumni-testimonial",
-      icon: <FormatQuoteIcon className="mr-3" />,
-    },
+
+    ...(admin
+      ? [
+          {
+            label: "Teacher's Testimonials",
+            href: "/dashboard/manage-teacher-testimonial",
+            icon: <FormatQuoteIcon className="mr-3" />,
+          },
+        ]
+      : []),
+
+    ...(admin
+      ? [
+          {
+            label: "Alumni's Testimonials",
+            href: "/dashboard/manage-alumni-testimonial",
+            icon: <FormatQuoteIcon className="mr-3" />,
+          },
+        ]
+      : []),
   ];
 
   // Handle navigation

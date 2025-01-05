@@ -74,7 +74,7 @@ const AddBlog = () => {
         <Separator position="justify-start" />
         {/* Form */}
         <form encType="multipart/form-data" method="post" onSubmit={addBlog}>
-          <div className="lg:w-[50%] w-full">
+          <div className="w-full">
             <div className="mt-4 file-input">
               <input
                 type="file"

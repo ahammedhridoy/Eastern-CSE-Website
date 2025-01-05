@@ -3,7 +3,7 @@ import Sidebar from "./../../components/Dashboard/Sidebar";
 import BlogCard from "./../../components/Dashboard/BlogCard";
 import DashMobileMenu from "./../../components/Dashboard/DashMobileMenu";
 import AddBlog from "./../../components/Dashboard/AddBlog";
-import { Typography } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 import Separator from "@/app/components/Separator/Separator";
 import ProtectedRoute from "@/app/components/ProtectedRoute";
 
@@ -24,13 +24,13 @@ const BlogDash = () => {
               <AddBlog />
             </div>
             {/* Blogs */}
-            <div className="w-full mt-5">
+            <Card className="w-full p-2 mt-5">
               <Typography gutterBottom variant="h5" component="div">
                 All Blogs
               </Typography>
               <Separator position="justify-start" />
               <BlogCard />
-            </div>
+            </Card>
           </div>
         </div>
       </div>

@@ -19,6 +19,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
 import toast, { Toaster } from "react-hot-toast";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const ShowAccount = () => {
   const { user, fetchSingleUser, updateUserAccount, loading, accessToken } =
@@ -39,7 +40,7 @@ const ShowAccount = () => {
     }
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingSpinner />;
 
   // Update User
   const handleUpdate = async (e) => {

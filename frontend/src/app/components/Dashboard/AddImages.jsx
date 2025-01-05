@@ -82,7 +82,7 @@ const AddImages = () => {
           method="post"
           onSubmit={submitGallery}
         >
-          <div className="lg:w-[40%] w-full">
+          <div className="w-full">
             <FormControl className="w-full my-2">
               <InputLabel>Album</InputLabel>
 
