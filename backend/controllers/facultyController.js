@@ -31,7 +31,7 @@ const createFaculty = async (req, res) => {
 const getAllFaculties = async (req, res) => {
   try {
     const faculties = await prisma.faculty.findMany({
-      orderBy: { createdAt: "desc" },
+      orderBy: { updatedAt: "desc" },
     });
 
     res

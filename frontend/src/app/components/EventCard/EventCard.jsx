@@ -39,14 +39,14 @@ const EventCard = () => {
                 height="194"
                 image={`${process.env.NEXT_PUBLIC_IMAGE_URL}${blog?.image}`}
                 alt={blog.title || "Event Image"}
-                className="object-cover"
+                className="object-cover w-full h-[300px]"
               />
               <CardContent>
                 <Typography
                   gutterBottom
                   variant="h5"
                   component="div"
-                  className="text-[var(--black-color)]"
+                  className="text-[var(--black-color)] line-clamp-2"
                 >
                   {blog.title || "Untitled Blog"}
                 </Typography>

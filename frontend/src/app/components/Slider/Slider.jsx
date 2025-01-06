@@ -46,15 +46,18 @@ const Slider = () => {
           className={`${styles.arrow} ${styles.arrowLeft} z-10 text-[var(--primary-color)] text-[35px] absolute top-[50%] lg:left-[2%] left-[5%] translate-x-[-50%] translate-y-[-50%] bg-[white] rounded-full cursor-pointer hover:bg-[#dad9d9] transition-all duration-300`}
         />
         {slides.map((item, idx) => (
-          <Image
+          // <image
+
+          //   width={500}
+          //   height={500}
+          // />
+          <img
             src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item?.image}`}
-            alt={item.alt}
-            key={idx}
+            alt=""
             className={`${
               slide === idx ? "slide" : "slide slide-hidden"
             } object-cover`}
-            width={500}
-            height={500}
+            key={idx}
           />
         ))}
         <KeyboardArrowRightIcon

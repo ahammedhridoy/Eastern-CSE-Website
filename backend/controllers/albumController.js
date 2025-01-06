@@ -35,7 +35,7 @@ const getAllAlbums = async (req, res) => {
   try {
     const albums = await prisma.album.findMany({
       include: { images: true },
-      orderBy: { createdAt: "desc" },
+      orderBy: { updatedAt: "desc" },
     });
 
     res.status(200).json({ message: "Albums fetched successfully.", albums });

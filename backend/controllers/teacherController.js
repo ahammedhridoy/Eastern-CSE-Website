@@ -31,7 +31,7 @@ const createTeacher = async (req, res) => {
 const getAllTeachers = async (req, res) => {
   try {
     const teachers = await prisma.teacher.findMany({
-      orderBy: { createdAt: "desc" },
+      orderBy: { updatedAt: "desc" },
     });
 
     res

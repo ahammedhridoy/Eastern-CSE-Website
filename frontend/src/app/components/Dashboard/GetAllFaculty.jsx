@@ -14,6 +14,7 @@ import Separator from "../Separator/Separator";
 import usePagination from "@/hooks/usePagination";
 import { GlobalContext } from "@/context/GlobalContext";
 import UpdateFaculty from "./UpdateFaculty";
+import Link from "next/link";
 
 const GetAllFaculty = () => {
   const { visibleCount, loadMore } = usePagination(8, 8);
@@ -54,19 +55,21 @@ const GetAllFaculty = () => {
         <div className="grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 lg:grid-cols-4 faculty-card">
           {faculties.slice(0, visibleCount).map((faculty) => (
             <Card sx={{ maxWidth: 345 }} className="" key={faculty.id}>
-              <Avatar
-                src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${faculty?.image}`}
-                alt="faculty"
-                className="mx-auto mt-2 md:w-[300px] md:h-[300px] w-[200px] h-[200px]"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {faculty?.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {faculty?.designation}
-                </Typography>
-              </CardContent>
+              <Link href={`/faculty/${faculty?.id}`}>
+                <Avatar
+                  src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${faculty?.image}`}
+                  alt="faculty"
+                  className="mx-auto mt-2 md:w-[300px] md:h-[300px] w-[200px] h-[200px]"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {faculty?.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {faculty?.designation}
+                  </Typography>
+                </CardContent>
+              </Link>
 
               <div className="flex justify-end gap-4 p-4">
                 <Button

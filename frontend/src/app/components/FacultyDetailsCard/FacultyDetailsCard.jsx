@@ -38,7 +38,7 @@ const FacultyDetailsCard = () => {
           sx={{ width: 300, height: 300 }}
           src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${singleFaculty?.image}`}
           alt={singleFaculty?.name || "Faculty Name"}
-          className="mx-auto mt-2"
+          className="mx-auto mt-2 border-2 border-[var(--primary-color)]"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">

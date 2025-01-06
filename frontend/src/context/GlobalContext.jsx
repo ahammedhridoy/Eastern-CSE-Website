@@ -251,7 +251,8 @@ export const GlobalContextProvider = ({ children }) => {
 
       if (response.status === 200) {
         toast.success("Blog deleted successfully");
-        return true; // Indicate success
+        fetchBlogs();
+        return true;
       }
     } catch (error) {
       console.error("Error deleting blog:", error);
@@ -422,11 +423,12 @@ export const GlobalContextProvider = ({ children }) => {
         }
       );
 
-      if (response.status === 200) {
+      if (response?.status === 200) {
         toast.success("Slide deleted successfully");
         fetchSliders();
         return true;
       }
+      fetchSliders();
     } catch (error) {
       console.error("Error deleting slide:", error);
       toast.error(error.response?.data?.message || "Server error");

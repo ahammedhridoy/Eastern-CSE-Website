@@ -76,11 +76,9 @@ const AddSlider = () => {
             </div>
             <div className="my-2">
               {image && (
-                <Image
+                <img
                   src={URL.createObjectURL(image)}
-                  width={200}
-                  height={200}
-                  className="w-full h-[400px] border-2 border-gray-400 border-dashed"
+                  className="w-full h-[500px] border-2 border-gray-400 border-dashed object-cover"
                 />
               )}
             </div>

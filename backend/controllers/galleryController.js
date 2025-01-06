@@ -48,7 +48,7 @@ const addImagesToGallery = async (req, res) => {
 const getAllImages = async (req, res) => {
   try {
     const images = await prisma.gallery.findMany({
-      orderBy: { createdAt: "desc" },
+      orderBy: { updatedAt: "desc" },
     });
 
     res
@@ -68,7 +68,7 @@ const getImagesByAlbum = async (req, res) => {
 
     const images = await prisma.gallery.findMany({
       where: { albumId },
-      orderBy: { createdAt: "desc" },
+      orderBy: { updatedAt: "desc" },
     });
 
     res.status(200).json({ message: "Images fetched successfully.", images });

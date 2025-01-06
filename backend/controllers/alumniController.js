@@ -32,7 +32,7 @@ const createAlumni = async (req, res) => {
 const getAllAlumni = async (req, res) => {
   try {
     const alumniList = await prisma.alumni.findMany({
-      orderBy: { createdAt: "desc" },
+      orderBy: { updatedAt: "desc" },
     });
 
     res

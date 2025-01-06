@@ -31,7 +31,7 @@ const createAboutSlide = async (req, res) => {
 const getAboutAllSlides = async (req, res) => {
   try {
     const slides = await prisma.aboutslider.findMany({
-      orderBy: { createdAt: "desc" },
+      orderBy: { updatedAt: "desc" },
     });
 
     res.status(200).json({ message: "Slides fetched successfully.", slides });

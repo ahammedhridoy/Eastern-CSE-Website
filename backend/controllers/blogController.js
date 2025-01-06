@@ -31,7 +31,7 @@ const getAllBlogs = async (req, res) => {
   try {
     // Fetch all blogs from the database
     const blogs = await prisma.blog.findMany({
-      orderBy: { createdAt: "desc" },
+      orderBy: { updatedAt: "desc" },
     });
 
     res.status(200).json({ message: "Blogs fetched successfully.", blogs });
