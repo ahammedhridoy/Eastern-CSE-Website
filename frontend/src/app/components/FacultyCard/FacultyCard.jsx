@@ -4,7 +4,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import { Avatar } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 import { GlobalContext } from "@/context/GlobalContext";
 import usePagination from "@/hooks/usePagination";
 import ContentLoading from "../ContentLoading/ContentLoading";
@@ -23,29 +23,31 @@ const FacultyCard = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-5 p-4 mt-10 md:grid-cols-2 lg:grid-cols-4 faculty-card">
-      {faculties.slice(0, visibleCount).map((faculty) => (
-        <Link key={faculty?.id} href={`/faculty/${faculty?.id}`}>
-          <Card
-            sx={{ maxWidth: 345 }}
-            className="transition-all duration-300 hover:scale-110"
-          >
-            <Avatar
-              src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${faculty?.image}`}
-              alt={faculty?.title || "Event Image"}
-              className="mx-auto mt-2 md:w-[300px] md:h-[300px] w-[200px] h-[200px]"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {faculty?.name}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {faculty?.designation}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Link>
-      ))}
+    <>
+      <div className="grid grid-cols-1 gap-5 p-4 mt-10 md:grid-cols-2 lg:grid-cols-4 faculty-card">
+        {faculties.slice(0, visibleCount).map((faculty) => (
+          <Link key={faculty?.id} href={`/faculty/${faculty?.id}`}>
+            <Card
+              sx={{ maxWidth: 345 }}
+              className="transition-all duration-300 hover:scale-110"
+            >
+              <Avatar
+                src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${faculty?.image}`}
+                alt={faculty?.title || "Event Image"}
+                className="mx-auto mt-2 md:w-[300px] md:h-[300px] w-[200px] h-[200px]"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {faculty?.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {faculty?.designation}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </div>
 
       {/* Load More */}
       {faculties?.length > visibleCount && (
@@ -55,7 +57,7 @@ const FacultyCard = () => {
           </Button>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

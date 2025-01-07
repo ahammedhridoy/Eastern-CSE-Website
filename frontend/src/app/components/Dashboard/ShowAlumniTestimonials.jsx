@@ -67,9 +67,9 @@ const ShowAlumniTestimonials = () => {
                     {testimonial?.name}
                   </h3>
                   <p className=" text-semibold">{testimonial?.designation}</p>
-                  <p className="text-sm text-muted-foreground ">
+                  {/* <p className="text-sm text-muted-foreground ">
                     Batch: {testimonial?.batch}
-                  </p>
+                  </p> */}
                 </CardContent>
                 <div className="flex justify-end gap-4 p-4">
                   <Button

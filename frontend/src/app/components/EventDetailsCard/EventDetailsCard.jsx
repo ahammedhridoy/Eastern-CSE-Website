@@ -24,7 +24,11 @@ const EventDetailsCard = () => {
 
   // Sanitize HTML content to prevent XSS
   const sanitizedDescription = DOMPurify.sanitize(
-    singleBlog?.description || ""
+    singleBlog?.description || "",
+    {
+      ALLOWED_TAGS: ["b", "i", "em", "strong", "a", "p", "ul", "ol", "li"],
+      ALLOWED_ATTR: ["href", "target"],
+    }
   );
 
   return (
@@ -49,8 +53,11 @@ const EventDetailsCard = () => {
             className="text-justify text-[var(--gray-color)]"
           >
             <div
-              className="text-justify text-[var(--gray-color)] blog-description"
               dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+              style={{
+                listStyleType: "initial",
+                paddingLeft: "20px",
+              }}
             ></div>
           </Typography>
         </CardContent>

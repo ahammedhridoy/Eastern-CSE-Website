@@ -54,7 +54,7 @@ const ShowTeacherTestimonials = () => {
         <Separator position="justify-start" />
         <div className="grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 lg:grid-cols-4 faculty-card">
           {teacherTestimonials.slice(0, visibleCount).map((testimonial) => (
-            <div className="relative card-wrapper max-w-[345px] mx-auto w-[345px]">
+            <div className="relative card-wrapper max-w-[345px] mx-auto w-[345px] mb-5">
               <Avatar
                 alt={testimonial?.name}
                 src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${testimonial?.image}`}

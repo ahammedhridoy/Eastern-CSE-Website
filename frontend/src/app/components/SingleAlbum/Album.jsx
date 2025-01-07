@@ -17,7 +17,7 @@ const Album = () => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const { fetchImages, images, loading } = useContext(GlobalContext);
   const { albumId } = useParams();
-  const { visibleCount, loadMore } = usePagination(4, 8);
+  const { visibleCount, loadMore } = usePagination(16, 16);
 
   React.useEffect(() => {
     fetchImages(albumId);

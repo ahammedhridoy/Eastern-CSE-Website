@@ -15,7 +15,7 @@ import { GlobalContext } from "./../../../context/GlobalContext";
 const AddAlumniTestimonial = () => {
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
-  const [batch, setBatch] = useState("");
+  // const [batch, setBatch] = useState("");
   const [image, setImage] = useState(null);
   const [designation, setDesignation] = useState("");
   const { accessToken, fetchAlumniTestimonials } = useContext(GlobalContext);
@@ -30,14 +30,14 @@ const AddAlumniTestimonial = () => {
         return;
       }
 
-      if (!name || !batch || !description || !image) {
+      if (!name || !description || !image) {
         toast.error("All fields are required");
         return;
       }
 
       const formData = new FormData();
       formData.append("name", name);
-      formData.append("batch", batch);
+      // formData.append("batch", batch);
       formData.append("description", description);
       formData.append("image", image);
       formData.append("designation", designation);
@@ -53,7 +53,7 @@ const AddAlumniTestimonial = () => {
       if (res?.status === 201) {
         toast.success("Testimonial added successfully");
         setName("");
-        setBatch("");
+        // setBatch("");
         setDescription("");
         setDesignation("");
         setImage("");
@@ -110,7 +110,7 @@ const AddAlumniTestimonial = () => {
           method="post"
           onSubmit={submitAlumniTestimonial}
         >
-          <div className="lg:w-[40%] w-full">
+          <div className="w-full">
             <div className="mt-4 file-input">
               <input
                 type="file"
@@ -139,7 +139,7 @@ const AddAlumniTestimonial = () => {
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
-            <div className="w-full mt-2">
+            {/* <div className="w-full mt-2">
               <TextField
                 id="alumni-batch"
                 label="Batch"
@@ -148,7 +148,7 @@ const AddAlumniTestimonial = () => {
                 value={batch}
                 onChange={(e) => setBatch(e.target.value)}
               />
-            </div>
+            </div> */}
 
             <div className="w-full mt-2">
               <TextField

@@ -5,13 +5,13 @@ const path = require("path");
 // Create Alumni
 const createAlumni = async (req, res) => {
   try {
-    const { name, batch, description, designation } = req.body;
+    const { name, description, designation } = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
     const newAlumni = await prisma.alumni.create({
       data: {
         name,
-        batch,
+        // batch,
         description,
         image: imageUrl,
         designation,
@@ -49,7 +49,7 @@ const getAllAlumni = async (req, res) => {
 const updateAlumni = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, batch, description, designation } = req.body;
+    const { name, description, designation } = req.body;
     const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
     // Check if the alumni exists
@@ -74,7 +74,7 @@ const updateAlumni = async (req, res) => {
       where: { id },
       data: {
         name,
-        batch,
+        // batch,
         description,
         designation,
         ...(imageUrl && { image: imageUrl }),

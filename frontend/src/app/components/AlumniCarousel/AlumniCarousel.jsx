@@ -63,9 +63,9 @@ const AlumniCarousel = () => {
                       <p className=" text-semibold">
                         {testimonial?.designation}
                       </p>
-                      <p className="text-sm text-muted-foreground">
+                      {/* <p className="text-sm text-muted-foreground">
                         {testimonial?.batch}
-                      </p>
+                      </p> */}
                     </CardContent>
                   </Card>
                 </div>
