@@ -270,6 +270,10 @@ li {
   margin-bottom: 5px; /* Optional: Add spacing between list items */
 }
 
+.main-menu ul {
+  list-style: none !important;
+}
+
 /* Responsive css */
 
 @media screen and (max-width: 830px) {

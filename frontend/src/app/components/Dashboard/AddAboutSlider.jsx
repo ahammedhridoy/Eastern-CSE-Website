@@ -11,7 +11,7 @@ import { GlobalContext } from "./../../../context/GlobalContext";
 import Separator from "../Separator/Separator";
 
 const AddAboutSlider = () => {
-  const [image, setImage] = useState("");
+  const [aboutImages, setAboutImages] = useState([]);
   const { accessToken, fetchAboutSliders } = useContext(GlobalContext);
 
   // Add Slider
@@ -24,13 +24,17 @@ const AddAboutSlider = () => {
         return;
       }
 
-      if (!image) {
+      if (!aboutImages || aboutImages.length === 0) {
         toast.error("Image is required");
         return;
       }
 
       const formData = new FormData();
-      formData.append("image", image);
+
+      // Append each selected image file to the FormData
+      Array.from(aboutImages).forEach((image) => {
+        formData.append("images", image);
+      });
 
       const res = await apiClient.post(
         "/api/v1/about/slider/create",
@@ -46,7 +50,7 @@ const AddAboutSlider = () => {
 
       if (res?.status === 201) {
         toast.success("Slider added successfully");
-        setImage("");
+        setAboutImages([]);
         fetchAboutSliders();
       } else {
         toast.error(res.data.message || "Error adding Slider");
@@ -73,18 +77,24 @@ const AddAboutSlider = () => {
                 type="file"
                 accept="image/*"
                 name="image"
-                onChange={(e) => setImage(e.target.files[0])}
+                onChange={(e) => setAboutImages(e.target.files)}
+                multiple
                 variant="outlined"
               />
             </div>
             <div className="my-2">
-              {image && (
-                <Image
-                  src={URL.createObjectURL(image)}
-                  width={200}
-                  height={200}
-                  className="w-full h-[400px] border-2 border-gray-400 border-dashed"
-                />
+              {aboutImages && aboutImages.length > 0 && (
+                <div className="flex flex-wrap w-full gap-4 image-preview">
+                  {Array.from(aboutImages).map((image, index) => (
+                    <Image
+                      key={index}
+                      src={URL.createObjectURL(image)}
+                      width={200}
+                      height={200}
+                      className="flex-shrink-0 lg:w-[300px] lg:h-[200px] md:w-full md:h-[400px] w-full h-[200px] border-2 border-gray-400 border-dashed object-cover"
+                    />
+                  ))}
+                </div>
               )}
             </div>
 

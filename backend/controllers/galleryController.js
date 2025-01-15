@@ -22,7 +22,7 @@ const addImagesToGallery = async (req, res) => {
 
     // Prepare gallery data for Prisma
     const galleryData = req.files.map((file) => ({
-      image: `/uploads/${file.filename}`, // Adjust this path as needed
+      image: `/uploads/${file.filename}`,
       albumId,
     }));
 

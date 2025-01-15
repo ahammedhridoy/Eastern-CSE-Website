@@ -28,7 +28,7 @@ const TestimonialCarousel = () => {
   const sanitizedContent = (content) => DOMPurify.sanitize(content || "");
 
   return (
-    <div className="container mx-auto mb-10 w-[90%]">
+    <div className="container mx-auto mb-10">
       <Carousel
         opts={{
           align: "start",
@@ -39,7 +39,7 @@ const TestimonialCarousel = () => {
           {teacherTestimonials.map((testimonial) => (
             <CarouselItem
               key={testimonial?.id}
-              className="md:basis-1/2 lg:basis-1/3"
+              className="md:basis-2/2 lg:basis-1/4"
             >
               <div className="p-1 py-10">
                 <div className="relative card-wrapper max-w-[345px] mx-auto">

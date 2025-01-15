@@ -8,7 +8,7 @@ const SingleAlbum = () => {
       {/* Banner */}
       <div className="relative banner">
         <Image
-          src={"/images/contact/contact-banner.jpg"}
+          src={"/images/album/album.jpg"}
           width={0}
           height={0}
           sizes="100vw"

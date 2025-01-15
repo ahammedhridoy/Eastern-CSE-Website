@@ -38,7 +38,10 @@ const EventDetailsCard = () => {
           image={`${process.env.NEXT_PUBLIC_IMAGE_URL}${singleBlog?.image}`}
           title={singleBlog?.title || "Event Image"}
           className="object-cover h-[300px] md:h-[600px]"
+          alt={singleBlog?.title || "Event Image"}
+          quality={100}
         />
+
         <CardContent>
           <Typography
             gutterBottom

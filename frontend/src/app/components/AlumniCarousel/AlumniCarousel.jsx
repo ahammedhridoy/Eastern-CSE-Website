@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -39,7 +39,7 @@ const AlumniCarousel = () => {
           {alumniTestimonials.map((testimonial) => (
             <CarouselItem
               key={testimonial?.id}
-              className="md:basis-1/2 lg:basis-1/3"
+              className="md:basis-2/2 lg:basis-1/4"
             >
               <div className="p-1 py-10">
                 <div className="relative card-wrapper max-w-[345px] mx-auto">

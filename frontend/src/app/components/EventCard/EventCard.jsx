@@ -40,6 +40,7 @@ const EventCard = () => {
                 image={`${process.env.NEXT_PUBLIC_IMAGE_URL}${blog?.image}`}
                 alt={blog.title || "Event Image"}
                 className="object-cover w-full h-[300px]"
+                quality={100}
               />
               <CardContent>
                 <Typography

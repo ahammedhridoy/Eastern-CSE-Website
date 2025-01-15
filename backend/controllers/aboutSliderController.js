@@ -4,26 +4,29 @@ const prisma = require("../utils/prismaClient");
 
 const createAboutSlide = async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ message: "No image uploaded." });
+    // Check if files are uploaded
+    if (!req.files || req.files.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "No images provided for upload." });
     }
 
-    const imageUrl = `/uploads/${req.file.filename}`; // Path to save in the database
+    // Prepare slide data for Prisma
+    const slides = req.files.map((file) => ({
+      image: `/uploads/${file.filename}`, // Adjust to match your upload folder path
+    }));
 
-    // Save slide to the database using Prisma
-    const newSlide = await prisma.aboutslider.create({
-      data: {
-        image: imageUrl,
-      },
+    // Save all slides to the database using Prisma
+    await prisma.aboutslider.createMany({
+      data: slides,
     });
 
-    res
-      .status(201)
-      .json({ message: "Slide created successfully.", slide: newSlide });
+    res.status(201).json({ message: "Slides created successfully." });
   } catch (error) {
+    console.error("Error creating slides:", error);
     res
       .status(500)
-      .json({ message: "Error creating slide.", error: error.message });
+      .json({ message: "Error creating slides.", error: error.message });
   }
 };
 

@@ -109,7 +109,7 @@ const Sidebar = () => {
       </div>
       <ul className="space-y-4">
         {menuItems.map((item) => (
-          <li key={item.label}>
+          <li key={item.label} className="list-none cursor-pointer">
             <button
               onClick={() => handleNavigation(item.href)}
               className={`flex items-center text-gray-600 cursor-pointer hover:text-blue-500 ${

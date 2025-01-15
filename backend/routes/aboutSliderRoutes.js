@@ -18,7 +18,7 @@ const aboutSliderRouter = express.Router();
 aboutSliderRouter.post(
   "/create",
   verifyRole(["EDITOR", "ADMIN"]),
-  upload.single("image"),
+  upload.array("images", 30),
   createAboutSlide
 );
 

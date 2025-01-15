@@ -18,14 +18,22 @@ import { useRouter } from "next/navigation"; // Import useRouter for navigation
 import { GlobalContext } from "@/context/GlobalContext";
 import { Toaster } from "react-hot-toast";
 
-const pages = ["Home", "Events", "Faculty", "Gallery", "About", "Contact"];
-const settings = ["Dashboard", "Logout"];
-
 function Navigation() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { userLogout, loading, user } = useContext(GlobalContext);
   const router = useRouter();
+
+  const pages = [
+    "Home",
+    "Events",
+    "Faculty",
+    "Gallery",
+    "About",
+    "Contact",
+    `${!user ? "Admin" : ""}`,
+  ];
+  const settings = ["Dashboard", "Logout"];
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -193,7 +201,7 @@ function Navigation() {
                         if (setting === "Logout") {
                           userLogout();
                         } else if (setting === "Dashboard") {
-                          router.push("/dashboard"); // Navigate to dashboard if Dashboard is clicked
+                          router.push("/dashboard");
                         }
                       }}
                     >

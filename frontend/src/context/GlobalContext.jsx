@@ -688,6 +688,8 @@ export const GlobalContextProvider = ({ children }) => {
         fetchAlumniTestimonials();
       }
 
+      fetchAlumniTestimonials();
+
       return response?.data?.alumni;
     } catch (error) {
       throw error;
@@ -707,7 +709,7 @@ export const GlobalContextProvider = ({ children }) => {
         toast.success("Alumni deleted successfully");
         fetchAlumniTestimonials(); // Refresh the alumni list
       }
-
+      fetchAlumniTestimonials();
       return response.data.message; // Return success message
     } catch (error) {
       throw error;
