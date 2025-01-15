@@ -9,31 +9,21 @@ generator client {
 }
 
 model User {
-  id               String             @id @default(auto()) @map("_id") @db.ObjectId
-  email            String             @unique
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  email            String    @unique
   name             String
   password         String
-  role             Role               @default(EDITOR)
-  refreshTokens    UserRefreshToken[]
+  role             Role      @default(EDITOR)
   resetToken       String?
   resetTokenExpiry DateTime?
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 }
 
 model ResetToken {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   email     String
   token     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model UserRefreshToken {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  token     String
-  userId    String   @map("user_id") @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

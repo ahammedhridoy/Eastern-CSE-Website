@@ -14,12 +14,11 @@ const {
   verifyEditor,
   verifyRole,
 } = require("../controllers/authController");
-const adminAuthMiddleware = require("../middleware/adminAuth");
 
 const authRouter = express.Router();
 
 // POST /api/v1/auth/register
-authRouter.post("/register", verifyRole(["ADMIN"]), register);
+authRouter.post("/register", register);
 
 // POST /api/v1/auth/login
 authRouter.post("/login", login);
