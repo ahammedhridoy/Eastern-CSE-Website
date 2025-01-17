@@ -31,7 +31,7 @@ function Navigation() {
     "Gallery",
     "About",
     "Contact",
-    `${!user ? "Admin" : ""}`,
+    `${!user ? "Login" : ""}`,
   ];
   const settings = ["Dashboard", "Logout"];
 
@@ -173,7 +173,7 @@ function Navigation() {
                     <Avatar
                       alt="User"
                       className="border-2 rounded-full"
-                      src="/images/global/user.png"
+                      src="/images/global/user-icon.gif"
                     />
                   </IconButton>
                 </Tooltip>
