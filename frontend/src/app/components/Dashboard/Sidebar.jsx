@@ -104,9 +104,14 @@ const Sidebar = () => {
     <div
       className={`fixed top-[69px] left-0 bg-gray-100 p-4 w-[300px] min-h-screen`}
     >
-      <div className="flex items-center justify-center mb-6 bg-black">
-        <Image src="/images/global/cse.png" alt="Logo" width={40} height={40} />
-      </div>
+      {/* <div className="flex items-center justify-center mb-6 bg-[--black-color] py-2">
+        <Image
+          src="/images/global/cselogo.png"
+          alt="Logo"
+          width={100}
+          height={100}
+        />
+      </div> */}
       <ul className="space-y-4">
         {menuItems.map((item) => (
           <li key={item.label} className="list-none cursor-pointer">

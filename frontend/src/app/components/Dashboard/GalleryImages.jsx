@@ -10,7 +10,7 @@ import GalleryCard from "./GalleryCard";
 
 const GalleryImages = () => {
   const { allImages, loading } = useContext(GlobalContext);
-  const { visibleCount, loadMore } = usePagination(4, 8);
+  const { visibleCount, loadMore } = usePagination(8, 8);
 
   if (loading) {
     return <ContentLoading height="screen" />;

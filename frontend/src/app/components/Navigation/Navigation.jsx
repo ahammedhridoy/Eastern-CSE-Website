@@ -54,15 +54,15 @@ function Navigation() {
   return (
     <div className="Navigation lg:mb-[69px] md:mb-[64px] mb-[57px]">
       <Toaster />
-      <AppBar position="fixed" sx={{ backgroundColor: "var(--primary-color)" }}>
+      <AppBar position="fixed" sx={{ backgroundColor: "var(--black-color)" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Link href={"/"} className="hidden lg:flex lg:mr-16">
               <Image
-                src="/images/global/cse.png"
+                src="/images/global/cselogo.png"
                 alt="logo"
-                width={50}
-                height={50}
+                width={100}
+                height={100}
               />
             </Link>
 
@@ -130,10 +130,10 @@ function Navigation() {
               }}
             >
               <Image
-                src="/images/global/cse.png"
+                src="/images/global/cselogo.png"
                 alt="logo"
-                width={50}
-                height={50}
+                width={100}
+                height={100}
               />
             </Typography>
 
