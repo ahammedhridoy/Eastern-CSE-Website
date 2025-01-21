@@ -158,7 +158,7 @@ function Navigation() {
                       display: "block",
                       letterSpacing: "1px",
                     }}
-                    className="hover:text-[var(--yellow-color)]"
+                    className="hover:text-[var(--primary-color)]"
                   >
                     {page}
                   </Button>

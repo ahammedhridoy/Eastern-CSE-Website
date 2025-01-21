@@ -8,39 +8,39 @@ import Link from "next/link";
 
 function Footer() {
   return (
-    <div className="footer-wrap bg-[var(--primary-color)] min-h-[100px] flex  items-center justify-center relative z-50">
+    <div className="footer-wrap bg-[var(--black-color)] min-h-[100px] flex  items-center justify-center relative z-50">
       <div className="flex flex-col items-center justify-center gap-5 p-5 footer lg:px-0">
         {/* Social Media */}
         <div className="flex gap-5">
           <Link
             href={"https://www.facebook.com/easterncse/"}
             target="_blank"
-            className="p-2 bg-[var(--yellow-color)] rounded-full"
+            className="p-2 bg-[var(--primary-color)] rounded-full"
           >
-            <FacebookTwoToneIcon className="text-white text-30px  cursor-pointer hover:animate-bounce" />
+            <FacebookTwoToneIcon className="text-white cursor-pointer text-30px hover:animate-bounce" />
           </Link>
 
           <Link
             href={"https://www.facebook.com/easterncse/"}
             target="_blank"
-            className="p-2 bg-[var(--yellow-color)] rounded-full"
+            className="p-2 bg-[var(--primary-color)] rounded-full"
           >
-            <YouTubeIcon className="text-white text-30px  cursor-pointer hover:animate-bounce" />
+            <YouTubeIcon className="text-white cursor-pointer text-30px hover:animate-bounce" />
           </Link>
 
           <Link
             href={"https://www.facebook.com/easterncse/"}
             target="_blank"
-            className="p-2 bg-[var(--yellow-color)] rounded-full"
+            className="p-2 bg-[var(--primary-color)] rounded-full"
           >
-            <InstagramIcon className="text-white text-30px  cursor-pointer hover:animate-bounce" />
+            <InstagramIcon className="text-white cursor-pointer text-30px hover:animate-bounce" />
           </Link>
           <Link
             href={"https://www.facebook.com/easterncse/"}
             target="_blank"
-            className="p-2 bg-[var(--yellow-color)] rounded-full"
+            className="p-2 bg-[var(--primary-color)] rounded-full"
           >
-            <LinkedInIcon className="text-white text-30px  cursor-pointer hover:animate-bounce" />
+            <LinkedInIcon className="text-white cursor-pointer text-30px hover:animate-bounce" />
           </Link>
         </div>
 
