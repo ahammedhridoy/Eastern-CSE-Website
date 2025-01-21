@@ -12,7 +12,7 @@ const ContactInfo = () => {
         Contact Information
       </div>
       <Separator width="w-20" position="justify-center" />
-      <div className="flex flex-col items-center justify-center gap-5 mt-10 md:flex-row">
+      <div className="flex flex-col items-center justify-center gap-5 mt-10 lg:flex-row">
         <Card className="w-[350px] h-[200px]">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
