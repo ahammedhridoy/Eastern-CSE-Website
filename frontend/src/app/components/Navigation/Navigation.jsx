@@ -59,10 +59,10 @@ function Navigation() {
           <Toolbar disableGutters>
             <Link href={"/"} className="hidden lg:flex lg:mr-16">
               <Image
-                src="/images/global/cselogo.png"
+                src="/images/global/eucselogo.png"
                 alt="logo"
-                width={100}
-                height={100}
+                width={120}
+                height={120}
               />
             </Link>
 
@@ -130,10 +130,10 @@ function Navigation() {
               }}
             >
               <Image
-                src="/images/global/cselogo.png"
+                src="/images/global/eucselogo.png"
                 alt="logo"
-                width={100}
-                height={100}
+                width={120}
+                height={120}
               />
             </Typography>
 
