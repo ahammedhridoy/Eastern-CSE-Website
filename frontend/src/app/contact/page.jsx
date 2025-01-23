@@ -1,9 +1,11 @@
-import ContactForm from "@/app/components/ContactForm/ContactForm";
 import ContactInfo from "@/app/components/ContactInfo/ContactInfo";
-import Separator from "@/app/components/Separator/Separator";
-import Image from "next/image";
 import React from "react";
 import Map from "../components/Map/Map";
+
+export const metadata = {
+  title: "Contact",
+  description: "",
+};
 
 const Contact = () => {
   return (

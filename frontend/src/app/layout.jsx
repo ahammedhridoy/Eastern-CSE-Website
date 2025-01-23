@@ -6,8 +6,8 @@ import { GlobalContextProvider } from "@/context/GlobalContext";
 import "react-quill/dist/quill.snow.css";
 
 export const metadata = {
-  title: "Eastern CSE Website",
-  description: "Loading...",
+  title: "Eastern CSE Department",
+  description: "",
 };
 
 export default function RootLayout({ children }) {

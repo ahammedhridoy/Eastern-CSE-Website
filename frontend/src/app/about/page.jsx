@@ -1,9 +1,13 @@
-"use client";
 import AboutCarousel from "@/app/components/AboutCarousel/AboutCarousel";
 import AboutInfoCard from "@/app/components/AboutInfoCard/AboutInfoCard";
 import Separator from "@/app/components/Separator/Separator";
 import Image from "next/image";
 import React from "react";
+
+export const metadata = {
+  title: "About",
+  description: "",
+};
 
 const About = () => {
   return (

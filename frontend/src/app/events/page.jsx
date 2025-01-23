@@ -3,6 +3,11 @@ import Separator from "@/app/components/Separator/Separator";
 import Image from "next/image";
 import React from "react";
 
+export const metadata = {
+  title: "Events",
+  description: "",
+};
+
 function Events() {
   return (
     <div className="faculty">

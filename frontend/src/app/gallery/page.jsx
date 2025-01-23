@@ -1,13 +1,11 @@
-import Image from "next/image";
 import React from "react";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Link from "next/link";
 import Separator from "@/app/components/Separator/Separator";
 import AlbumCardHome from "../components/AlbumCardHome/AlbumCardHome";
+
+export const metadata = {
+  title: "Gallery",
+  description: "",
+};
 
 function Gallery() {
   return (

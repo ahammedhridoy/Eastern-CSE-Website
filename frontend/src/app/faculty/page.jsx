@@ -1,7 +1,11 @@
 import FacultyCard from "@/app/components/FacultyCard/FacultyCard";
 import Separator from "@/app/components/Separator/Separator";
-import Image from "next/image";
 import React from "react";
+
+export const metadata = {
+  title: "Faculty",
+  description: "",
+};
 
 function Faculty() {
   return (

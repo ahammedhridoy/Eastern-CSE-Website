@@ -1,6 +1,10 @@
 import Album from "@/app/components/SingleAlbum/Album";
-import Image from "next/image";
 import React from "react";
+
+export const metadata = {
+  title: "Album",
+  description: "",
+};
 
 const SingleAlbum = () => {
   return (

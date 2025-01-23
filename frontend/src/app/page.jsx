@@ -5,6 +5,11 @@ import FacultyBlock from "./components/FacultyBlock/FacultyBlock";
 import Slider from "./components/Slider/Slider";
 import TestimonialBlock from "./components/TestimonialBlock/TestimonialBlock";
 
+export const metadata = {
+  title: "Eastern CSE Department",
+  description: "",
+};
+
 export default function Home() {
   return (
     <main className="main">
