@@ -22,12 +22,13 @@ const app = express();
 const prisma = new PrismaClient();
 
 // CORS Configuration
-const corsConfig = {
-  origin: "",
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-};
-app.use(cors(corsConfig));
+app.use(
+  cors({
+    origin: "https://eastern-cse-website-frontend.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.options("", cors(corsConfig));
 
 // Middleware
