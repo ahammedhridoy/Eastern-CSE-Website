@@ -6,7 +6,6 @@ import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Image from "next/image";
 import { useState, useEffect, useContext } from "react";
 import { GlobalContext } from "@/context/GlobalContext";
 
