@@ -22,20 +22,13 @@ const app = express();
 const prisma = new PrismaClient();
 
 // CORS Configuration
-app.use(
-  cors({
-    origin: process.env.CLIENT_DOMAIN_NAME,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-    allowedHeaders: [
-      "Origin",
-      "X-Requested-With",
-      "Content-Type",
-      "Accept",
-      "Authorization",
-    ],
-  })
-);
+const corsConfig = {
+  origin: "",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+};
+app.use(cors(corsConfig));
+app.options("", cors(corsConfig));
 
 // Middleware
 app.use(express.json());
