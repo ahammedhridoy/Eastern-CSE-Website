@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children, requiredRoles }) => {
 
     if (!user || !accessToken) {
       setTimeout(() => {
-        router.push("/admin");
+        router.push("/login");
       }, 1000);
       return;
     }
