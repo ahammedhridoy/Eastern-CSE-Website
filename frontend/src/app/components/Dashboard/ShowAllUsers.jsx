@@ -82,14 +82,14 @@ const ShowAllUsers = () => {
                     <Button
                       variant="contained"
                       color="success"
-                      onClick={() => handleUpdateOpen(user)} // Pass the user object here
+                      onClick={() => handleUpdateOpen(user)}
                     >
                       Edit
                     </Button>
                     <Button
                       variant="contained"
                       color="error"
-                      onClick={() => handleDeleteOpen(user.id)} // Pass the user ID here
+                      onClick={() => handleDeleteOpen(user.id)}
                     >
                       Delete
                     </Button>
