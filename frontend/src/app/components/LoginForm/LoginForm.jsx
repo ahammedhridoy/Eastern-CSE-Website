@@ -41,7 +41,7 @@ const LoginForm = () => {
         const token = response?.data?.accessToken;
         const user = response?.data?.user;
         setCurrentUser(user);
-        localStorage.setItem("accessToken", JSON.stringify(token));
+        localStorage.setItem("accessToken", token);
         localStorage.setItem("user", JSON.stringify(user));
 
         toast.success(response?.data?.message);

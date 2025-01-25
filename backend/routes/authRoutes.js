@@ -13,6 +13,7 @@ const {
   verifyUser,
   verifyEditor,
   verifyRole,
+  authorized,
 } = require("../controllers/authController");
 
 const authRouter = express.Router();
@@ -43,5 +44,8 @@ authRouter.post("/reset-password", resetPassword);
 
 // POST /api/v1/auth/logout
 authRouter.post("/logout", logout);
+
+// POST /api/v1/auth/logout
+authRouter.post("/verify", verifyRole(["EDITOR", "ADMIN"]), authorized);
 
 module.exports = authRouter;

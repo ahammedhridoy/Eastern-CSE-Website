@@ -9,7 +9,6 @@ const {
   invalidateToken,
 } = require("../helpers/utils");
 const generateToken = require("../utils/generateToken");
-const setTokensCookies = require("../utils/setTokensCookies");
 const { ObjectId } = require("mongodb");
 
 /**
@@ -373,6 +372,14 @@ const verifyRole = (allowedRoles) => {
   };
 };
 
+// const authorized = async (req, res) => {
+//   res.status(200).json({ verified: true });
+// };
+
+const authorized = async (req, res) => {
+  res.status(200).json({ verified: true });
+};
+
 module.exports = {
   register,
   login,
@@ -384,4 +391,5 @@ module.exports = {
   getSingleUser,
   updateUser,
   deleteUser,
+  authorized,
 };
