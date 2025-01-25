@@ -32,6 +32,8 @@ const corsConfig = {
   allowedHeaders: ["Content-Type", "Authorization"],
   exposedHeaders: ["Set-Cookie"],
   preflightContinue: true,
+  optionsSuccessStatus: 204,
+  maxAge: 86400,
 };
 app.use(cors(corsConfig));
 app.options("", cors(corsConfig));

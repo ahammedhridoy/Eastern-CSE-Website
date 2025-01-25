@@ -86,21 +86,21 @@ const login = async (req, res) => {
         secure: process.env.NODE_ENV === "production",
         maxAge: accessTokenExp,
         path: "/", // Ensure this matches with logout
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        sameSite: "none",
       }),
       cookie.serialize("accessTokenExp", accessTokenExp.toString(), {
         httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         maxAge: accessTokenExp,
         path: "/", // Ensure this matches with logout
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        sameSite: "none",
       }),
       cookie.serialize("user", JSON.stringify(userWithoutPassword), {
         httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         maxAge: accessTokenExp,
         path: "/", // Ensure this matches with logout
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        sameSite: "none",
       }),
     ]);
 
@@ -127,21 +127,21 @@ const logout = async (req, res) => {
         secure: process.env.NODE_ENV === "production",
         maxAge: 0,
         path: "/",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        sameSite: "none",
       }),
       cookie.serialize("accessTokenExp", "", {
         httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         maxAge: 0,
         path: "/",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        sameSite: "none",
       }),
       cookie.serialize("user", "", {
         httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         maxAge: 0,
         path: "/",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        sameSite: "none",
       }),
     ]);
 
