@@ -1,49 +1,67 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // Next.js navigation hook
+import { useRouter } from "next/navigation";
+import { verifyUser } from "@/hooks/verifyUser";
 import LoadingSpinner from "./LoadingSpinner/LoadingSpinner";
-import axios from "axios";
 
-const ProtectedRoute = ({ children, requiredRoles }) => {
+const ProtectedRoute = ({ children, requiredRoles = [] }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
-    const verifyUser = async () => {
-      const token = localStorage.getItem("accessToken");
-
+    const checkAuthorization = async () => {
       try {
-        // Send a request to the backend to verify the user
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/verify`,
-          {},
-          {
-            withCredentials: true,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        // Safely parse localStorage items
+        const accessToken = localStorage.getItem("accessToken");
+        const userString = localStorage.getItem("user");
+        const user = userString ? JSON.parse(userString) : null;
 
-        if (response?.status === 200 && response?.data?.verified) {
-          // User is verified, allow access
+        // Check if user is logged in
+        if (!user || !accessToken) {
+          router.replace("/login");
           setLoading(false);
-        } else {
-          // User is not verified, redirect to login
-          router.replace("/");
+          return;
         }
+
+        // Verify user token
+        const isVerified = await verifyUser(accessToken);
+
+        console.log("isVerified: " + isVerified);
+
+        // Check role-based authorization if required
+        if (requiredRoles.length > 0) {
+          const hasRequiredRole = requiredRoles.includes(user?.role);
+
+          if (!hasRequiredRole) {
+            router.replace("/login");
+            setLoading(false);
+            return;
+          }
+        }
+
+        setIsAuthorized(isVerified);
+        setLoading(false);
       } catch (error) {
-        console.error("Verification failed:", error);
-        router.replace("/");
+        console.error("Authorization check failed:", error);
+        router.replace("/login");
+        setLoading(false);
       }
     };
 
-    verifyUser();
-  }, [router]);
+    // Only run check if in browser environment
+    if (typeof window !== "undefined") {
+      checkAuthorization();
+    }
+  }, [router, requiredRoles]);
 
-  if (loading) return <LoadingSpinner />;
+  // Render loading state
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
-  return <>{children}</>;
+  // Render children if authorized
+  return isAuthorized ? children : null;
 };
 
 export default ProtectedRoute;

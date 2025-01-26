@@ -173,7 +173,7 @@ function Navigation() {
                     <Avatar
                       alt="User"
                       className="border-2 rounded-full"
-                      src="/images/global/user-icon.gif"
+                      src="/images/global/user-icon.png"
                     />
                   </IconButton>
                 </Tooltip>

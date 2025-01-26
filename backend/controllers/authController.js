@@ -372,10 +372,6 @@ const verifyRole = (allowedRoles) => {
   };
 };
 
-// const authorized = async (req, res) => {
-//   res.status(200).json({ verified: true });
-// };
-
 const authorized = async (req, res) => {
   res.status(200).json({ verified: true });
 };
