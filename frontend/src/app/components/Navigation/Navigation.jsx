@@ -54,7 +54,7 @@ function Navigation() {
   return (
     <div className="Navigation lg:mb-[69px] md:mb-[64px] mb-[57px]">
       <Toaster />
-      <AppBar position="fixed" sx={{ backgroundColor: "var(--black-color)" }}>
+      <AppBar position="fixed" sx={{ backgroundColor: "#212937" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Link href={"/"} className="hidden lg:flex lg:mr-16">

@@ -100,9 +100,7 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div
-      className={`fixed top-[69px] left-0 bg-gray-100 p-4 w-[300px] min-h-screen`}
-    >
+    <div className={` p-4 w-[300px] min-h-screen`}>
       {/* <div className="flex items-center justify-center mb-6 bg-[--black-color] py-2">
         <Image
           src="/images/global/cselogo.png"
@@ -113,10 +111,13 @@ const Sidebar = () => {
       </div> */}
       <ul className="space-y-4">
         {menuItems.map((item) => (
-          <li key={item.label} className="list-none cursor-pointer">
+          <li
+            key={item.label}
+            className="list-none cursor-pointer text-white-600"
+          >
             <button
               onClick={() => handleNavigation(item.href)}
-              className={`flex items-center text-gray-600 cursor-pointer hover:text-blue-500 ${
+              className={`flex items-center text-white-600 cursor-pointer hover:text-blue-500 ${
                 active === item.href ? "active" : ""
               }`}
             >

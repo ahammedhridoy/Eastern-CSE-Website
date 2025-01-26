@@ -10,13 +10,8 @@ const ManageAccDash = () => {
     <ProtectedRoute requiredRoles={["EDITOR", "ADMIN"]}>
       <div>
         <div className="flex gap-4">
-          {/* Sidebar */}
-          <div className="mr-[300px] hidden lg:block">
-            <Sidebar />
-          </div>
           {/* Main Content */}
           <div className="w-full my-4">
-            <DashMobileMenu />
             <div>
               <Card className="min-h-screen p-4">
                 <ShowAccount />

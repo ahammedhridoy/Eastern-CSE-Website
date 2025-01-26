@@ -19,11 +19,20 @@ const DashMobileMenu = () => {
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
+
+  const DrawerList = (
+    <Box role="presentation" onClick={toggleDrawer(false)}>
+      <div className="">
+        <Sidebar />
+      </div>
+    </Box>
+  );
+
   return (
-    <div className="lg:ml-[260px] flex justify-end ml-0 lg:hidden">
+    <div className="flex justify-end ml-0 lg:hidden">
       <Button onClick={toggleDrawer(true)}>Open Dashboard Menu</Button>
       <Drawer open={open} onClose={toggleDrawer(false)}>
-        <Sidebar />
+        {DrawerList}
       </Drawer>
     </div>
   );

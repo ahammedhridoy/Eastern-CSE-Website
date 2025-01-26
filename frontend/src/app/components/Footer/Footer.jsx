@@ -8,7 +8,7 @@ import Link from "next/link";
 
 function Footer() {
   return (
-    <div className="footer-wrap bg-[var(--black-color)] min-h-[100px] flex  items-center justify-center relative z-50">
+    <div className="footer-wrap bg-gray-800 min-h-[100px] flex  items-center justify-center relative ">
       <div className="flex flex-col items-center justify-center gap-5 p-5 footer lg:px-0">
         {/* Social Media */}
         <div className="flex gap-5">
