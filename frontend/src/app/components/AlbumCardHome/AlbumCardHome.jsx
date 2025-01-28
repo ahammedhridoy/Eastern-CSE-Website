@@ -42,7 +42,7 @@ const AlbumCardHome = () => {
                 className="cursor-pointer h-[300px] p-2 object-cover"
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="h6" component="p">
                   {album?.name}
                 </Typography>
               </CardContent>

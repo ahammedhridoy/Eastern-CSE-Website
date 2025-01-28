@@ -47,10 +47,15 @@ const EventDetailsCard = () => {
             gutterBottom
             variant="h5"
             component="div"
-            className="text-[var(--black-color)] mb-4"
+            className="text-[var(--black-color)] mb-4 pl-4"
           >
             {singleBlog?.title || "Untitled Blog"}
           </Typography>
+
+          <p className="pl-4 mb-4">
+            {new Date(singleBlog?.createdAt).toISOString().split("T")[0]}
+          </p>
+
           <Typography
             variant="body2"
             className="text-justify text-[var(--gray-color)]"

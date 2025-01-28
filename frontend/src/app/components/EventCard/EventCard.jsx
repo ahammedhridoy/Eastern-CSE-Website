@@ -42,15 +42,19 @@ const EventCard = () => {
                 className="object-cover w-full h-[300px]"
                 quality={100}
               />
+
               <CardContent>
                 <Typography
                   gutterBottom
-                  variant="h5"
-                  component="div"
+                  variant="h6"
+                  component="p"
                   className="text-[var(--black-color)] line-clamp-2"
                 >
                   {blog.title || "Untitled Blog"}
                 </Typography>
+                <p className="my-2">
+                  {new Date(blog?.createdAt).toISOString().split("T")[0]}
+                </p>
               </CardContent>
             </Card>
           </Link>

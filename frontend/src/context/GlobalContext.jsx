@@ -164,7 +164,7 @@ export const GlobalContextProvider = ({ children }) => {
       const response = await apiClient.get(`api/v1/gallery/all`, {
         withCredentials: true,
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
 
@@ -290,7 +290,7 @@ export const GlobalContextProvider = ({ children }) => {
       const response = await apiClient.get("/api/v1/auth/user/all", {
         withCredentials: true,
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
 
