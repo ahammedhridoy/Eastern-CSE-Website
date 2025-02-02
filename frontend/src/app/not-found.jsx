@@ -9,7 +9,9 @@ const NotFound = () => {
           OPPS! PAGE NOT FOUND
         </p>
         <Link href={"/"}>
-          <Button className="bg-[var(--primary-color)]">GO HOME</Button>
+          <Button className="bg-[var(--primary-color)] text-white">
+            GO HOME
+          </Button>
         </Link>
       </div>
     </div>

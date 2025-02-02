@@ -14,18 +14,22 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation"; // Import useRouter for navigation
+import { useRouter } from "next/navigation";
 import { GlobalContext } from "@/context/GlobalContext";
 import { Toaster } from "react-hot-toast";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 function Navigation() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const { userLogout, loading, user } = useContext(GlobalContext);
+  const [anchorElAcademics, setAnchorElAcademics] = React.useState(null);
+  const { userLogout, user } = useContext(GlobalContext);
   const router = useRouter();
 
   const pages = [
     "Home",
+    "Programs",
+    "Admission",
     "Events",
     "Faculty",
     "Gallery",
@@ -35,21 +39,14 @@ function Navigation() {
   ];
   const settings = ["Dashboard", "Logout"];
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
+  const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
+  const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
+  const handleOpenAcademicsMenu = (event) =>
+    setAnchorElAcademics(event.currentTarget);
 
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const handleCloseNavMenu = () => setAnchorElNav(null);
+  const handleCloseUserMenu = () => setAnchorElUser(null);
+  const handleCloseAcademicsMenu = () => setAnchorElAcademics(null);
 
   return (
     <div className="Navigation lg:mb-[69px] md:mb-[64px] mb-[57px]">
@@ -66,17 +63,9 @@ function Navigation() {
               />
             </Link>
 
-            <Box
-              sx={{
-                flexGrow: 1,
-                display: { xs: "flex", md: "none" },
-              }}
-            >
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
                 onClick={handleOpenNavMenu}
                 color="inherit"
               >
@@ -85,27 +74,14 @@ function Navigation() {
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: "block", md: "none" },
-                }}
+                sx={{ display: { xs: "block", md: "none" } }}
               >
                 {pages.map((page) => (
-                  <MenuItem key={page}>
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
                     <Link
-                      onClick={handleCloseNavMenu}
                       href={`/${page === "Home" ? "" : page.toLowerCase()}`}
-                      passHref
                     >
                       <Typography textAlign="center">{page}</Typography>
                     </Link>
@@ -144,14 +120,120 @@ function Navigation() {
                 justifyContent: "center",
               }}
             >
-              {pages.map((page) => (
-                <Link
-                  href={`/${page === "Home" ? "" : page.toLowerCase()}`}
-                  passHref
-                  key={page}
+              <Link href="/">
+                <Button
+                  sx={{
+                    my: 2,
+                    color: "white",
+                    display: "block",
+                    letterSpacing: "1px",
+                  }}
+                  className="hover:text-[var(--primary-color)]"
                 >
+                  Home
+                </Button>
+              </Link>
+
+              {/* Academics Dropdown */}
+              <Button
+                onClick={handleOpenAcademicsMenu}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "flex",
+                  alignItems: "center",
+                  letterSpacing: "1px",
+                }}
+                className="hover:text-[var(--primary-color)]"
+              >
+                Academics <ArrowDropDownIcon />
+              </Button>
+              <Menu
+                anchorEl={anchorElAcademics}
+                open={Boolean(anchorElAcademics)}
+                onClose={handleCloseAcademicsMenu}
+              >
+                <MenuItem onClick={handleCloseAcademicsMenu}>
+                  <Link href="/programs">Programs</Link>
+                </MenuItem>
+                <MenuItem onClick={handleCloseAcademicsMenu}>
+                  <Link href="/admission">Admission</Link>
+                </MenuItem>
+              </Menu>
+
+              <Link href="/events">
+                <Button
+                  sx={{
+                    my: 2,
+                    color: "white",
+                    display: "block",
+                    letterSpacing: "1px",
+                  }}
+                  className="hover:text-[var(--primary-color)]"
+                >
+                  Events
+                </Button>
+              </Link>
+
+              <Link href="/faculty">
+                <Button
+                  sx={{
+                    my: 2,
+                    color: "white",
+                    display: "block",
+                    letterSpacing: "1px",
+                  }}
+                  className="hover:text-[var(--primary-color)]"
+                >
+                  Faculty
+                </Button>
+              </Link>
+
+              <Link href="/gallery">
+                <Button
+                  sx={{
+                    my: 2,
+                    color: "white",
+                    display: "block",
+                    letterSpacing: "1px",
+                  }}
+                  className="hover:text-[var(--primary-color)]"
+                >
+                  Gallery
+                </Button>
+              </Link>
+
+              <Link href="/about">
+                <Button
+                  sx={{
+                    my: 2,
+                    color: "white",
+                    display: "block",
+                    letterSpacing: "1px",
+                  }}
+                  className="hover:text-[var(--primary-color)]"
+                >
+                  About
+                </Button>
+              </Link>
+
+              <Link href="/contact">
+                <Button
+                  sx={{
+                    my: 2,
+                    color: "white",
+                    display: "block",
+                    letterSpacing: "1px",
+                  }}
+                  className="hover:text-[var(--primary-color)]"
+                >
+                  Contact
+                </Button>
+              </Link>
+
+              {!user && (
+                <Link href="/login">
                   <Button
-                    onClick={handleCloseNavMenu}
                     sx={{
                       my: 2,
                       color: "white",
@@ -160,10 +242,10 @@ function Navigation() {
                     }}
                     className="hover:text-[var(--primary-color)]"
                   >
-                    {page}
+                    Login
                   </Button>
                 </Link>
-              ))}
+              )}
             </Box>
 
             {user && (
@@ -181,15 +263,6 @@ function Navigation() {
                   sx={{ mt: "45px" }}
                   id="menu-appbar"
                   anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
@@ -198,11 +271,9 @@ function Navigation() {
                       key={setting}
                       onClick={() => {
                         handleCloseUserMenu();
-                        if (setting === "Logout") {
-                          userLogout();
-                        } else if (setting === "Dashboard") {
+                        if (setting === "Logout") userLogout();
+                        else if (setting === "Dashboard")
                           router.push("/dashboard");
-                        }
                       }}
                     >
                       <Typography textAlign="center">{setting}</Typography>
