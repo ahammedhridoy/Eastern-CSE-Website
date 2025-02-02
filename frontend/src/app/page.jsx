@@ -6,7 +6,7 @@ import Slider from "./components/Slider/Slider";
 import TestimonialBlock from "./components/TestimonialBlock/TestimonialBlock";
 
 export const metadata = {
-  title: "Eastern CSE Department",
+  title: "Eastern University CSE Department",
   description: "",
 };
 

@@ -13,7 +13,7 @@ function Footer() {
         {/* Social Media */}
         <div className="flex gap-5">
           <Link
-            href={"https://www.facebook.com/easterncse/"}
+            href={"https://www.facebook.com/euedubd"}
             target="_blank"
             className="p-2 bg-[var(--primary-color)] rounded-full"
           >
@@ -21,7 +21,7 @@ function Footer() {
           </Link>
 
           <Link
-            href={"https://www.facebook.com/easterncse/"}
+            href={"https://www.youtube.com/c/EasternUniversitybd"}
             target="_blank"
             className="p-2 bg-[var(--primary-color)] rounded-full"
           >
@@ -29,14 +29,16 @@ function Footer() {
           </Link>
 
           <Link
-            href={"https://www.facebook.com/easterncse/"}
+            href={"https://www.instagram.com/eastern_university_official"}
             target="_blank"
             className="p-2 bg-[var(--primary-color)] rounded-full"
           >
             <InstagramIcon className="text-white cursor-pointer text-30px hover:animate-bounce" />
           </Link>
           <Link
-            href={"https://www.facebook.com/easterncse/"}
+            href={
+              "https://www.linkedin.com/school/easternuniversityofficialpage"
+            }
             target="_blank"
             className="p-2 bg-[var(--primary-color)] rounded-full"
           >
@@ -85,13 +87,13 @@ function Footer() {
         </div> */}
 
         {/* Copyright */}
-        <div>
+        <div className="text-center">
           <p className="font-bold text-white">
             Copyright © 2025
             {new Date().getFullYear() > 2025
               ? `-${new Date().getFullYear()}`
               : ""}{" "}
-            Eastern CSE Department. All Rights Reserved.
+            Eastern University CSE Department. All Rights Reserved.
           </p>
         </div>
       </div>

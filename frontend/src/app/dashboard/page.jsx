@@ -11,11 +11,13 @@ export const metadata = {
 const Dashboard = () => {
   return (
     <ProtectedRoute requiredRoles={["EDITOR", "ADMIN"]}>
-      <div className="w-full">
-        <Typography gutterBottom variant="h5" component="div" className="my-4">
+      <div className="pl-4">
+        <Typography gutterBottom variant="h5" component="div" className="my-4 ">
           All Blogs
         </Typography>
         <Separator position="justify-start" />
+      </div>
+      <div className="w-full">
         <BlogCard />
       </div>
     </ProtectedRoute>

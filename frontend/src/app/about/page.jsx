@@ -81,7 +81,7 @@ const About = () => {
             {/* <img src="/images/about/about-us.webp" alt="about" /> */}
             <Image
               src="/images/about/about-us.webp"
-              className="object-cover border-4 border-[#fff] rounded-2xl"
+              className="object-cover border-2 border-gray-200 rounded-xl"
               width={500}
               height={500}
               alt="about"

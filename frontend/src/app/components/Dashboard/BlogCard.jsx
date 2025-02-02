@@ -16,6 +16,7 @@ import LoadingSpinner from "./../LoadingSpinner/LoadingSpinner";
 import toast, { Toaster } from "react-hot-toast";
 import UpdateBlog from "./UpdateBlog";
 import Link from "next/link";
+import Separator from "../Separator/Separator";
 
 const BlogCard = () => {
   const { blogs, loading, deleteBlog } = useContext(GlobalContext);
@@ -51,6 +52,7 @@ const BlogCard = () => {
   return (
     <div>
       <Toaster />
+
       <div className="grid w-full grid-cols-1 gap-5 my-4 md:grid-cols-2 lg:grid-cols-4 place-content-center place-items-center">
         {loading ? (
           <LoadingSpinner />
