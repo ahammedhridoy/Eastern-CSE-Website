@@ -1,15 +1,10 @@
 "use client";
-import React, { useContext } from "react";
+import React from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import { Button } from "@mui/material";
-import { GlobalContext } from "@/context/GlobalContext";
-import usePagination from "@/hooks/usePagination";
-import ContentLoading from "../ContentLoading/ContentLoading";
-import NoContentFound from "../NoContentFound/NoContentFound";
 
 const ProgramCard = () => {
   const programs = [
@@ -24,7 +19,9 @@ The curriculum aims to provide students with a broad understanding of digital co
 
   return (
     <div className="mt-10 event-card">
-      <div className="grid grid-cols-1 gap-5 p-4 md:grid-cols-2 lg:grid-cols-4">
+      <div
+        className={`grid grid-cols-1 gap-5 p-4 md:grid-cols-2 lg:grid-cols-4`}
+      >
         {programs.map((program) => (
           <Link key={program.id} href={`/programs/${program.id}`}>
             <Card
