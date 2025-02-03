@@ -90,7 +90,7 @@ const AddBlog = () => {
                   src={URL.createObjectURL(image)}
                   width={200}
                   height={200}
-                  className="w-[500px] h-[300px] border-2 border-gray-400 border-dashed"
+                  className="w-full h-[400px] border-2 border-gray-400 border-dashed object-cover"
                 />
               )}
             </div>

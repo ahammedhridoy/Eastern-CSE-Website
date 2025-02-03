@@ -91,7 +91,7 @@ const ShowAccount = () => {
             color="text.secondary"
             className="text-center"
           >
-            {user?.role}
+            {user?.role === "ADMIN" ? "Official" : "Faculty"}
           </Typography>
           <form
             component="form"
