@@ -66,7 +66,7 @@ const ResetPasswordForm = () => {
       <Box className="w-full md:w-[750px] p-2">
         <Card variant="outlined">
           <CardContent>
-            <h1 className="my-10 lg:text-5xl text-3xl font-bold text-center text-[var(--black-color)]">
+            <h1 className="my-10 text-3xl font-bold text-center text-[var(--black-color)]">
               Reset Password
             </h1>
 

@@ -39,7 +39,7 @@ const AboutCarousel = () => {
   return (
     <div className="container my-20">
       <div>
-        <h1 className="lg:text-5xl text-3xl text-center text-[var(--black-color)] font-semibold">
+        <h1 className="text-3xl text-center text-[var(--black-color)] font-semibold">
           Visiting CSE Department
         </h1>
         <Separator />

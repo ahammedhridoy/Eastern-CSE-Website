@@ -82,7 +82,7 @@ const LoginForm = () => {
       <Box className="w-[300px] md:w-[600px]">
         <Card variant="outlined">
           <CardContent>
-            <h1 className="my-10 text-5xl font-bold text-center text-[var(--black-color)]">
+            <h1 className="my-10 text-3xl font-bold text-center text-[var(--black-color)]">
               Login
             </h1>
 

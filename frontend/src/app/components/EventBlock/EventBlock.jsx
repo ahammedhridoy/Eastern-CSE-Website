@@ -4,7 +4,7 @@ import Separator from "../Separator/Separator";
 const EventBlock = () => {
   return (
     <div className="my-10 event">
-      <h1 className="lg:text-5xl text-3xl text-[var(--black-color)] font-bold text-center">
+      <h1 className=" text-3xl text-[var(--black-color)] font-bold text-center">
         Events & News
       </h1>
       <Separator width="w-20" position="justify-center" />

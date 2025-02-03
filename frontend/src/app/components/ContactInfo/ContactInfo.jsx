@@ -8,7 +8,7 @@ import Separator from "../Separator/Separator";
 const ContactInfo = () => {
   return (
     <div className="container contact-info">
-      <div className="mt-10 lg:text-5xl text-3xl font-semibold text-center text-[var(--black-color)]">
+      <div className="mt-10 text-3xl font-semibold text-center text-[var(--black-color)]">
         Contact Information
       </div>
       <Separator width="w-20" position="justify-center" />

@@ -38,7 +38,7 @@ const About = () => {
         <div className="container flex flex-col-reverse items-center justify-center gap-5 p-5 about-wrapper lg:flex-row lg:p-0">
           {/* Left */}
           <div className="about-left basis-1/2">
-            <h1 className="lg:text-5xl text-3xl  text-[var(--black-color)] font-bold">
+            <h1 className="text-3xl  text-[var(--black-color)] font-bold">
               Departmental Vision and Mission
             </h1>
             <Separator width="w-20" position="justify-start" />

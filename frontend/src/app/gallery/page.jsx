@@ -31,7 +31,7 @@ function Gallery() {
       </div>
       {/* content */}
       <div className="container my-10">
-        <h1 className="text-5xl text-center text-[var(--black-color)] font-bold">
+        <h1 className="text-3xl text-center text-[var(--black-color)] font-bold">
           Albums
         </h1>
         <Separator />

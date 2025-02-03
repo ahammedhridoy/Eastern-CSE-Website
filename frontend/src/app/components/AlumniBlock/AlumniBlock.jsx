@@ -5,7 +5,7 @@ const AlumniBlock = () => {
   return (
     <div className="my-10">
       {/* Headline */}
-      <h1 className="lg:text-5xl text-3xl  text-[var(--black-color)] font-bold text-center">
+      <h1 className="text-3xl  text-[var(--black-color)] font-bold text-center">
         What Our Alumni Say
       </h1>
 

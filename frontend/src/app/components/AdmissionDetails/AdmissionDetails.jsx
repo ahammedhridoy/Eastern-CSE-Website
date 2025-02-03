@@ -23,7 +23,7 @@ const AdmissionDetails = () => {
           gutterBottom
           variant="h5"
           component="div"
-          className="lg:text-5xl text-3xl  text-[var(--black-color)] font-bold"
+          className=" text-3xl  text-[var(--black-color)] font-bold"
         >
           Admission Informations
         </Typography>

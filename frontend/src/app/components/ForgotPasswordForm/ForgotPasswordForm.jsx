@@ -67,7 +67,7 @@ const ForgotPasswordForm = () => {
       <Box className="md:w-[750px] w-full p-2">
         <Card variant="outlined">
           <CardContent>
-            <h1 className="my-10 lg:text-5xl text-3xl font-bold text-center text-[var(--black-color)]">
+            <h1 className="my-10  text-3xl font-bold text-center text-[var(--black-color)]">
               Send Reset Password Email
             </h1>
 
