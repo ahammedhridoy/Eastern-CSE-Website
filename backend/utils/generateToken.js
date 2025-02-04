@@ -5,7 +5,7 @@ const generateToken = async (user) => {
     const payload = {
       id: user.id,
       email: user.email,
-      role: user.role || "EDITOR", // Ensure a default role
+      role: user.role || "FACULTY",
     };
 
     const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {

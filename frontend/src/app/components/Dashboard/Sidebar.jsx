@@ -8,12 +8,13 @@ import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState, useEffect, useContext } from "react";
 import { GlobalContext } from "@/context/GlobalContext";
+import SchoolIcon from "@mui/icons-material/School";
 
 const Sidebar = () => {
   const router = useRouter();
   const [active, setActive] = useState("/dashboard");
   const { user } = useContext(GlobalContext);
-  const admin = user?.role === "ADMIN";
+  const official = user?.role === "OFFICIAL";
 
   // Menu items for the sidebar
   const menuItems = [
@@ -22,7 +23,7 @@ const Sidebar = () => {
       href: "/dashboard",
       icon: <Dashboard className="mr-3" />,
     },
-    ...(admin
+    ...(official
       ? [
           {
             label: "Users",
@@ -47,7 +48,7 @@ const Sidebar = () => {
       icon: <ImageIcon className="mr-3" />,
     },
 
-    ...(admin
+    ...(official
       ? [
           {
             label: "Faculties",
@@ -61,13 +62,22 @@ const Sidebar = () => {
       href: "/dashboard/manage-album",
       icon: <PhotoLibraryIcon className="mr-3" />,
     },
+    ...(official
+      ? [
+          {
+            label: "Programs",
+            href: "/dashboard/manage-program",
+            icon: <SchoolIcon className="mr-3" />,
+          },
+        ]
+      : []),
     {
       label: "Account",
       href: "/dashboard/manage-account",
       icon: <AccountCircleIcon className="mr-3" />,
     },
 
-    ...(admin
+    ...(official
       ? [
           {
             label: "Teacher's Testimonials",
@@ -77,7 +87,7 @@ const Sidebar = () => {
         ]
       : []),
 
-    ...(admin
+    ...(official
       ? [
           {
             label: "Alumni's Testimonials",

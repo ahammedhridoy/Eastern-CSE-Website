@@ -10,7 +10,7 @@ export const metadata = {
 
 const Dashboard = () => {
   return (
-    <ProtectedRoute requiredRoles={["EDITOR", "ADMIN"]}>
+    <ProtectedRoute requiredRoles={["FACULTY", "OFFICIAL"]}>
       <div className="pl-4">
         <Typography gutterBottom variant="h5" component="div" className="my-4 ">
           All Blogs

@@ -4,7 +4,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 
 export default function DashboardLayout({ children }) {
   return (
-    <ProtectedRoute requiredRoles={["EDITOR", "ADMIN"]}>
+    <ProtectedRoute requiredRoles={["FACULTY", "OFFICIAL"]}>
       <div className="flex h-screen ">
         {/* Sidebar */}
         <aside className="hidden text-white bg-gray-800 w-72 lg:block">

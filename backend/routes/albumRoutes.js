@@ -6,18 +6,13 @@ const {
   updateAlbum,
   deleteAlbum,
 } = require("../controllers/albumController");
-const {
-  verifyAdmin,
-  verifyUser,
-  verifyEditor,
-  verifyRole,
-} = require("../controllers/authController");
+const { verifyRole } = require("../controllers/authController");
 const albumRouter = express.Router();
 
 // Create a new album
 albumRouter.post(
   "/create",
-  verifyRole(["EDITOR", "ADMIN"]),
+  verifyRole(["FACULTY", "OFFICIAL"]),
   upload.single("image"),
   createAlbum
 );
@@ -28,12 +23,12 @@ albumRouter.get("/all", getAllAlbums);
 // Update an album
 albumRouter.put(
   "/:id",
-  verifyRole(["EDITOR", "ADMIN"]),
+  verifyRole(["FACULTY", "OFFICIAL"]),
   upload.single("image"),
   updateAlbum
 );
 
 // Delete an album
-albumRouter.delete("/:id", verifyRole(["EDITOR", "ADMIN"]), deleteAlbum);
+albumRouter.delete("/:id", verifyRole(["FACULTY", "OFFICIAL"]), deleteAlbum);
 
 module.exports = albumRouter;

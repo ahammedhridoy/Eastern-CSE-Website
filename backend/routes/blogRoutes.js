@@ -7,19 +7,14 @@ const {
   deleteBlog,
   getSingleBlog,
 } = require("../controllers/blogController");
-const {
-  verifyAdmin,
-  verifyUser,
-  verifyEditor,
-  verifyRole,
-} = require("../controllers/authController");
+const { verifyRole } = require("../controllers/authController");
 
 const blogRouter = express.Router();
 
 // Create a new blog
 blogRouter.post(
   "/create",
-  verifyRole(["EDITOR", "ADMIN"]),
+  verifyRole(["FACULTY", "OFFICIAL"]),
   upload.single("image"),
   createBlog
 );
@@ -33,12 +28,12 @@ blogRouter.get("/:id", getSingleBlog);
 // Update a blog
 blogRouter.put(
   "/:id",
-  verifyRole(["EDITOR", "ADMIN"]),
+  verifyRole(["FACULTY", "OFFICIAL"]),
   upload.single("image"),
   updateBlog
 );
 
 // Delete a blog
-blogRouter.delete("/:id", verifyRole(["EDITOR", "ADMIN"]), deleteBlog);
+blogRouter.delete("/:id", verifyRole(["FACULTY", "OFFICIAL"]), deleteBlog);
 
 module.exports = blogRouter;

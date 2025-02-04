@@ -1,10 +1,6 @@
 const express = require("express");
 const { upload } = require("../helpers/multer");
-const {
-  verifyUser,
-  verifyEditor,
-  verifyRole,
-} = require("../controllers/authController");
+const { verifyRole } = require("../controllers/authController");
 const {
   createAboutSlide,
   updateAboutSlide,
@@ -17,7 +13,7 @@ const aboutSliderRouter = express.Router();
 // Route for creating a slide
 aboutSliderRouter.post(
   "/create",
-  verifyRole(["EDITOR", "ADMIN"]),
+  verifyRole(["FACULTY", "OFFICIAL"]),
   upload.array("images", 30),
   createAboutSlide
 );
@@ -28,7 +24,7 @@ aboutSliderRouter.get("/all", getAboutAllSlides);
 // Route for update slides
 aboutSliderRouter.put(
   "/update/:id",
-  verifyRole(["EDITOR", "ADMIN"]),
+  verifyRole(["FACULTY", "OFFICIAL"]),
   upload.single("image"),
   updateAboutSlide
 );
@@ -36,7 +32,7 @@ aboutSliderRouter.put(
 // Route for deleting a slide
 aboutSliderRouter.delete(
   "/delete/:id",
-  verifyRole(["EDITOR", "ADMIN"]),
+  verifyRole(["FACULTY", "OFFICIAL"]),
   deleteAboutSlide
 );
 

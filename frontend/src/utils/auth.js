@@ -8,7 +8,7 @@ export const isAuthenticated = () => {
     return {
       // Return some user info if authenticated
       id: 1,
-      role: "ADMIN", // Example role
+      role: "OFFICIAL", // Example role
     };
   }
   return null; // Return null if not authenticated

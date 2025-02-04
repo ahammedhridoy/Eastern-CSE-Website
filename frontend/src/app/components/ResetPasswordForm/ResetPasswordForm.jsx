@@ -48,7 +48,7 @@ const ResetPasswordForm = () => {
 
       if (res?.status === 200) {
         toast.success("Password updated successfully");
-        setTimeout(() => router.push("/admin"), 1500);
+        setTimeout(() => router.push("/login"), 1500);
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to reset password");

@@ -73,7 +73,6 @@ const ShowAccount = () => {
   };
 
   return (
-    // <ProtectedRoute requiredRole="EDITOR">
     <div className="flex items-center justify-center mt-4">
       <Toaster />
       <Card className="w-96">
@@ -91,7 +90,7 @@ const ShowAccount = () => {
             color="text.secondary"
             className="text-center"
           >
-            {user?.role === "ADMIN" ? "Official" : "Faculty"}
+            {user?.role}
           </Typography>
           <form
             component="form"
@@ -154,8 +153,8 @@ const ShowAccount = () => {
                   onChange={(e) => setRole(e.target.value)}
                   required
                 >
-                  <MenuItem value="ADMIN">ADMIN</MenuItem>
-                  <MenuItem value="EDITOR">EDITOR</MenuItem>
+                  <MenuItem value="OFFICIAL">OFFICIAL</MenuItem>
+                  <MenuItem value="FACULTY">FACULTY</MenuItem>
                 </Select>
               </FormControl>
 

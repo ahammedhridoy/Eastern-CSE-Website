@@ -6,17 +6,13 @@ const {
   updateAlumni,
   deleteAlumni,
 } = require("../controllers/alumniController");
-const {
-  verifyAdmin,
-  verifyUser,
-  verifyRole,
-} = require("../controllers/authController");
+const { verifyRole } = require("../controllers/authController");
 const alumniRouter = express.Router();
 
 // Create a new alumni
 alumniRouter.post(
   "/create",
-  verifyRole(["ADMIN"]),
+  verifyRole(["OFFICIAL"]),
   upload.single("image"),
   createAlumni
 );
@@ -27,12 +23,12 @@ alumniRouter.get("/all", getAllAlumni);
 // Update alumni
 alumniRouter.patch(
   "/:id",
-  verifyRole(["ADMIN"]),
+  verifyRole(["OFFICIAL"]),
   upload.single("image"),
   updateAlumni
 );
 
 // Delete alumni
-alumniRouter.delete("/:id", verifyRole(["ADMIN"]), deleteAlumni);
+alumniRouter.delete("/:id", verifyRole(["OFFICIAL"]), deleteAlumni);
 
 module.exports = alumniRouter;

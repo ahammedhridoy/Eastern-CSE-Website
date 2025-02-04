@@ -1,21 +1,24 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
+import { GlobalContext } from "@/context/GlobalContext";
+import ContentLoading from "../ContentLoading/ContentLoading";
+import NoContentFound from "../NoContentFound/NoContentFound";
 
 const ProgramCard = () => {
-  const programs = [
-    {
-      id: 1,
-      title: "BSc in CSE",
-      description: `The Department of Computer Science & Engineering offers a four-year Bachelor of Science degree program.
-The curriculum aims to provide students with a broad understanding of digital computers' theory, design, and applications. `,
-      image: "/images/program/bsccse.png",
-    },
-  ];
+  const { programs, loading } = useContext(GlobalContext);
+
+  if (loading) {
+    return <ContentLoading height="[300px]" />;
+  }
+
+  if (programs?.length === 0) {
+    return <NoContentFound mesage="No Program Found!" height={"[300px]"} />;
+  }
 
   return (
     <div className="mt-10 event-card">
@@ -31,8 +34,8 @@ The curriculum aims to provide students with a broad understanding of digital co
               <CardMedia
                 component="img"
                 height="194"
-                image={`${program?.image}`}
-                alt={program.title || "Event Image"}
+                image={`${process.env.NEXT_PUBLIC_IMAGE_URL}${program?.image}`}
+                alt={program.title || "program Image"}
                 className="object-cover w-full h-[300px]"
                 quality={100}
               />
@@ -40,14 +43,6 @@ The curriculum aims to provide students with a broad understanding of digital co
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                   {program?.title || "Program"}
-                </Typography>
-                <Typography
-                  gutterBottom
-                  variant="p"
-                  component="p"
-                  className="text-[var(--black-color)] text-justify"
-                >
-                  {program?.description || ""}
                 </Typography>
               </CardContent>
             </Card>

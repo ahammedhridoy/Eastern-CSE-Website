@@ -11,6 +11,7 @@ import apiClient from "../../../config/axiosConfig";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import dynamic from "next/dynamic";
 import { GlobalContext } from "./../../../context/GlobalContext";
+import { formats, modules } from "@/config/editorConfig";
 
 const AddAlumniTestimonial = () => {
   const [description, setDescription] = useState("");
@@ -66,36 +67,6 @@ const AddAlumniTestimonial = () => {
       toast.error(error.response?.data?.message || "Server error");
     }
   };
-
-  // Editor
-
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["link"],
-      ["clean"],
-    ],
-  };
-
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-  ];
 
   return (
     <Card>

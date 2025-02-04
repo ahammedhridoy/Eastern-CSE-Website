@@ -27,9 +27,7 @@ const FacultyDetailsCard = () => {
   }
 
   // Sanitize HTML content to prevent XSS
-  const sanitizedDescription = DOMPurify.sanitize(
-    singleFaculty?.description || ""
-  );
+  const sanitizedDescription = DOMPurify.sanitize(singleFaculty?.description);
 
   return (
     <div className="">
@@ -47,15 +45,14 @@ const FacultyDetailsCard = () => {
           <Typography variant="body2" color="text.secondary" className="mb-4">
             {singleFaculty?.designation}
           </Typography>
-          <Typography
-            variant="body2"
-            className="text-justify text-[var(--gray-color)]"
-          >
-            <div
-              className="text-justify text-[var(--gray-color)] blog-description"
-              dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
-            ></div>
-          </Typography>
+          <div
+            className="quill-content"
+            dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+            style={{
+              listStyleType: "initial",
+              paddingLeft: "20px",
+            }}
+          ></div>
         </CardContent>
       </Card>
     </div>

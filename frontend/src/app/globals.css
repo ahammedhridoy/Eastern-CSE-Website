@@ -274,6 +274,24 @@ li {
 .main-menu ul {
   list-style: none !important;
 }
+.quill-content h1 {
+  font-size: 32px !important;
+}
+.quill-content h2 {
+  font-size: 24px !important;
+}
+.quill-content h3 {
+  font-size: 18.72px !important;
+}
+.quill-content h4 {
+  font-size: 16px !important;
+}
+.quill-content h5 {
+  font-size: 13.28px !important;
+}
+.quill-content h6 {
+  font-size: 10.72px !important;
+}
 
 /* Responsive css */
 

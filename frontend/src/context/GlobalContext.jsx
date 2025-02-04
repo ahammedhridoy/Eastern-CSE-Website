@@ -10,7 +10,9 @@ export const GlobalContextProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
   const [albums, setAlbums] = useState([]);
   const [blogs, setBlogs] = useState([]);
+  const [programs, setPrograms] = useState([]);
   const [singleBlog, setSingleBlog] = useState(null);
+  const [singleProgram, setSingleProgram] = useState(null);
   const [users, setUsers] = useState([]);
   const [slides, setSlides] = useState([]);
   const [faculties, setFaculties] = useState([]);
@@ -79,7 +81,6 @@ export const GlobalContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error getting Album:", error);
-      toast.error(error.response?.data?.message || "Server error");
     } finally {
       setLoading(false);
     }
@@ -206,7 +207,7 @@ export const GlobalContextProvider = ({ children }) => {
   };
 
   // Get All Blogs
-  const fetchBlogs = async (e) => {
+  const fetchBlogs = async () => {
     setLoading(true);
     try {
       const res = await apiClient.get("/api/v1/blog/all");
@@ -215,7 +216,6 @@ export const GlobalContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error getting Album:", error);
-      toast.error(error.response?.data?.message || "Server error");
     } finally {
       setLoading(false);
     }
@@ -233,7 +233,6 @@ export const GlobalContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error fetching blog:", error);
-      toast.error(error.response?.data?.message || "Server error");
     } finally {
       setLoading(false);
     }
@@ -257,7 +256,7 @@ export const GlobalContextProvider = ({ children }) => {
     } catch (error) {
       console.error("Error deleting blog:", error);
       toast.error(error.response?.data?.message || "Server error");
-      return false; // Indicate failure
+      return false;
     }
   };
 
@@ -279,6 +278,87 @@ export const GlobalContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error updating blog:", error);
+      toast.error(error.response?.data?.message || "Server error");
+      return false;
+    }
+  };
+
+  // Get All programs
+  const fetchPrograms = async () => {
+    setLoading(true);
+    try {
+      const res = await apiClient.get("/api/v1/program/all");
+      if (res?.status === 200) {
+        setPrograms(res?.data?.programs);
+      }
+    } catch (error) {
+      console.error("Error getting program:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Get Single program
+  const fetchSingleProgram = async (programId) => {
+    setLoading(true);
+    try {
+      const response = await apiClient.get(`/api/v1/program/${programId}`);
+
+      if (response?.status === 200) {
+        setSingleProgram(response?.data?.program);
+        return response?.data;
+      }
+    } catch (error) {
+      console.error("Error fetching program:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Delete program
+  const deleteProgram = async (programId) => {
+    try {
+      const response = await apiClient.delete(`/api/v1/program/${programId}`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response?.status === 200) {
+        toast.success("Program deleted successfully");
+        fetchPrograms();
+        return true;
+      }
+    } catch (error) {
+      console.error("Error deleting program:", error);
+      toast.error(error.response?.data?.message || "Server error");
+      return false;
+    }
+  };
+
+  // Update program
+  const updateProgram = async (programId, formData) => {
+    try {
+      const response = await apiClient.put(
+        `/api/v1/program/${programId}`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response?.status === 200) {
+        toast.success("program updated successfully");
+        fetchPrograms();
+        return true;
+      }
+    } catch (error) {
+      console.error("Error updating program:", error);
       toast.error(error.response?.data?.message || "Server error");
       return false;
     }
@@ -309,7 +389,7 @@ export const GlobalContextProvider = ({ children }) => {
     try {
       const response = await apiClient.patch(
         `/api/v1/auth/user/update/${userId}`,
-        payload, // Send JSON payload directly
+        payload,
         {
           withCredentials: true,
           headers: {
@@ -390,7 +470,7 @@ export const GlobalContextProvider = ({ children }) => {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "multipart/form-data", // Required for file uploads
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -469,7 +549,7 @@ export const GlobalContextProvider = ({ children }) => {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "multipart/form-data", // Required for file uploads
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -569,7 +649,7 @@ export const GlobalContextProvider = ({ children }) => {
         fetchAllFaculties();
       }
 
-      return response.data.faculty; // Return updated faculty object
+      return response.data.faculty;
     } catch (error) {
       throw error;
     }
@@ -629,7 +709,7 @@ export const GlobalContextProvider = ({ children }) => {
         fetchTeacherTestimonials();
       }
 
-      return response.data.teacher; // Return updated teacher object
+      return response.data.teacher;
     } catch (error) {
       throw error;
     }
@@ -640,16 +720,16 @@ export const GlobalContextProvider = ({ children }) => {
     try {
       const response = await apiClient.delete(`/api/v1/teacher/${teacherId}`, {
         headers: {
-          Authorization: `Bearer ${accessToken}`, // Replace with your token retrieval logic
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 
       if (response?.status === 200) {
         toast.success("Teacher deleted successfully");
-        fetchTeacherTestimonials(); // Refresh the teacher list
+        fetchTeacherTestimonials();
       }
 
-      return response.data.message; // Return success message
+      return response.data.message;
     } catch (error) {
       throw error;
     }
@@ -707,10 +787,10 @@ export const GlobalContextProvider = ({ children }) => {
 
       if (response.status === 200) {
         toast.success("Alumni deleted successfully");
-        fetchAlumniTestimonials(); // Refresh the alumni list
+        fetchAlumniTestimonials();
       }
       fetchAlumniTestimonials();
-      return response.data.message; // Return success message
+      return response.data.message;
     } catch (error) {
       throw error;
     }
@@ -778,6 +858,7 @@ export const GlobalContextProvider = ({ children }) => {
     fetchAlumniTestimonials();
     fetchAboutSliders();
     fetchAllImages();
+    fetchPrograms();
   }, []);
 
   return (
@@ -832,6 +913,12 @@ export const GlobalContextProvider = ({ children }) => {
         allImages,
         deleteImage,
         currentUser,
+        fetchPrograms,
+        programs,
+        fetchSingleProgram,
+        singleProgram,
+        deleteProgram,
+        updateProgram,
         userLogout,
       }}
     >

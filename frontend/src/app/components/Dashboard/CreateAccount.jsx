@@ -151,8 +151,8 @@ const CreateAccount = () => {
                 onChange={(e) => setRole(e.target.value)}
                 required
               >
-                <MenuItem value="ADMIN">ADMIN</MenuItem>
-                <MenuItem value="EDITOR">EDITOR</MenuItem>
+                <MenuItem value="OFFICIAL">OFFICIAL</MenuItem>
+                <MenuItem value="FACULTY">FACULTY</MenuItem>
               </Select>
             </FormControl>
 

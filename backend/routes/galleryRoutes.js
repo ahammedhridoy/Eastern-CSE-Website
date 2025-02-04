@@ -6,23 +6,19 @@ const {
   addImagesToGallery,
   getAllImages,
 } = require("../controllers/galleryController");
-const {
-  verifyUser,
-  verifyEditor,
-  verifyRole,
-} = require("../controllers/authController");
+const { verifyRole } = require("../controllers/authController");
 const galleryRouter = express.Router();
 
 // Add an image to a gallery
 galleryRouter.post(
   "/create",
-  verifyRole(["EDITOR", "ADMIN"]),
+  verifyRole(["FACULTY", "OFFICIAL"]),
   upload.array("images", 30),
   addImagesToGallery
 );
 
 // Get all images
-galleryRouter.get("/all", verifyRole(["EDITOR", "ADMIN"]), getAllImages);
+galleryRouter.get("/all", verifyRole(["FACULTY", "OFFICIAL"]), getAllImages);
 
 // Get images by album
 galleryRouter.get("/:albumId", getImagesByAlbum);
@@ -30,7 +26,7 @@ galleryRouter.get("/:albumId", getImagesByAlbum);
 // Delete a gallery image
 galleryRouter.delete(
   "/:id",
-  verifyRole(["EDITOR", "ADMIN"]),
+  verifyRole(["FACULTY", "OFFICIAL"]),
   deleteGalleryImage
 );
 

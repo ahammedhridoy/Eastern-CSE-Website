@@ -6,6 +6,7 @@ import Image from "next/image";
 import toast, { Toaster } from "react-hot-toast";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import dynamic from "next/dynamic";
+import { formats, modules } from "@/config/editorConfig";
 
 const UpdateFaculty = ({ faculty, handleUpdateClose }) => {
   const [description, setDescription] = useState(faculty?.description);
@@ -34,37 +35,6 @@ const UpdateFaculty = ({ faculty, handleUpdateClose }) => {
       handleUpdateClose(); // Close modal only if the update is successful
     }
   };
-
-  // Editor
-
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["link", "image", "video"],
-      ["link"],
-      ["clean"],
-    ],
-  };
-
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-  ];
 
   return (
     <div>

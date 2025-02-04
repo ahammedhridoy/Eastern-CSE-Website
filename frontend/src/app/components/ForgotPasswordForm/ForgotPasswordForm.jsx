@@ -40,7 +40,7 @@ const ForgotPasswordForm = () => {
         // Clear the email field
         reset();
 
-        setTimeout(() => router.push("/admin"), 500);
+        setTimeout(() => router.push("/login"), 500);
       }
     } catch (error) {
       toast.error("Failed to send password reset email");

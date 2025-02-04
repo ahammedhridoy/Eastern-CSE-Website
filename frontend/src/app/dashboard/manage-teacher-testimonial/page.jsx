@@ -7,7 +7,7 @@ import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 const TeacherTestimonialDash = () => {
   return (
-    <ProtectedRoute requiredRoles={["ADMIN"]}>
+    <ProtectedRoute requiredRoles={["OFFICIAL"]}>
       <div>
         <div className="flex gap-4">
           {/* Main Content */}

@@ -11,12 +11,17 @@ export const modules = {
       { indent: "+1" },
     ],
     ["link", "image", "video"],
+    // Add these new configurations
+    [{ color: [] }, { background: [] }],
+    [{ font: [] }],
     ["clean"],
   ],
 };
 
 export const formats = [
   "header",
+  "font",
+  "size",
   "bold",
   "italic",
   "underline",
@@ -27,5 +32,6 @@ export const formats = [
   "indent",
   "link",
   "image",
+  "color",
   "video",
 ];

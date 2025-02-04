@@ -7,7 +7,7 @@ import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 const AboutSlider = () => {
   return (
-    <ProtectedRoute requiredRoles={["EDITOR", "ADMIN"]}>
+    <ProtectedRoute requiredRoles={["FACULTY", "OFFICIAL"]}>
       <div>
         <div className="flex gap-4">
           {/* Main Content */}

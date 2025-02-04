@@ -1,30 +1,33 @@
 import React from "react";
-import Sidebar from "./../../components/Dashboard/Sidebar";
-import BlogCard from "./../../components/Dashboard/BlogCard";
-import DashMobileMenu from "./../../components/Dashboard/DashMobileMenu";
-import AddBlog from "./../../components/Dashboard/AddBlog";
+import Sidebar from "../../components/Dashboard/Sidebar";
+import BlogCard from "../../components/Dashboard/BlogCard";
+import DashMobileMenu from "../../components/Dashboard/DashMobileMenu";
+import AddBlog from "../../components/Dashboard/AddBlog";
 import { Card, Typography } from "@mui/material";
 import Separator from "@/app/components/Separator/Separator";
 import ProtectedRoute from "@/app/components/ProtectedRoute";
+import AddProgram from "@/app/components/Dashboard/AddProgram";
+import ProgramCard from "@/app/components/ProgramCard/ProgramCard";
+import ProgramCardDash from "@/app/components/Dashboard/ProgramCardDash";
 
-const BlogDash = () => {
+const ManageProgram = () => {
   return (
-    <ProtectedRoute requiredRoles={["FACULTY", "OFFICIAL"]}>
+    <ProtectedRoute requiredRoles={["OFFICIAL"]}>
       <div className="min-h-screen">
         <div className="flex gap-4">
           {/* Main Content */}
           <div className="w-full my-4">
             {/* Create Blog */}
             <div>
-              <AddBlog />
+              <AddProgram />
             </div>
             {/* Blogs */}
             <Card className="w-full p-2 mt-5">
               <Typography gutterBottom variant="h5" component="div">
-                All Blogs
+                All Programs
               </Typography>
               <Separator position="justify-start" />
-              <BlogCard />
+              <ProgramCardDash />
             </Card>
           </div>
         </div>
@@ -33,4 +36,4 @@ const BlogDash = () => {
   );
 };
 
-export default BlogDash;
+export default ManageProgram;

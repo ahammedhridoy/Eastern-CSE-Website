@@ -5,13 +5,10 @@ const {
   forgotPassword,
   resetPassword,
   logout,
-  verifyAdmin,
   getAllUsers,
   getSingleUser,
   updateUser,
   deleteUser,
-  verifyUser,
-  verifyEditor,
   verifyRole,
   authorized,
 } = require("../controllers/authController");
@@ -25,16 +22,16 @@ authRouter.post("/register", register);
 authRouter.post("/login", login);
 
 // POST /api/v1/auth/user/all
-authRouter.get("/user/all", verifyRole(["ADMIN"]), getAllUsers);
+authRouter.get("/user/all", verifyRole(["OFFICIAL"]), getAllUsers);
 
 // POST /api/v1/auth/user/:id
-authRouter.get("/user/:id", verifyRole(["EDITOR", "ADMIN"]), getSingleUser);
+authRouter.get("/user/:id", verifyRole(["FACULTY", "OFFICIAL"]), getSingleUser);
 
 // POST /api/v1/auth/user/update/:id
-authRouter.patch("/user/update/:id", verifyRole(["ADMIN"]), updateUser);
+authRouter.patch("/user/update/:id", verifyRole(["OFFICIAL"]), updateUser);
 
 // POST /api/v1/auth/user/delete/:id
-authRouter.delete("/user/delete/:id", verifyRole(["ADMIN"]), deleteUser);
+authRouter.delete("/user/delete/:id", verifyRole(["OFFICIAL"]), deleteUser);
 
 // POST /api/v1/auth/forgot-password
 authRouter.post("/forgot-password", forgotPassword);
@@ -46,6 +43,6 @@ authRouter.post("/reset-password", resetPassword);
 authRouter.post("/logout", logout);
 
 // POST /api/v1/auth/logout
-authRouter.post("/verify", verifyRole(["EDITOR", "ADMIN"]), authorized);
+authRouter.post("/verify", verifyRole(["FACULTY", "OFFICIAL"]), authorized);
 
 module.exports = authRouter;

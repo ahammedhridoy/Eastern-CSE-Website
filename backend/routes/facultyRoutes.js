@@ -9,18 +9,12 @@ const {
   deleteFaculty,
   getSingleFaculty,
 } = require("../controllers/facultyController");
-const adminAuthMiddleware = require("../middleware/adminAuth");
-const authMiddleware = require("../middleware/auth");
-const {
-  verifyAdmin,
-  verifyUser,
-  verifyRole,
-} = require("../controllers/authController");
+const { verifyRole } = require("../controllers/authController");
 
 // Create a new faculty
 facultyRouter.post(
   "/create",
-  verifyRole(["ADMIN"]),
+  verifyRole(["OFFICIAL"]),
   upload.single("image"),
   createFaculty
 );
@@ -34,12 +28,12 @@ facultyRouter.get("/:id", getSingleFaculty);
 // Update a faculty
 facultyRouter.patch(
   "/:id",
-  verifyRole(["ADMIN"]),
+  verifyRole(["OFFICIAL"]),
   upload.single("image"),
   updateFaculty
 );
 
 // Delete a faculty
-facultyRouter.delete("/:id", verifyRole(["ADMIN"]), deleteFaculty);
+facultyRouter.delete("/:id", verifyRole(["OFFICIAL"]), deleteFaculty);
 
 module.exports = facultyRouter;

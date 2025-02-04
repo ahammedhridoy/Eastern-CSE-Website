@@ -15,6 +15,7 @@ const alumniRouter = require("./routes/alumniRoutes");
 const albumRouter = require("./routes/albumRoutes");
 const galleryRouter = require("./routes/galleryRoutes");
 const aboutSliderRouter = require("./routes/aboutSliderRoutes");
+const programRouter = require("./routes/programRoutes");
 
 dotenv.config();
 
@@ -66,6 +67,7 @@ checkDatabaseConnection();
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/slider", sliderRouter);
 app.use("/api/v1/blog", blogRouter);
+app.use("/api/v1/program", programRouter);
 app.use("/api/v1/faculty", facultyRouter);
 app.use("/api/v1/teacher", teacherRouter);
 app.use("/api/v1/alumni", alumniRouter);

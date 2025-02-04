@@ -1,28 +1,28 @@
 "use client";
-import React, { useContext } from "react";
+import React from "react";
 import Card from "@mui/material/Card";
 import { Avatar, Button, CardContent, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import apiClient from "../../../config/axiosConfig";
+import Image from "next/image";
 // Dynamically import ReactQuill with SSR disabled
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import dynamic from "next/dynamic";
+import { formats, modules } from "../../../config/editorConfig";
 import { GlobalContext } from "../../../context/GlobalContext";
 import Separator from "../Separator/Separator";
-import { formats, modules } from "@/config/editorConfig";
 
-const AddFaculty = () => {
+const AddProgram = () => {
   const [description, setDescription] = useState("");
-  const [name, setName] = useState("");
-  const [designation, setDesignation] = useState("");
-  const [image, setImage] = useState("");
-  const { accessToken, fetchAllFaculties } = useContext(GlobalContext);
+  const [title, setTitle] = useState("");
+  const [image, setImage] = useState(null);
+  const { accessToken, fetchPrograms } = useContext(GlobalContext);
 
-  // Add Faculty
-  const addFaculty = async (e) => {
+  // Add Program
+  const addProgram = async (e) => {
     e.preventDefault();
 
     try {
@@ -31,18 +31,17 @@ const AddFaculty = () => {
         return;
       }
 
-      if (!name || !designation || !description || !image) {
+      if (!title || !description || !image) {
         toast.error("All fields are required");
         return;
       }
 
       const formData = new FormData();
-      formData.append("name", name);
-      formData.append("designation", designation);
+      formData.append("title", title);
       formData.append("description", description);
       formData.append("image", image);
 
-      const res = await apiClient.post("/api/v1/faculty/create", formData, {
+      const res = await apiClient.post("/api/v1/program/create", formData, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -51,17 +50,16 @@ const AddFaculty = () => {
       });
 
       if (res?.status === 201) {
-        toast.success("Faculty added successfully");
-        setName("");
-        setDesignation("");
+        toast.success("Program added successfully");
+        setTitle("");
         setDescription("");
         setImage("");
-        fetchAllFaculties();
+        fetchPrograms();
       } else {
-        toast.error(res.data.message || "Error adding faculty");
+        toast.error(res.data.message || "Error adding Program");
       }
     } catch (error) {
-      console.error("Error adding faculty:", error);
+      console.error("Error adding Program:", error);
       toast.error(error.response?.data?.message || "Server error");
     }
   };
@@ -71,11 +69,11 @@ const AddFaculty = () => {
       <Toaster />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Add Faculty
+          Add Program
         </Typography>
         <Separator position="justify-start" />
         {/* Form */}
-        <form encType="multipart/form-data" method="post" onSubmit={addFaculty}>
+        <form encType="multipart/form-data" method="post" onSubmit={addProgram}>
           <div className="w-full">
             <div className="mt-4 file-input">
               <input
@@ -88,46 +86,36 @@ const AddFaculty = () => {
             </div>
             <div className="my-2">
               {image && (
-                <Avatar
+                <Image
                   src={URL.createObjectURL(image)}
-                  alt="faculty"
-                  className="mx-auto mt-2 md:w-[300px] md:h-[300px] w-[200px] h-[200px] object-cover border-2 border-var(--primary-color)"
+                  width={200}
+                  height={200}
+                  className="w-[300px] h-[300px] border-2 border-gray-400 border-dashed object-cover"
                 />
               )}
             </div>
             <div className="w-full mt-2">
               <TextField
-                id="faculty-name"
-                label="Name"
+                id="blog-title"
+                label="Title"
                 variant="outlined"
                 className="w-full"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div className="w-full mt-2">
-              <TextField
-                id="faculty-designation"
-                label="Designation"
-                variant="outlined"
-                className="w-full"
-                value={designation}
-                onChange={(e) => setDesignation(e.target.value)}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
 
             <ReactQuill
-              id="faculty-description"
               modules={modules}
               formats={formats}
-              className="mt-2 mb-14 quill h-[200px]"
+              className="mt-2 mb-14 quill h-[350px]"
               theme="snow"
               onChange={(e) => setDescription(e)}
               value={description}
               placeholder="Description"
             />
             <Button variant="contained" type="submit" className="w-full mt-4">
-              Add Faculty
+              Add Program
             </Button>
           </div>
         </form>
@@ -136,4 +124,4 @@ const AddFaculty = () => {
   );
 };
 
-export default AddFaculty;
+export default AddProgram;
