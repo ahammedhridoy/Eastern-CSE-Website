@@ -11,7 +11,7 @@ const WelcomeBlock = () => {
       <Separator width="w-20" position="justify-center" />
       {/* Cards */}
       <div>
-        <p className="mt-10 text-lg text-[var(--black-color)] text-justify p-4">
+        <p className="mt-5 text-lg text-[var(--black-color)] text-justify p-4">
           At Eastern University's Computer Science and Engineering (CSE)
           department, we prioritize affordability to ensure that quality
           education is accessible to all students. We offer a range of

@@ -34,7 +34,7 @@ function Programs() {
         <Separator />
 
         {/* Cards */}
-        <ProgramCard />
+        <ProgramCard grid={"grid-cols-4"} />
       </div>
     </div>
   );

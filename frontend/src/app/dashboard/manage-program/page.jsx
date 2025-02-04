@@ -1,13 +1,8 @@
 import React from "react";
-import Sidebar from "../../components/Dashboard/Sidebar";
-import BlogCard from "../../components/Dashboard/BlogCard";
-import DashMobileMenu from "../../components/Dashboard/DashMobileMenu";
-import AddBlog from "../../components/Dashboard/AddBlog";
 import { Card, Typography } from "@mui/material";
 import Separator from "@/app/components/Separator/Separator";
 import ProtectedRoute from "@/app/components/ProtectedRoute";
 import AddProgram from "@/app/components/Dashboard/AddProgram";
-import ProgramCard from "@/app/components/ProgramCard/ProgramCard";
 import ProgramCardDash from "@/app/components/Dashboard/ProgramCardDash";
 
 const ManageProgram = () => {

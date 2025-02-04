@@ -94,7 +94,7 @@ const AdmissionDetails = () => {
             variant="h4"
             component="div"
             onClick={handleDownload}
-            className="text-2xl font-semibold text-[--primary-color] hover:underline cursor-pointer mt-4"
+            className="text-2xl font-semibold text-[--primary-color] hover:underline cursor-pointer mt-4 underline underline-offset-4"
           >
             Download Admission Form
           </Typography>

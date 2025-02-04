@@ -9,7 +9,7 @@ import { GlobalContext } from "@/context/GlobalContext";
 import ContentLoading from "../ContentLoading/ContentLoading";
 import NoContentFound from "../NoContentFound/NoContentFound";
 
-const ProgramCard = () => {
+const ProgramCard = ({ grid }) => {
   const { programs, loading } = useContext(GlobalContext);
 
   if (loading) {
@@ -22,9 +22,7 @@ const ProgramCard = () => {
 
   return (
     <div className="mt-10 event-card">
-      <div
-        className={`grid grid-cols-1 gap-5 p-4 md:grid-cols-2 lg:grid-cols-4`}
-      >
+      <div className={`grid grid-cols-1 gap-5 p-4 md:grid-cols-2 lg:${grid}`}>
         {programs.map((program) => (
           <Link key={program.id} href={`/programs/${program.id}`}>
             <Card
@@ -41,7 +39,12 @@ const ProgramCard = () => {
               />
 
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography
+                  className="mt-4 line-clamp-3"
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                >
                   {program?.title || "Program"}
                 </Typography>
               </CardContent>
