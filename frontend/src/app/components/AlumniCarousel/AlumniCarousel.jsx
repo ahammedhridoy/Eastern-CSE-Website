@@ -52,7 +52,7 @@ const AlumniCarousel = () => {
                   <Card className="transition-all duration-300 rounded-2xl hover:scale-110">
                     <CardContent className="p-6 mt-10 text-center">
                       <div
-                        className="mb-5 text-sm text-muted-foreground blog-description"
+                        className="mb-5 text-sm text-justify text-muted-foreground blog-description "
                         dangerouslySetInnerHTML={{
                           __html: sanitizedContent(testimonial?.description),
                         }}
