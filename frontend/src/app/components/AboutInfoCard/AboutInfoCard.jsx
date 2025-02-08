@@ -18,7 +18,7 @@ const AboutInfoCard = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="text-center">
-            <p>
+            <p className="text-justify">
               At Eastern University's Computer Science and Engineering (CSE)
               department, we prioritize affordability to ensure that quality
               education is accessible to all students. We offer a range of
@@ -42,7 +42,7 @@ const AboutInfoCard = () => {
             <CardTitle className="flex items-center gap-2">Academics</CardTitle>
           </CardHeader>
           <CardContent className="text-center">
-            <p>
+            <p className="text-justify">
               The academics at Eastern University's CSE department are
               structured to provide a comprehensive educational experience that
               prepares students for the rapidly evolving tech landscape. Our
@@ -68,7 +68,7 @@ const AboutInfoCard = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="text-center">
-            <p>
+            <p className="text-justify">
               At Eastern University, we believe that a vibrant student life is
               integral to personal and academic growth. Our CSE department
               offers numerous opportunities for students to engage in

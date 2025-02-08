@@ -261,13 +261,14 @@ function Navigation() {
                 </Tooltip>
                 <Menu
                   sx={{ mt: "45px" }}
-                  id="menu-appbar"
+                  className="setting-menu"
                   anchorEl={anchorElUser}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
                     <MenuItem
+                      className=""
                       key={setting}
                       onClick={() => {
                         handleCloseUserMenu();
